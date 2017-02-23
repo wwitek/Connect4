@@ -11,7 +11,7 @@ namespace Connect4.Mobile.Pages
 {
     public partial class HomePage : ContentPage
     {
-        GameScene gameScene;
+        HomeGameScene gameScene;
 
         public HomePage()
         {
@@ -77,17 +77,17 @@ namespace Connect4.Mobile.Pages
                 // This sets the game "world" resolution to 100x100:
                 gameView.DesignResolution = new CCSizeI(100, 100);
                 // GameScene is the root of the CocosSharp rendering hierarchy:
-                gameScene = new GameScene(gameView);
+                gameScene = new HomeGameScene(gameView);
                 // Starts CocosSharp:
                 gameView.RunWithScene(gameScene);
             }
         }
     }
 
-    public class GameScene : CCScene
+    public class HomeGameScene : CCScene
     {
         CCDrawNode circle;
-        public GameScene(CCGameView gameView) : base(gameView)
+        public HomeGameScene(CCGameView gameView) : base(gameView)
         {
             var layer = new CCLayer();
             this.AddLayer(layer);

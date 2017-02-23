@@ -12,9 +12,7 @@ namespace Connect4.Mobile
     {
         public App()
         {
-            // The root page of your application
-            var content = new HomePage();
-            MainPage = new NavigationPage(content);
+            MainPage = new GamePage();
         }
 
         protected override void OnStart()
