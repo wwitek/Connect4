@@ -29,7 +29,6 @@ namespace Connect4.Mobile.Pages
                 Margin = 0,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalOptions = LayoutOptions.FillAndExpand,
-                BackgroundColor = Color.FromRgb(245, 245, 245),
                 ViewCreated = HandleViewCreated
             };
 
@@ -60,16 +59,16 @@ namespace Connect4.Mobile.Pages
     {
         public GameScene(CCGameView gameView) : base(gameView)
         {
-            var layer = new CCLayer();
+            CCColor4B startColor = new CCColor4B(1, 36, 76);
+            CCColor4B endColor = new CCColor4B(4, 79, 162);
+            CCColor4B circleBorder = new CCColor4B(2, 23, 50);
+            CCColor4B circleColor = new CCColor4B(178, 216, 255);
+
+            var layer = new CCLayerGradient(startColor, endColor, new CCPoint(0f, 1f));
             AddLayer(layer);
 
             double viewWidth = gameView.DesignResolution.Width;
             double viewHeight = gameView.DesignResolution.Height;
-
-            var shape = new CCRect(0, 0, (int)viewWidth, (int)viewHeight);
-            CCDrawNode background = new CCDrawNode();
-            background.DrawRect(shape, fillColor: CCColor4B.LightGray);
-            layer.AddChild(background);
 
             double gap = Math.Ceiling(viewWidth / 7 * 0.05);
             double circleSize = Math.Floor((viewWidth - (gap * 10)) / 7);
@@ -80,7 +79,7 @@ namespace Connect4.Mobile.Pages
             double outerGap = (viewWidth - (gap * 10) - (circleSize * 7)) / 2;
             
             var circle = new CCDrawNode();
-            double y = (viewHeight / 2) + (7 * gap) + (4 * circleSize);
+            double y = (viewHeight / 2) + (5 * gap) + (3 * circleSize);
             for (int j = 0; j < 6; j++)
             {
                 y -= (circleSize + (2 * gap));
@@ -94,13 +93,13 @@ namespace Connect4.Mobile.Pages
                     circle.DrawSolidCircle(
                         new CCPoint((float)x + (float)circleSize / 2, (float)y + (float)circleSize / 2),
                         radius: (float)circleSize / 2,
-                        color: CCColor4B.White);
+                        color: circleColor);
                     layer.AddChild(circle);
 
                     circle.DrawEllipse(
                         rect: new CCRect((float)x, (float)y, (float)circleSize, (float)circleSize),
                         lineWidth: 1,
-                        color: CCColor4B.Gray);
+                        color: circleBorder);
                     layer.AddChild(circle);
                 }
             }
