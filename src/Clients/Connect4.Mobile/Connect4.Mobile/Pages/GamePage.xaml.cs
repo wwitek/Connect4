@@ -77,7 +77,12 @@ namespace Connect4.Mobile.Pages
                 circleSize--;
             }
             double outerGap = (viewWidth - (gap * 10) - (circleSize * 7)) / 2;
-            
+
+            float yTestX = 300;
+            float yTestY = 300;
+            float rTestX = 300;
+            float rTestY = 300;
+
             var circle = new CCDrawNode();
             double y = (viewHeight / 2) + (5 * gap) + (3 * circleSize);
             for (int j = 0; j < 6; j++)
@@ -90,6 +95,18 @@ namespace Connect4.Mobile.Pages
                     {
                         x += i * (circleSize + gap);
                     }
+
+                    if (i == 1 && j == 1)
+                    {
+                        yTestX = ((float)x + (float)circleSize / 2);
+                        yTestY = ((float)y + (float)circleSize / 2);
+                    }
+                    if (i == 5 && j == 2)
+                    {
+                        rTestX = ((float)x + (float)circleSize / 2);
+                        rTestY = ((float)y + (float)circleSize / 2);
+                    }
+
                     circle.DrawSolidCircle(
                         new CCPoint((float)x + (float)circleSize / 2, (float)y + (float)circleSize / 2),
                         radius: (float)circleSize / 2,
@@ -103,6 +120,16 @@ namespace Connect4.Mobile.Pages
                     layer.AddChild(circle);
                 }
             }
+
+            var ball = new CCSprite("redball");
+            ball.ContentSize = new CCSize((float)circleSize, (float)circleSize);
+            ball.Position = new CCPoint(rTestX, rTestY);
+            layer.AddChild(ball);
+
+            var ball2 = new CCSprite("yellowball");
+            ball2.ContentSize = new CCSize((float)circleSize, (float)circleSize);
+            ball2.Position = new CCPoint(yTestX, yTestY);
+            layer.AddChild(ball2);
         }
     }
 }
