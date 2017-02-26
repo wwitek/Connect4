@@ -169,15 +169,14 @@
   <ItemGroup>
     <AndroidResource Include="Resources\values\String.xml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <AndroidAsset Include="..\Connect4.Mobile\Content\redball.png">
-      <Link>Assets\Content\redball.png</Link>
+    <AndroidAsset Include="..\Connect4.Mobile\Content\Images\redball.png">
+      <Link>Assets\Content\Images\redball.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Connect4.Mobile\Content\yellowball.png">
-      <Link>Assets\Content\yellowball.png</Link>
+    <AndroidAsset Include="..\Connect4.Mobile\Content\Images\yellowball.png">
+      <Link>Assets\Content\Images\yellowball.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

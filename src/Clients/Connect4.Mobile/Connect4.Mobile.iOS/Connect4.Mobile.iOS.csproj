@@ -167,15 +167,14 @@
       <Name>Connect4.Mobile</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <BundleResource Include="..\Connect4.Mobile\Content\redball.png">
-      <Link>Contnet\redball.png</Link>
+    <BundleResource Include="..\Connect4.Mobile\Content\Images\redball.png">
+      <Link>Contnet\Images\redball.png</Link>
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="..\Connect4.Mobile\Content\yellowball.png">
-      <Link>Contnet\yellowball.png</Link>
+    <BundleResource Include="..\Connect4.Mobile\Content\Images\yellowball.png">
+      <Link>Contnet\Images\yellowball.png</Link>
     </BundleResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

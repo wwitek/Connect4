@@ -1,6 +1,7 @@
 ﻿using CocosSharp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,6 +48,8 @@ namespace Connect4.Mobile.Pages
             var gameView = sender as CCGameView;
             if (gameView != null)
             {
+                var contentSearchPaths = new List<string>() { "Fonts", "Sounds", "Images", "Animations" };
+                gameView.ContentManager.SearchPaths = contentSearchPaths;
                 gameView.DesignResolution = new CCSizeI((int)_screenWidth, (int)_screenHeight);
 
                 _gameScene = new GameScene(gameView);
