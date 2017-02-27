@@ -9,7 +9,12 @@ namespace Connect4.Mobile
 {
     public class GameScene : CCScene
     {
-        CCSprite houseSprite;
+        private float _viewWidth;
+        private float _viewHeight;
+        private CCPoint[,] _boardCoordinates;
+        private float _circleSize;
+        private float _circleGap;
+        private float _edgeGap;
 
         public GameScene(CCGameView gameView) : base(gameView)
         {
@@ -18,57 +23,44 @@ namespace Connect4.Mobile
             CCColor4B circleBorder = new CCColor4B(2, 23, 50);
             CCColor4B circleColor = new CCColor4B(178, 216, 255);
 
+            _boardCoordinates = new CCPoint[7, 6];
+            _viewWidth = gameView.DesignResolution.Width;
+            _viewHeight = gameView.DesignResolution.Height;
+            _circleGap = (float)Math.Ceiling(_viewWidth / 7 * 0.05);
+            _circleSize = (float)Math.Floor((_viewWidth - (_circleGap * 10)) / 7);
+            if (((_circleSize % 2) == 0 && (_viewWidth % 2) != 0) || ((_circleSize % 2) != 0 && (_viewWidth % 2) == 0))
+            {
+                _circleSize--;
+            }
+            _edgeGap = (_viewWidth - (_circleGap * 10) - (_circleSize * 7)) / 2;
+
             var layer = new CCLayerGradient(startColor, endColor, new CCPoint(0f, 1f));
             AddLayer(layer);
 
-            double viewWidth = gameView.DesignResolution.Width;
-            double viewHeight = gameView.DesignResolution.Height;
-
-            double gap = Math.Ceiling(viewWidth / 7 * 0.05);
-            double circleSize = Math.Floor((viewWidth - (gap * 10)) / 7);
-            if (((circleSize % 2) == 0 && (viewWidth % 2) != 0) || ((circleSize % 2) != 0 && (viewWidth % 2) == 0))
-            {
-                circleSize--;
-            }
-            double outerGap = (viewWidth - (gap * 10) - (circleSize * 7)) / 2;
-
-            float yTestX = 300;
-            float yTestY = 300;
-            float rTestX = 300;
-            float rTestY = 300;
-
             var circle = new CCDrawNode();
-            double y = (viewHeight / 2) + (5 * gap) + (3 * circleSize);
+            float y = (_viewHeight / 2) - (4 * _circleGap) - (4 * _circleSize);
             for (int j = 0; j < 6; j++)
             {
-                y -= (circleSize + (2 * gap));
+                y += (_circleSize + _circleGap);
                 for (int i = 0; i < 7; i++)
                 {
-                    double x = outerGap + (2 * gap);
+                    float x = _edgeGap + (2 * _circleGap);
                     if (i > 0)
                     {
-                        x += i * (circleSize + gap);
+                        x += i * (_circleSize + _circleGap);
                     }
-
-                    if (i == 1 && j == 1)
-                    {
-                        yTestX = ((float)x + (float)circleSize / 2);
-                        yTestY = ((float)y + (float)circleSize / 2);
-                    }
-                    if (i == 5 && j == 2)
-                    {
-                        rTestX = ((float)x + (float)circleSize / 2);
-                        rTestY = ((float)y + (float)circleSize / 2);
-                    }
+                    var coordinatesX = x + _circleSize / 2;
+                    var coordinatesY = y + _circleSize / 2;
+                    _boardCoordinates[i, j] = new CCPoint(coordinatesX, coordinatesY);
 
                     circle.DrawSolidCircle(
-                        new CCPoint((float)x + (float)circleSize / 2, (float)y + (float)circleSize / 2),
-                        radius: (float)circleSize / 2,
+                        new CCPoint(x + _circleSize / 2, y + _circleSize / 2),
+                        radius: _circleSize / 2,
                         color: circleColor);
                     layer.AddChild(circle);
 
                     circle.DrawEllipse(
-                        rect: new CCRect((float)x, (float)y, (float)circleSize, (float)circleSize),
+                        rect: new CCRect(x, y, _circleSize, _circleSize),
                         lineWidth: 1,
                         color: circleBorder);
                     layer.AddChild(circle);
@@ -76,13 +68,13 @@ namespace Connect4.Mobile
             }
 
             var ball = new CCSprite("redball");
-            ball.ContentSize = new CCSize((float)circleSize, (float)circleSize);
-            ball.Position = new CCPoint(rTestX, rTestY);
+            ball.ContentSize = new CCSize(_circleSize, _circleSize);
+            ball.Position = _boardCoordinates[2, 3];
             layer.AddChild(ball);
 
             var ball2 = new CCSprite("yellowball");
-            ball2.ContentSize = new CCSize((float)circleSize, (float)circleSize);
-            ball2.Position = new CCPoint(yTestX, yTestY);
+            ball2.ContentSize = new CCSize(_circleSize, _circleSize);
+            ball2.Position = _boardCoordinates[6, 1];
             layer.AddChild(ball2);
         }
     }
