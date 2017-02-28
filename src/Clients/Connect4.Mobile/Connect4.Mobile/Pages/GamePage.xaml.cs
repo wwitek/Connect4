@@ -22,7 +22,7 @@ namespace Connect4.Mobile.Pages
 
             var grid = new Grid() { Padding = 0, Margin = 0 };
             grid.SizeChanged += OnGridSizeChanged;
-            
+
             var gameView = new CocosSharpView()
             {
                 Margin = 0,
