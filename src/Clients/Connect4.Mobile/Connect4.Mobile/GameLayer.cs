@@ -29,7 +29,7 @@ namespace Connect4.Mobile
             AddChild(_drawNodeRoot);
 
             InitializeBoardCoordinates();
-            InitializeBoard(_drawNodeRoot);
+            InitializeBoard();
 
             var touchListener = new CCEventListenerTouchAllAtOnce();
             touchListener.OnTouchesEnded = (touches, ccevent) =>
@@ -38,8 +38,7 @@ namespace Connect4.Mobile
                 {
                     var touch = touches[0];
 
-
-                    DrawBall(6, 5);
+                    MoveBall(6, 5);
                 }
                 
             };
@@ -66,7 +65,7 @@ namespace Connect4.Mobile
             }
         }
 
-        private void InitializeBoard(CCNode drawNodeRoot)
+        private void InitializeBoard()
         {
             for (int i = 0; i < _boardCoordinates.GetLength(0); i++)
             {
@@ -80,26 +79,40 @@ namespace Connect4.Mobile
                         new CCPoint(x, y),
                         radius: _circleSize / 2,
                         color: C4Colors.CircleLighterColor);
-                    drawNodeRoot.AddChild(circle);
+                    _drawNodeRoot.AddChild(circle);
 
                     CCDrawNode ellipse = new CCDrawNode();
                     ellipse.DrawEllipse(
                         rect: new CCRect(x - (_circleSize / 2), y - (_circleSize / 2), _circleSize, _circleSize),
                         lineWidth: 1,
                         color: C4Colors.CircleBorderLight);
-                    drawNodeRoot.AddChild(ellipse);
+                    _drawNodeRoot.AddChild(ellipse);
                 }
             }
         }
 
-        private void DrawBall(int x, int y)
+        private CCDrawNode DrawBall(int x, int y)
         {
-            var ball = new CCDrawNode();
+            CCDrawNode ball = new CCDrawNode();
             ball.DrawSolidCircle(
                 _boardCoordinates[x, y],
                 radius: _ballRadius,
                 color: C4Colors.YellowColor);
-            AddChild(ball);
+            return ball;
+        }
+
+        private void MoveBall(int x, int y)
+        {
+            CCNode drawBall = new CCNode();
+            AddChild(drawBall);
+
+            CCDrawNode ball = DrawBall(x, 5);
+            drawBall.AddChild(ball);
+
+            float timeToTake = 1f;
+            CCFiniteTimeAction coreAction = new CCMoveTo(timeToTake, new CCPoint(0,-250));
+            CCAction easing = new CCEaseBackOut(coreAction);
+            drawBall.AddAction(easing ?? coreAction);
         }
 
     }
