@@ -5,13 +5,14 @@ namespace Connect4.Mobile
 {
     public class GameLayer : CCLayerGradient
     {
-        private float _viewWidth;
-        private float _viewHeight;
-        private float _circleSize;
-        private float _circleGap;
-        private float _edgeGap;
-        private float _ballRadius;
-        private CCPoint[,] _boardCoordinates;
+        private readonly float _viewWidth;
+        private readonly float _viewHeight;
+        private readonly float _circleSize;
+        private readonly float _circleGap;
+        private readonly float _edgeGap;
+        private readonly float _ballRadius;
+        private readonly CCPoint[,] _boardCoordinates;
+        private readonly CCNode _drawNodeRoot;
 
         public GameLayer(float viewWidth, float viewHeight)
             : base(C4Colors.StartColor, C4Colors.EndColor, new CCPoint(0f, 1f))
@@ -24,23 +25,29 @@ namespace Connect4.Mobile
             if (((_circleSize % 2) == 0 && (_viewWidth % 2) != 0) || ((_circleSize % 2) != 0 && (_viewWidth % 2) == 0)) _circleSize--;
             _edgeGap = (_viewWidth - (_circleGap * 10) - (_circleSize * 7)) / 2;
             _ballRadius = (_circleSize / 2) - 1;
+            _drawNodeRoot = new CCNode();
+            AddChild(_drawNodeRoot);
 
-            InitializeBoard();
-
-            DrawBall(1, 3);
-            DrawBall(0, 0);
+            InitializeBoardCoordinates();
+            InitializeBoard(_drawNodeRoot);
 
             var touchListener = new CCEventListenerTouchAllAtOnce();
             touchListener.OnTouchesEnded = (touches, ccevent) =>
             {
-                DrawBall(6, 5);
+                if (touches.Count > 0)
+                {
+                    var touch = touches[0];
+
+
+                    DrawBall(6, 5);
+                }
+                
             };
             AddEventListener(touchListener, this);
         }
 
-        public void InitializeBoard()
+        private void InitializeBoardCoordinates()
         {
-            var node = new CCDrawNode();
             float y = (_viewHeight / 2) - (4 * _circleGap) - (4 * _circleSize);
             for (int j = 0; j < 6; j++)
             {
@@ -55,29 +62,37 @@ namespace Connect4.Mobile
                     var coordinatesX = x + _circleSize / 2;
                     var coordinatesY = y + _circleSize / 2;
                     _boardCoordinates[i, j] = new CCPoint(coordinatesX, coordinatesY);
-
-                    node.DrawSolidCircle(
-                        new CCPoint(x + _circleSize / 2, y + _circleSize / 2),
-                        radius: _circleSize / 2,
-                        color: C4Colors.CircleLighterColor);
-                    this.AddChild(node);
-
-                    //node.DrawEllipse(
-                    //    rect: new CCRect(x + 1, y + 1, _circleSize - 2, _circleSize - 2),
-                    //    lineWidth: 1,
-                    //    color: C4Colors.CircleDarkerColor);
-                    //this.AddChild(node);
-
-                    node.DrawEllipse(
-                        rect: new CCRect(x, y, _circleSize, _circleSize),
-                        lineWidth: 1,
-                        color: C4Colors.CircleBorderLight);
-                    this.AddChild(node);
                 }
             }
         }
 
-        public void DrawBall(int x, int y)
+        private void InitializeBoard(CCNode drawNodeRoot)
+        {
+            for (int i = 0; i < _boardCoordinates.GetLength(0); i++)
+            {
+                for (int j = 0; j < _boardCoordinates.GetLength(1); j++)
+                {
+                    float x = _boardCoordinates[i, j].X;
+                    float y = _boardCoordinates[i, j].Y;
+
+                    CCDrawNode circle = new CCDrawNode();
+                    circle.DrawSolidCircle(
+                        new CCPoint(x, y),
+                        radius: _circleSize / 2,
+                        color: C4Colors.CircleLighterColor);
+                    drawNodeRoot.AddChild(circle);
+
+                    CCDrawNode ellipse = new CCDrawNode();
+                    ellipse.DrawEllipse(
+                        rect: new CCRect(x - (_circleSize / 2), y - (_circleSize / 2), _circleSize, _circleSize),
+                        lineWidth: 1,
+                        color: C4Colors.CircleBorderLight);
+                    drawNodeRoot.AddChild(ellipse);
+                }
+            }
+        }
+
+        private void DrawBall(int x, int y)
         {
             var ball = new CCDrawNode();
             ball.DrawSolidCircle(
