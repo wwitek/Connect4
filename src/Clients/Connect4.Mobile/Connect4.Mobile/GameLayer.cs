@@ -1,5 +1,6 @@
 ﻿using CocosSharp;
 using System;
+using System.Diagnostics;
 
 namespace Connect4.Mobile
 {
@@ -36,11 +37,23 @@ namespace Connect4.Mobile
             {
                 if (touches.Count > 0)
                 {
-                    var touch = touches[0];
+                    var clickedX = touches[0].Location.X;
+                    var targetColumn = _boardCoordinates.GetLength(0) - 1;
 
-                    MoveBall(6, 5);
+                    for (int i = 0; i < _boardCoordinates.GetLength(0); i++)
+                    {
+                        var x = _boardCoordinates[i, 0].X + (_circleSize/2) + (_circleGap / 2);
+                        if (clickedX < x)
+                        {
+                            targetColumn = i;
+                            break;
+                        }
+                    }
+
+                    Random random = new Random();
+                    int randomY = random.Next(5);
+                    MoveBall(targetColumn, randomY);
                 }
-                
             };
             AddEventListener(touchListener, this);
         }
@@ -91,11 +104,13 @@ namespace Connect4.Mobile
             }
         }
 
-        private CCDrawNode DrawBall(int x, int y)
+        private CCDrawNode DrawBall(int x, int y = -1)
         {
             CCDrawNode ball = new CCDrawNode();
+            CCPoint pos = (y >= 0) ? _boardCoordinates[x, y] 
+                                   : new CCPoint(_boardCoordinates[x, 5].X, _boardCoordinates[x, 5].Y + _circleSize + _circleGap);
             ball.DrawSolidCircle(
-                _boardCoordinates[x, y],
+                pos,
                 radius: _ballRadius,
                 color: C4Colors.YellowColor);
             return ball;
@@ -106,14 +121,18 @@ namespace Connect4.Mobile
             CCNode drawBall = new CCNode();
             AddChild(drawBall);
 
-            CCDrawNode ball = DrawBall(x, 5);
+            CCDrawNode ball = DrawBall(x);
             drawBall.AddChild(ball);
 
-            float timeToTake = 1f;
-            CCFiniteTimeAction coreAction = new CCMoveTo(timeToTake, new CCPoint(0,-250));
-            CCAction easing = new CCEaseBackOut(coreAction);
-            drawBall.AddAction(easing ?? coreAction);
-        }
+            float timePerRow = 0.15f;
+            float timeToTake = (_boardCoordinates.GetLength(1) - y) * timePerRow;
 
+            var boardHeight = (_boardCoordinates.GetLength(1) * (_circleSize + _circleGap)) * -1;
+            boardHeight += (y * (_circleSize + _circleGap));
+
+            CCFiniteTimeAction coreAction = new CCMoveTo(timeToTake, new CCPoint(0, boardHeight));
+            CCAction easing = new CCEaseBounceInOut(coreAction);
+            drawBall.AddAction(coreAction);
+        }
     }
 }
