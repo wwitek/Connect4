@@ -39,6 +39,7 @@
     <Compile Include="C4Colors.cs" />
     <Compile Include="GameLayer.cs" />
     <Compile Include="GameScene.cs" />
+    <Compile Include="GameCocosSharpView.cs" />
     <Compile Include="Pages\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>

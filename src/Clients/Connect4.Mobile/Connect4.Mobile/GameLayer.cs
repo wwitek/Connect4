@@ -36,6 +36,17 @@ namespace Connect4.Mobile
             InitializeBoardCoordinates();
             InitializeBoard();
 
+            var touchListener1 = new CCEventListenerTouchAllAtOnce();
+            touchListener1.OnTouchesEnded = (touches, ccevent) =>
+            {
+                if (touches.Count > 0)
+                {
+                    var targetColumn = GetColumnByTouch(touches[0]);
+
+                }
+            };
+            AddEventListener(touchListener1, this);
+
             var touchListener = new CCEventListenerTouchAllAtOnce();
             touchListener.OnTouchesBegan = OnPreTouch;
             touchListener.OnTouchesMoved = OnPreTouch;
