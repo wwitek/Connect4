@@ -1,5 +1,6 @@
 ﻿using CocosSharp;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Connect4.Mobile
@@ -13,7 +14,8 @@ namespace Connect4.Mobile
         private readonly float _edgeGap;
         private readonly float _ballRadius;
         private readonly CCPoint[,] _boardCoordinates;
-        private readonly CCNode _drawNodeRoot;
+        private readonly CCNode _drawBoardRoot;
+        private readonly CCNode _drawPreDropRoot;
 
         public GameLayer(float viewWidth, float viewHeight)
             : base(C4Colors.StartColor, C4Colors.EndColor, new CCPoint(0f, 1f))
@@ -26,36 +28,43 @@ namespace Connect4.Mobile
             if (((_circleSize % 2) == 0 && (_viewWidth % 2) != 0) || ((_circleSize % 2) != 0 && (_viewWidth % 2) == 0)) _circleSize--;
             _edgeGap = (_viewWidth - (_circleGap * 10) - (_circleSize * 7)) / 2;
             _ballRadius = (_circleSize / 2) - 1;
-            _drawNodeRoot = new CCNode();
-            AddChild(_drawNodeRoot);
+            _drawBoardRoot = new CCNode();
+            _drawPreDropRoot = new CCNode();
+            AddChild(_drawBoardRoot);
+            AddChild(_drawPreDropRoot);
 
             InitializeBoardCoordinates();
             InitializeBoard();
 
             var touchListener = new CCEventListenerTouchAllAtOnce();
+            touchListener.OnTouchesBegan = OnPreTouch;
+            touchListener.OnTouchesMoved = OnPreTouch;
+
             touchListener.OnTouchesEnded = (touches, ccevent) =>
             {
                 if (touches.Count > 0)
                 {
-                    var clickedX = touches[0].Location.X;
-                    var targetColumn = _boardCoordinates.GetLength(0) - 1;
-
-                    for (int i = 0; i < _boardCoordinates.GetLength(0); i++)
-                    {
-                        var x = _boardCoordinates[i, 0].X + (_circleSize/2) + (_circleGap / 2);
-                        if (clickedX < x)
-                        {
-                            targetColumn = i;
-                            break;
-                        }
-                    }
-
+                    var targetColumn = GetColumnByTouch(touches[0]);
                     Random random = new Random();
                     int randomY = random.Next(5);
+
+                    _drawPreDropRoot.RemoveAllChildren();
                     MoveBall(targetColumn, randomY);
                 }
             };
             AddEventListener(touchListener, this);
+        }
+
+        private void OnPreTouch(List<CCTouch> touches, CCEvent ccevent)
+        {
+            if (touches.Count > 0)
+            {
+                var targetColumn = GetColumnByTouch(touches[0]);
+                CCDrawNode ball = DrawBall(targetColumn);
+
+                _drawPreDropRoot.RemoveAllChildren();
+                _drawPreDropRoot.AddChild(ball);
+            }
         }
 
         private void InitializeBoardCoordinates()
@@ -92,16 +101,32 @@ namespace Connect4.Mobile
                         new CCPoint(x, y),
                         radius: _circleSize / 2,
                         color: C4Colors.CircleLighterColor);
-                    _drawNodeRoot.AddChild(circle);
+                    _drawBoardRoot.AddChild(circle);
 
                     CCDrawNode ellipse = new CCDrawNode();
                     ellipse.DrawEllipse(
                         rect: new CCRect(x - (_circleSize / 2), y - (_circleSize / 2), _circleSize, _circleSize),
                         lineWidth: 1,
                         color: C4Colors.CircleBorderLight);
-                    _drawNodeRoot.AddChild(ellipse);
+                    _drawBoardRoot.AddChild(ellipse);
                 }
             }
+        }
+
+        private int GetColumnByTouch(CCTouch touch)
+        {
+            var clickedX = touch.Location.X;
+            var targetColumn = _boardCoordinates.GetLength(0) - 1;
+            for (int i = 0; i < _boardCoordinates.GetLength(0); i++)
+            {
+                var x = _boardCoordinates[i, 0].X + (_circleSize / 2) + (_circleGap / 2);
+                if (clickedX < x)
+                {
+                    targetColumn = i;
+                    break;
+                }
+            }
+            return targetColumn;
         }
 
         private CCDrawNode DrawBall(int x, int y = -1)
