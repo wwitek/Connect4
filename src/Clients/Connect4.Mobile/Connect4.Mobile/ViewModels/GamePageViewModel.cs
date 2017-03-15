@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Connect4.Mobile.ViewModels
 {
-    public class GameViewModel : BindableBase
+    public class GamePageViewModel : BindableBase
     {
         public string MainText { get; set; }
 
-        public GameViewModel()
+        public GamePageViewModel()
         {
             MainText = "Connect 4";
         }

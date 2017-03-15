@@ -1,4 +1,5 @@
 ﻿using Connect4.Mobile.Pages;
+using Connect4.Mobile.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace Connect4.Mobile
     {
         public App()
         {
-            MainPage = new GamePage();
+            GamePageViewModel viewModel = new GamePageViewModel();
+            MainPage = new GamePage(viewModel);
         }
 
         protected override void OnStart()

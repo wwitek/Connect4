@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Connect4.Mobile.Utilities;
 
 namespace Connect4.Mobile
 {
@@ -57,7 +58,7 @@ namespace Connect4.Mobile
                 {
                     var targetColumn = GetColumnByTouch(touches[0]);
                     Random random = new Random();
-                    int randomY = random.Next(5);
+                    int randomY = random.Next(0, 6);
 
                     _drawPreDropRoot.RemoveAllChildren();
                     MoveBall(targetColumn, randomY);

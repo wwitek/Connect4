@@ -1,6 +1,7 @@
 ﻿using CocosSharp;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,9 +16,11 @@ namespace Connect4.Mobile.Pages
         private Grid grid;
         private GameCocosSharpView gameView;
 
-        public GamePage()
+        public GamePage(INotifyPropertyChanged viewModel)
         {
             InitializeComponent();
+            BindingContext = viewModel;
+
             grid = new Grid() { Padding = 0, Margin = 0 };
             grid.SizeChanged += OnGridSizeChanged;
             Content = grid;

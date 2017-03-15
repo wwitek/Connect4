@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Connect4.Mobile
+namespace Connect4.Mobile.Utilities
 {
     public static class C4Colors
     {
