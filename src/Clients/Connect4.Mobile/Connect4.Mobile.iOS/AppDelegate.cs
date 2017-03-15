@@ -23,6 +23,9 @@ namespace Connect4.Mobile.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+
+            App.ContentHeight = (int)UIScreen.MainScreen.Bounds.Height;
+            App.ContentWidth = (int)UIScreen.MainScreen.Bounds.Width;
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

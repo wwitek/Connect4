@@ -11,6 +11,9 @@ namespace Connect4.Mobile
 {
     public class App : Application
     {
+        public static float ContentHeight { get; set; }
+        public static float ContentWidth { get; set; }
+
         public App()
         {
             GamePageViewModel viewModel = new GamePageViewModel();

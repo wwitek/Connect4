@@ -3091,8 +3091,8 @@ namespace Connect4.Mobile.Droid
 			// aapt resource value: 0x7f0a015a
 			public const int Animation_Design_BottomSheetDialog = 2131362138;
 			
-			// aapt resource value: 0x7f0a0174
-			public const int AppCompatDialogStyle = 2131362164;
+			// aapt resource value: 0x7f0a0175
+			public const int AppCompatDialogStyle = 2131362165;
 			
 			// aapt resource value: 0x7f0a00a5
 			public const int Base_AlertDialog_AppCompat = 2131361957;
@@ -3535,11 +3535,11 @@ namespace Connect4.Mobile.Droid
 			// aapt resource value: 0x7f0a001a
 			public const int CardView_Light = 2131361818;
 			
-			// aapt resource value: 0x7f0a0172
-			public const int MainTheme = 2131362162;
-			
 			// aapt resource value: 0x7f0a0173
-			public const int MainTheme_Base = 2131362163;
+			public const int MainTheme = 2131362163;
+			
+			// aapt resource value: 0x7f0a0174
+			public const int MainTheme_Base = 2131362164;
 			
 			// aapt resource value: 0x7f0a0032
 			public const int Platform_AppCompat = 2131361842;
@@ -3882,6 +3882,9 @@ namespace Connect4.Mobile.Droid
 			
 			// aapt resource value: 0x7f0a0003
 			public const int Theme_MediaRouter_LightControlPanel = 2131361795;
+			
+			// aapt resource value: 0x7f0a0172
+			public const int Theme_NoTitle = 2131362162;
 			
 			// aapt resource value: 0x7f0a010e
 			public const int ThemeOverlay_AppCompat = 2131362062;

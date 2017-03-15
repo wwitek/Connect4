@@ -20,6 +20,18 @@ namespace Connect4.Mobile.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+
+            float statusBarHeight = 0;
+            var resourceId = Resources.GetIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0) statusBarHeight = Resources.GetDimensionPixelSize(resourceId);
+
+            var metrics = Resources.DisplayMetrics;
+            float width = metrics.WidthPixels / metrics.Density;
+            float height = metrics.HeightPixels / metrics.Density;
+            statusBarHeight = statusBarHeight / metrics.Density;
+
+            App.ContentWidth = width;
+            App.ContentHeight = (height - statusBarHeight);
             LoadApplication(new App());
         }
     }

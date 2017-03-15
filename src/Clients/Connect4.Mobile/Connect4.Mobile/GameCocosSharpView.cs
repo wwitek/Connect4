@@ -14,6 +14,17 @@ namespace Connect4.Mobile
         private double _screenWidth;
         private double _screenHeight;
 
+        public GameCocosSharpView()
+            : base()
+        {
+            _screenWidth = App.ContentWidth;
+            _screenHeight = App.ContentHeight;
+            Margin = 0;
+            HorizontalOptions = LayoutOptions.FillAndExpand;
+            VerticalOptions = LayoutOptions.FillAndExpand;
+            ViewCreated = OnViewCreated;
+        }
+
         public GameCocosSharpView(double viewWidth, double viewHeight)
             : base()
         {
