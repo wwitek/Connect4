@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
-namespace Connect4.Mobile.Pages
+namespace Connect4.Mobile.Views
 {
     public partial class GamePage : ContentPage
     {
