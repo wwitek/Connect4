@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 
 namespace Connect4.Mobile.Views
@@ -16,11 +15,6 @@ namespace Connect4.Mobile.Views
         {
             InitializeComponent();
             BindingContext = new StartPageViewModel();
-        }
-
-        private void OnGridTapped(object sender, EventArgs e)
-        {
-            Debug.WriteLine("Tapped!");
         }
     }
 
