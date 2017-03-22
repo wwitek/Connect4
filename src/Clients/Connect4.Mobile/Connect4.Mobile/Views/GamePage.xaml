@@ -4,8 +4,15 @@
              xmlns:mobile="clr-namespace:Connect4.Mobile"
              xmlns:viewModels="clr-namespace:Connect4.Mobile.ViewModels"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             x:Class="Connect4.Mobile.Views.GamePage">
+             x:Class="Connect4.Mobile.Views.GamePage"
+             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors">
   <mobile:GameCocosSharpView>
-
+    <behaviors:Interaction.Behaviors>
+      <behaviors:BehaviorCollection>
+        <behaviors:EventToCommand EventName="OnCreated"
+                                  Command="{Binding OnCreateCommand}"
+                                  CommandParameter="test" />
+      </behaviors:BehaviorCollection>
+    </behaviors:Interaction.Behaviors>
   </mobile:GameCocosSharpView>
 </ContentPage>

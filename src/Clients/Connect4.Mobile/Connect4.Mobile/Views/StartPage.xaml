@@ -22,7 +22,7 @@
             <behaviors:TextChangedBehavior Text="{Binding Title, Mode=TwoWay}" />
             <behaviors:EventToCommand EventName="Unfocused" 
                                       Command="{Binding UnfocusedCommand}" 
-                                      CommandParameter="Title" />
+                                      CommandParameter="{Binding Title}" />
           </behaviors:BehaviorCollection>
         </behaviors:Interaction.Behaviors>
       </Entry>

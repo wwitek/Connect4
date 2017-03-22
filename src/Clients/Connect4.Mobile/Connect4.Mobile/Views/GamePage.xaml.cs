@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,11 @@ namespace Connect4.Mobile.Views
         {
             InitializeComponent();
             BindingContext = viewModel;
+        }
+
+        public void OnViewCreated(object sender, EventArgs e)
+        {
+            Debug.WriteLine("OnCreated!");
         }
     }
 }

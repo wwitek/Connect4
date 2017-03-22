@@ -14,6 +14,8 @@ namespace Connect4.Mobile
         private double _screenWidth;
         private double _screenHeight;
 
+        public event EventHandler OnCreated;
+
         public GameCocosSharpView()
             : base()
         {
@@ -49,6 +51,8 @@ namespace Connect4.Mobile
                 _gameScene = new GameScene(gameView);
                 gameView.RunWithScene(_gameScene);
             }
+
+            OnCreated?.Invoke(sender, e);
         }
     }
 }
