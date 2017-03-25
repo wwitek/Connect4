@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,8 +13,9 @@ namespace Connect4.Mobile.ViewModels
     public class GamePageViewModel : BindableBase
     {
         private Command onCreatedCommand;
+        private Command onTouchedCommand;
 
-        public Command OnCreateCommand
+        public Command OnCreatedCommand
         {
             get
             {
@@ -27,6 +29,34 @@ namespace Connect4.Mobile.ViewModels
                         return true;
                     }
                     ));
+            }
+        }
+        public Command OnTouchedCommand
+        {
+            get
+            {
+                return onTouchedCommand ?? (onTouchedCommand = new Command(
+                    (e) =>
+                    {
+                        Debug.WriteLine("OnTouchCommand");
+                    },
+                    (e) =>
+                    {
+                        return true;
+                    }
+                    ));
+            }
+        }
+
+        private DelegateCommand<TouchEventArgs> onTouchDelegateCommand;
+        public DelegateCommand<TouchEventArgs> OnTouchDelegateCommand
+        {
+            get
+            {
+                return onTouchDelegateCommand ?? (onTouchDelegateCommand = new DelegateCommand<TouchEventArgs>((num) =>
+                {
+                    Debug.WriteLine("OnTouchDelegateCommand " + num?.Column.ToString());
+                }));
             }
         }
 

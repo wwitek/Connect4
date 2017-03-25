@@ -10,8 +10,10 @@
     <behaviors:Interaction.Behaviors>
       <behaviors:BehaviorCollection>
         <behaviors:EventToCommand EventName="OnCreated"
-                                  Command="{Binding OnCreateCommand}"
+                                  Command="{Binding OnCreatedCommand}"
                                   CommandParameter="test" />
+        <behaviors:EventToCommand EventName="OnTouched"
+                                  Command="{Binding OnTouchDelegateCommand}" />        
       </behaviors:BehaviorCollection>
     </behaviors:Interaction.Behaviors>
   </mobile:GameCocosSharpView>

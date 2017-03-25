@@ -15,6 +15,8 @@ namespace Connect4.Mobile
         private double _screenHeight;
 
         public event EventHandler OnCreated;
+        public event EventHandler OnTouched;
+        public CCGameView gameView;
 
         public GameCocosSharpView()
             : base()
@@ -38,21 +40,27 @@ namespace Connect4.Mobile
             ViewCreated = OnViewCreated;
         }
 
-        private void OnViewCreated(object sender, EventArgs e)
+        private void OnViewCreated(object sender, EventArgs ea)
         {
-            var gameView = sender as CCGameView;
-            if (gameView != null)
+            if (gameView == null)
             {
-                gameView.DesignResolution = new CCSizeI((int)_screenWidth, (int)_screenHeight);
+                gameView = sender as CCGameView;
+                if (gameView != null)
+                {
+                    gameView.DesignResolution = new CCSizeI((int)_screenWidth, (int)_screenHeight);
 
-                var contentSearchPaths = new List<string>() { "Fonts", "Sounds", "Images", "Animations" };
-                gameView.ContentManager.SearchPaths = contentSearchPaths;
+                    var contentSearchPaths = new List<string>() { "Fonts", "Sounds", "Images", "Animations" };
+                    gameView.ContentManager.SearchPaths = contentSearchPaths;
 
-                _gameScene = new GameScene(gameView);
-                gameView.RunWithScene(_gameScene);
+                    _gameScene = new GameScene(gameView);
+                    _gameScene.OnTouched += (s, e) =>
+                    {
+                        OnTouched?.Invoke(s, e);
+                    };
+                    gameView.RunWithScene(_gameScene);
+                }
             }
-
-            OnCreated?.Invoke(sender, e);
+            OnCreated?.Invoke(sender, ea);
         }
     }
 }

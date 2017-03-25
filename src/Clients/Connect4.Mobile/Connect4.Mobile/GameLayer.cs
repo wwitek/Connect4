@@ -18,6 +18,8 @@ namespace Connect4.Mobile
         private readonly CCNode _drawBoardRoot;
         private readonly CCNode _drawPreDropRoot;
 
+        public event EventHandler OnTouched;
+
         public GameLayer(float viewWidth, float viewHeight)
             : base(C4Colors.StartColor, C4Colors.EndColor, new CCPoint(0f, 1f))
         {
@@ -37,34 +39,35 @@ namespace Connect4.Mobile
             InitializeBoardCoordinates();
             InitializeBoard();
 
-            var touchListener1 = new CCEventListenerTouchAllAtOnce();
-            touchListener1.OnTouchesEnded = (touches, ccevent) =>
-            {
-                if (touches.Count > 0)
-                {
-                    var targetColumn = GetColumnByTouch(touches[0]);
-
-                }
-            };
-            AddEventListener(touchListener1, this);
-
             var touchListener = new CCEventListenerTouchAllAtOnce();
-            touchListener.OnTouchesBegan = OnPreTouch;
-            touchListener.OnTouchesMoved = OnPreTouch;
-
             touchListener.OnTouchesEnded = (touches, ccevent) =>
             {
                 if (touches.Count > 0)
                 {
                     var targetColumn = GetColumnByTouch(touches[0]);
-                    Random random = new Random();
-                    int randomY = random.Next(0, 6);
-
-                    _drawPreDropRoot.RemoveAllChildren();
-                    MoveBall(targetColumn, randomY);
+                    TouchEventArgs tea = new TouchEventArgs(targetColumn);
+                    OnTouched?.Invoke(this, tea);
                 }
             };
             AddEventListener(touchListener, this);
+
+            //var touchListener = new CCEventListenerTouchAllAtOnce();
+            //touchListener.OnTouchesBegan = OnPreTouch;
+            //touchListener.OnTouchesMoved = OnPreTouch;
+
+            //touchListener.OnTouchesEnded = (touches, ccevent) =>
+            //{
+            //    if (touches.Count > 0)
+            //    {
+            //        var targetColumn = GetColumnByTouch(touches[0]);
+            //        Random random = new Random();
+            //        int randomY = random.Next(0, 6);
+
+            //        _drawPreDropRoot.RemoveAllChildren();
+            //        MoveBall(targetColumn, randomY);
+            //    }
+            //};
+            //AddEventListener(touchListener, this);
         }
 
         private void OnPreTouch(List<CCTouch> touches, CCEvent ccevent)
@@ -153,7 +156,7 @@ namespace Connect4.Mobile
             return ball;
         }
 
-        private void MoveBall(int x, int y)
+        public void MoveBall(int x, int y)
         {
             CCNode drawBall = new CCNode();
             AddChild(drawBall);

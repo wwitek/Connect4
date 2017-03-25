@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="TouchEventArgs.cs" />
     <Compile Include="Utilities\C4Colors.cs" />
     <Compile Include="GameLayer.cs" />
     <Compile Include="GameScene.cs" />
