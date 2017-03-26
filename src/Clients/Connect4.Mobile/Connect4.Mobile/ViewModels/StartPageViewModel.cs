@@ -5,53 +5,55 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Connect4.Mobile.ViewModels
 {
     public class StartPageViewModel : BindableBase
     {
-        private Command testCommand;
-        private Command<object> unfocusedCommand;
+        private bool _canExecute;
+        private string _status;
+        private ICommand onTestTappedCommand;
 
-        string _title = "Start Page";
-        public string Title
+        public event EventHandler<OnMoveCompletedEventArgs> OnMoveCompleted;
+
+        public StartPageViewModel()
         {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+            Status = "Started";
+            _canExecute = true;
+        }
+        
+        public string Status
+        {
+            get { return _status;  }
+            set { SetProperty(ref _status, value); }
         }
 
-        public Command TestCommand
+        public ICommand OnTestTappedCommand
         {
             get
             {
-                return this.testCommand ?? (this.testCommand = new Command(
-                     () =>
-                     {
-                         Debug.WriteLine("Test");
-                     },
-                     () =>
-                     {
-                         // CanExecute delegate
-                         return true;
-                     }));
+                return onTestTappedCommand ?? (onTestTappedCommand = 
+                        new Command<int>((column) => HandleEvent(column), (column) => CanExecute(column)));
             }
         }
-        public Command<object> UnfocusedCommand
+
+        public async void HandleEvent(int a)
         {
-            get
-            {
-                return this.unfocusedCommand ?? (this.unfocusedCommand = new Command<object>(
-                     (param) =>
-                     {
-                         Debug.WriteLine(string.Format("Unfocused raised with param {0}", param));
-                     },
-                     (param) =>
-                     {
-                         // CanExecute delegate
-                         return true;
-                     }));
-            }
+            _canExecute = false;
+            Status = "Working...";
+            Debug.WriteLine("Test with param=" + a);
+            await Task.Delay(10000);
+            Status = "Done";
+            OnMoveCompletedEventArgs args = new OnMoveCompletedEventArgs() { Row = 3 };
+            OnMoveCompleted?.Invoke(this, args);
+            _canExecute = true;
+        }
+
+        public bool CanExecute(int a)
+        {
+            return _canExecute;
         }
     }
 }

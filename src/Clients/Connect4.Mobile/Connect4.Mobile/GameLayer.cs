@@ -45,7 +45,7 @@ namespace Connect4.Mobile
                 if (touches.Count > 0)
                 {
                     var targetColumn = GetColumnByTouch(touches[0]);
-                    TouchEventArgs tea = new TouchEventArgs(targetColumn);
+                    OnTouchedEventArgs tea = new OnTouchedEventArgs(targetColumn);
                     OnTouched?.Invoke(this, tea);
                 }
             };

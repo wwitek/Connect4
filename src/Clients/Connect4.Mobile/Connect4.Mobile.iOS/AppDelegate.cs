@@ -28,8 +28,8 @@ namespace Connect4.Mobile.iOS
             App.ContentWidth = (int)UIScreen.MainScreen.Bounds.Width;
 
             //Added to prevent iOS linker to strip behaviors assembly out of deployed package.
-            Corcav.Behaviors.Infrastructure.Init();
-
+            //Corcav.Behaviors.Infrastructure.Init();
+            //Xamarin.Behaviors.Infrastructure.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

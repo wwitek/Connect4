@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Connect4.Mobile
 {
-    public class TouchEventArgs : EventArgs
+    public class OnTouchedEventArgs : EventArgs
     {
         public int Column { get; set; }
 
-        public TouchEventArgs(int column)
+        public OnTouchedEventArgs(int column)
         {
             Column = column;
         }

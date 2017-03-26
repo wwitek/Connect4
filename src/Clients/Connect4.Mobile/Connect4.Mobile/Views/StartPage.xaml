@@ -2,32 +2,24 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:v="clr-namespace:Connect4.Mobile.Views"
-             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
+             xmlns:behavior="clr-namespace:Prism.Behaviors;assembly=Prism.Forms" 
              x:Class="Connect4.Mobile.Views.StartPage">
   <v:TestGrid x:Name="MainGrid">
-    <behaviors:Interaction.Behaviors>
-      <behaviors:BehaviorCollection>
-        <behaviors:EventToCommand EventName="OnTestTapped"
-                                  Command="{Binding TestCommand}" />
-      </behaviors:BehaviorCollection>
-    </behaviors:Interaction.Behaviors>  
+    <v:TestGrid.Behaviors>
+      <behavior:EventToCommandBehavior EventName="OnTestTapped" 
+                                        Command="{Binding OnTestTappedCommand}" 
+                                        EventArgsParameterPath="Column"/>
+    </v:TestGrid.Behaviors>
     <StackLayout>
       <Entry Placeholder="Enter 1st Title" >
       </Entry>
       <Entry Placeholder="Enter 2nd Title" >
       </Entry>
       <Entry Placeholder="Enter 3rd Title" >
-        <behaviors:Interaction.Behaviors>
-          <behaviors:BehaviorCollection>
-            <behaviors:TextChangedBehavior Text="{Binding Title, Mode=TwoWay}" />
-            <behaviors:EventToCommand EventName="Unfocused" 
-                                      Command="{Binding UnfocusedCommand}" 
-                                      CommandParameter="{Binding Title}" />
-          </behaviors:BehaviorCollection>
-        </behaviors:Interaction.Behaviors>
       </Entry>
       <Entry Placeholder="Enter 4th Title" >
       </Entry>
+      <Label Text="{Binding Status}" />
     </StackLayout>
   </v:TestGrid>
 </ContentPage>

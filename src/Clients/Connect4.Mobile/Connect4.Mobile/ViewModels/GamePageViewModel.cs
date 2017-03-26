@@ -13,8 +13,6 @@ namespace Connect4.Mobile.ViewModels
     public class GamePageViewModel : BindableBase
     {
         private Command onCreatedCommand;
-        private Command onTouchedCommand;
-
         public Command OnCreatedCommand
         {
             get
@@ -31,31 +29,33 @@ namespace Connect4.Mobile.ViewModels
                     ));
             }
         }
-        public Command OnTouchedCommand
-        {
-            get
-            {
-                return onTouchedCommand ?? (onTouchedCommand = new Command(
-                    (e) =>
-                    {
-                        Debug.WriteLine("OnTouchCommand");
-                    },
-                    (e) =>
-                    {
-                        return true;
-                    }
-                    ));
-            }
-        }
 
-        private DelegateCommand<TouchEventArgs> onTouchDelegateCommand;
-        public DelegateCommand<TouchEventArgs> OnTouchDelegateCommand
+        //private Command onTouchedCommand;
+        //public Command OnTouchedCommand
+        //{
+        //    get
+        //    {
+        //        return onTouchedCommand ?? (onTouchedCommand = new Command(
+        //            (e) =>
+        //            {
+        //                Debug.WriteLine("OnTouchCommand");
+        //            },
+        //            (e) =>
+        //            {
+        //                return true;
+        //            }
+        //            ));
+        //    }
+        //}
+
+        private DelegateCommand<OnTouchedEventArgs> onTouchCommand;
+        public DelegateCommand<OnTouchedEventArgs> OnTouchedCommand
         {
             get
             {
-                return onTouchDelegateCommand ?? (onTouchDelegateCommand = new DelegateCommand<TouchEventArgs>((num) =>
+                return onTouchCommand ?? (onTouchCommand = new DelegateCommand<OnTouchedEventArgs>((num) =>
                 {
-                    Debug.WriteLine("OnTouchDelegateCommand " + num?.Column.ToString());
+                    Debug.WriteLine("OnTouchedCommand " + num?.Column.ToString());
                 }));
             }
         }

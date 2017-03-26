@@ -13,7 +13,7 @@
                                   Command="{Binding OnCreatedCommand}"
                                   CommandParameter="test" />
         <behaviors:EventToCommand EventName="OnTouched"
-                                  Command="{Binding OnTouchDelegateCommand}" />        
+                                  Command="{Binding OnTouchedCommand}" />        
       </behaviors:BehaviorCollection>
     </behaviors:Interaction.Behaviors>
   </mobile:GameCocosSharpView>

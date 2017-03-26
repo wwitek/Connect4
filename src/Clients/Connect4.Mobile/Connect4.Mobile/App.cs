@@ -17,11 +17,11 @@ namespace Connect4.Mobile
 
         public App()
         {
-            GamePageViewModel viewModel = new GamePageViewModel();
-            MainPage = new GamePage(viewModel);
+            //GamePageViewModel viewModel = new GamePageViewModel();
+            //MainPage = new GamePage(viewModel);
 
-            //var startPage = new StartPage();
-            //MainPage = startPage;
+            var startPage = new StartPage();
+            MainPage = startPage;
         }
 
         protected override void OnStart()
