@@ -10,7 +10,6 @@ namespace Connect4.Mobile
     public class GameScene : CCScene
     {
         private GameLayer _layer;
-
         public event EventHandler OnTouched;
 
         public GameScene(CCGameView gameView) : base(gameView)

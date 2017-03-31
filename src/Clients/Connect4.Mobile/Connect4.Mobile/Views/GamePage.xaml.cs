@@ -1,4 +1,5 @@
 ﻿using CocosSharp;
+using Connect4.Mobile.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,11 +19,13 @@ namespace Connect4.Mobile.Views
         {
             InitializeComponent();
             BindingContext = viewModel;
+
+            ((GamePageViewModel)viewModel).OnMoveCompleted += GamePage_OnMoveCompleted;
         }
 
-        public void OnViewCreated(object sender, EventArgs e)
+        private void GamePage_OnMoveCompleted(object sender, OnMoveCompletedEventArgs e)
         {
-            Debug.WriteLine("OnCreated!");
+            GameView.MoveBall(e.Column, e.Row);
         }
     }
 }

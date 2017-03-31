@@ -62,5 +62,10 @@ namespace Connect4.Mobile
             }
             OnCreated?.Invoke(sender, ea);
         }
+
+        public void MoveBall(int x, int y)
+        {
+            _gameScene.MoveBall(x, y);
+        }
     }
 }

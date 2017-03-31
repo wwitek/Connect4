@@ -50,24 +50,6 @@ namespace Connect4.Mobile
                 }
             };
             AddEventListener(touchListener, this);
-
-            //var touchListener = new CCEventListenerTouchAllAtOnce();
-            //touchListener.OnTouchesBegan = OnPreTouch;
-            //touchListener.OnTouchesMoved = OnPreTouch;
-
-            //touchListener.OnTouchesEnded = (touches, ccevent) =>
-            //{
-            //    if (touches.Count > 0)
-            //    {
-            //        var targetColumn = GetColumnByTouch(touches[0]);
-            //        Random random = new Random();
-            //        int randomY = random.Next(0, 6);
-
-            //        _drawPreDropRoot.RemoveAllChildren();
-            //        MoveBall(targetColumn, randomY);
-            //    }
-            //};
-            //AddEventListener(touchListener, this);
         }
 
         private void OnPreTouch(List<CCTouch> touches, CCEvent ccevent)

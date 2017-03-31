@@ -7,8 +7,8 @@
   <v:TestGrid x:Name="MainGrid">
     <v:TestGrid.Behaviors>
       <behavior:EventToCommandBehavior EventName="OnTestTapped" 
-                                        Command="{Binding OnTestTappedCommand}" 
-                                        EventArgsParameterPath="Column"/>
+                                       Command="{Binding OnTestTappedCommand}" 
+                                       EventArgsParameterPath="Column"/>
     </v:TestGrid.Behaviors>
     <StackLayout>
       <Entry Placeholder="Enter 1st Title" >

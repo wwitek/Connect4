@@ -8,7 +8,7 @@ namespace Connect4.Mobile
 {
     public class OnTouchedEventArgs : EventArgs
     {
-        public int Column { get; set; }
+        public object Column { get; }
 
         public OnTouchedEventArgs(int column)
         {

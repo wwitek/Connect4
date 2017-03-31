@@ -12,6 +12,8 @@ namespace Connect4.Mobile.ViewModels
 {
     public class GamePageViewModel : BindableBase
     {
+        public event EventHandler<OnMoveCompletedEventArgs> OnMoveCompleted;
+
         private Command onCreatedCommand;
         public Command OnCreatedCommand
         {
@@ -30,32 +32,18 @@ namespace Connect4.Mobile.ViewModels
             }
         }
 
-        //private Command onTouchedCommand;
-        //public Command OnTouchedCommand
-        //{
-        //    get
-        //    {
-        //        return onTouchedCommand ?? (onTouchedCommand = new Command(
-        //            (e) =>
-        //            {
-        //                Debug.WriteLine("OnTouchCommand");
-        //            },
-        //            (e) =>
-        //            {
-        //                return true;
-        //            }
-        //            ));
-        //    }
-        //}
-
-        private DelegateCommand<OnTouchedEventArgs> onTouchCommand;
-        public DelegateCommand<OnTouchedEventArgs> OnTouchedCommand
+        private DelegateCommand<object> onTouchCommand;
+        public DelegateCommand<object> OnTouchedCommand
         {
             get
             {
-                return onTouchCommand ?? (onTouchCommand = new DelegateCommand<OnTouchedEventArgs>((num) =>
+                return onTouchCommand ?? (onTouchCommand = new DelegateCommand<object>((num) =>
                 {
-                    Debug.WriteLine("OnTouchedCommand " + num?.Column.ToString());
+                    int column = 0;
+                    int.TryParse(num.ToString(), out column);
+                    Debug.WriteLine("OnTouchedCommand " + column);
+                    OnMoveCompletedEventArgs args = new OnMoveCompletedEventArgs { MoveId = 1, Column = column, Row = 0 };
+                    OnMoveCompleted?.Invoke(this, args);
                 }));
             }
         }
