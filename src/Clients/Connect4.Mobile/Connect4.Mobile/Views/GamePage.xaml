@@ -9,9 +9,9 @@
   <mobile:GameCocosSharpView x:Name="GameView">
     <mobile:GameCocosSharpView.Behaviors>
       <behavior:EventToCommandBehavior EventName="OnCreated" 
-                                       Command="{Binding OnCreatedCommand}" />
+                                       Command="{Binding CreateCommand}" />
       <behavior:EventToCommandBehavior EventName="OnTouched" 
-                                       Command="{Binding OnTouchedCommand}" 
+                                       Command="{Binding TouchCommand}" 
                                        EventArgsParameterPath="Column"/>
     </mobile:GameCocosSharpView.Behaviors>
   </mobile:GameCocosSharpView>

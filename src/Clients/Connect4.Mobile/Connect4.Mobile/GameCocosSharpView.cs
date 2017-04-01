@@ -10,54 +10,52 @@ namespace Connect4.Mobile
 {
     public class GameCocosSharpView : CocosSharpView
     {
-        private GameScene _gameScene;
-        private double _screenWidth;
-        private double _screenHeight;
+        private double ScreenWidth { get; }
+        private double ScreenHeight { get; }
+        private CCGameView GameView { get; set; }
+        private GameScene GameScene { get; set; }
 
         public event EventHandler OnCreated;
         public event EventHandler OnTouched;
-        public CCGameView gameView;
 
         public GameCocosSharpView()
             : base()
         {
-            _screenWidth = App.ContentWidth;
-            _screenHeight = App.ContentHeight;
+            ScreenWidth = App.ContentWidth;
+            ScreenHeight = App.ContentHeight;
             Margin = 0;
             HorizontalOptions = LayoutOptions.FillAndExpand;
             VerticalOptions = LayoutOptions.FillAndExpand;
             ViewCreated = OnViewCreated;
         }
 
-        public GameCocosSharpView(double viewWidth, double viewHeight)
-            : base()
-        {
-            _screenWidth = viewWidth;
-            _screenHeight = viewHeight;
-            Margin = 0;
-            HorizontalOptions = LayoutOptions.FillAndExpand;
-            VerticalOptions = LayoutOptions.FillAndExpand;
-            ViewCreated = OnViewCreated;
-        }
+        // Obsolete constructor
+        // Screen size is taken from App.ContentHeight and App.ContentWidth
+        //public GameCocosSharpView(double viewWidth, double viewHeight)
+        //    : base()
+        //{
+        //    _screenWidth = viewWidth;
+        //    _screenHeight = viewHeight;
+        //    Margin = 0;
+        //    HorizontalOptions = LayoutOptions.FillAndExpand;
+        //    VerticalOptions = LayoutOptions.FillAndExpand;
+        //    ViewCreated = OnViewCreated;
+        //}
 
         private void OnViewCreated(object sender, EventArgs ea)
         {
-            if (gameView == null)
+            if (GameView == null)
             {
-                gameView = sender as CCGameView;
-                if (gameView != null)
+                GameView = sender as CCGameView;
+                if (GameView != null)
                 {
-                    gameView.DesignResolution = new CCSizeI((int)_screenWidth, (int)_screenHeight);
+                    GameView.DesignResolution = new CCSizeI((int)ScreenWidth, (int)ScreenHeight);
 
                     var contentSearchPaths = new List<string>() { "Fonts", "Sounds", "Images", "Animations" };
-                    gameView.ContentManager.SearchPaths = contentSearchPaths;
-
-                    _gameScene = new GameScene(gameView);
-                    _gameScene.OnTouched += (s, e) =>
-                    {
-                        OnTouched?.Invoke(s, e);
-                    };
-                    gameView.RunWithScene(_gameScene);
+                    GameView.ContentManager.SearchPaths = contentSearchPaths;
+                    GameScene = new GameScene(GameView);
+                    GameScene.OnTouched += (s, e) => OnTouched?.Invoke(s, e);
+                    GameView.RunWithScene(GameScene);
                 }
             }
             OnCreated?.Invoke(sender, ea);
@@ -65,7 +63,7 @@ namespace Connect4.Mobile
 
         public void MoveBall(int x, int y)
         {
-            _gameScene.MoveBall(x, y);
+            GameScene.MoveBall(x, y);
         }
     }
 }

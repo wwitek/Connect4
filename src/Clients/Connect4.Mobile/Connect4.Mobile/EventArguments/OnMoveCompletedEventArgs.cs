@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Connect4.Mobile
+namespace Connect4.Mobile.EventArguments
 {
     public class OnMoveCompletedEventArgs : EventArgs
     {

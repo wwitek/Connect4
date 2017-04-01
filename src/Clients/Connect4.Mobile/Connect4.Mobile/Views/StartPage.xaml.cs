@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Connect4.Mobile.EventArguments;
 
 namespace Connect4.Mobile.Views
 {

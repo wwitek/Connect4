@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Connect4.Mobile.EventArguments;
 
 namespace Connect4.Mobile.ViewModels
 {

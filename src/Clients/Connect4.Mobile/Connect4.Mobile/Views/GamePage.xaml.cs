@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Connect4.Mobile.EventArguments;
 using Xamarin.Forms;
 
 namespace Connect4.Mobile.Views

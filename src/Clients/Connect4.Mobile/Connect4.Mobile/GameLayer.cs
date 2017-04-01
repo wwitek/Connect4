@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Connect4.Mobile.Utilities;
+using Connect4.Mobile.EventArguments;
 
 namespace Connect4.Mobile
 {
@@ -47,9 +48,14 @@ namespace Connect4.Mobile
                     var targetColumn = GetColumnByTouch(touches[0]);
                     OnTouchedEventArgs tea = new OnTouchedEventArgs(targetColumn);
                     OnTouched?.Invoke(this, tea);
+
+                    _drawPreDropRoot.RemoveAllChildren();
                 }
             };
             AddEventListener(touchListener, this);
+            
+            touchListener.OnTouchesBegan = OnPreTouch;
+            touchListener.OnTouchesMoved = OnPreTouch;
         }
 
         private void OnPreTouch(List<CCTouch> touches, CCEvent ccevent)

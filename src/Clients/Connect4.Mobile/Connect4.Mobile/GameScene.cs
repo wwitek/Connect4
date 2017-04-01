@@ -9,22 +9,19 @@ namespace Connect4.Mobile
 {
     public class GameScene : CCScene
     {
-        private GameLayer _layer;
+        private GameLayer GameLayer { get; }
         public event EventHandler OnTouched;
 
         public GameScene(CCGameView gameView) : base(gameView)
         {
-            _layer = new GameLayer(gameView.DesignResolution.Width, gameView.DesignResolution.Height);
-            _layer.OnTouched += (s, e) =>
-            {
-                OnTouched?.Invoke(s, e);
-            };
-            AddLayer(_layer);
+            GameLayer = new GameLayer(gameView.DesignResolution.Width, gameView.DesignResolution.Height);
+            GameLayer.OnTouched += (s, e) => OnTouched?.Invoke(s, e);
+            AddLayer(GameLayer);
         }
 
         public void MoveBall(int x, int y)
         {
-            _layer.MoveBall(x, y);
+            GameLayer.MoveBall(x, y);
         }
     }
 }
