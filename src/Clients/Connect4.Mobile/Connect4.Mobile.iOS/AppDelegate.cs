@@ -30,6 +30,10 @@ namespace Connect4.Mobile.iOS
             //Added to prevent iOS linker to strip behaviors assembly out of deployed package.
             //Corcav.Behaviors.Infrastructure.Init();
             //Xamarin.Behaviors.Infrastructure.Init();
+
+            /********** ADD THIS CALL TO INITIALIZE XFGloss *********/
+            XFGloss.iOS.Library.Init();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

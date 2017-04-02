@@ -143,6 +143,14 @@
       <HintPath>..\..\..\..\packages\Xamarin.Forms.2.3.3.193\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="XFGloss, Version=1.0.6.59, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Ansuria.XFGloss.1.0.6.59\lib\MonoAndroid10\XFGloss.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XFGloss.Droid, Version=1.0.6.59, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Ansuria.XFGloss.1.0.6.59\lib\MonoAndroid10\XFGloss.Droid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />

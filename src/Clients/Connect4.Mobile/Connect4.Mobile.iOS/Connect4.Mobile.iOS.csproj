@@ -168,6 +168,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="XFGloss, Version=1.0.6.59, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Ansuria.XFGloss.1.0.6.59\lib\Xamarin.iOS10\XFGloss.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XFGloss.iOS, Version=1.0.6.59, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Ansuria.XFGloss.1.0.6.59\lib\Xamarin.iOS10\XFGloss.iOS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Connect4.Mobile\Connect4.Mobile.csproj">

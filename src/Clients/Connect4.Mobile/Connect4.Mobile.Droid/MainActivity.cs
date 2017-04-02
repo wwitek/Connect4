@@ -33,6 +33,9 @@ namespace Connect4.Mobile.Droid
             App.ContentWidth = width;
             App.ContentHeight = (height - statusBarHeight);
             LoadApplication(new App());
+
+            // IMPORTANT: Initialize XFGloss AFTER calling LoadApplication on the Android platform
+            XFGloss.Droid.Library.Init(this, bundle);
         }
     }
 }
