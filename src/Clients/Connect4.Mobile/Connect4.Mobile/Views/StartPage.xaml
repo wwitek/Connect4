@@ -4,22 +4,10 @@
              xmlns:v="clr-namespace:Connect4.Mobile.Views"
              xmlns:behavior="clr-namespace:Prism.Behaviors;assembly=Prism.Forms" 
              x:Class="Connect4.Mobile.Views.StartPage">
-  <v:TestGrid x:Name="MainGrid">
-    <v:TestGrid.Behaviors>
-      <behavior:EventToCommandBehavior EventName="OnTestTapped" 
-                                       Command="{Binding OnTestTappedCommand}" 
-                                       EventArgsParameterPath="Column"/>
-    </v:TestGrid.Behaviors>
-    <StackLayout>
-      <Entry Placeholder="Enter 1st Title" >
-      </Entry>
-      <Entry Placeholder="Enter 2nd Title" >
-      </Entry>
-      <Entry Placeholder="Enter 3rd Title" >
-      </Entry>
-      <Entry Placeholder="Enter 4th Title" >
-      </Entry>
-      <Label Text="{Binding Status}" />
-    </StackLayout>
-  </v:TestGrid>
+  <StackLayout Spacing="20" x:Name="layout" VerticalOptions="Center" HorizontalOptions="Center">
+    <Label Text="Connect Four" FontSize="45" Margin="0,0,0,20" />
+    <Button Text="SINGLE PLAYER" FontSize="20" BorderRadius="15" BorderWidth="1" BorderColor="Blue" />
+    <Button Text="TWO PLAYERS" FontSize="20" BorderRadius="15" BorderWidth="1" BorderColor="Blue" />
+    <Button Text="ONLINE" FontSize="20" BorderRadius="15" BorderWidth="1" BorderColor="Blue" />
+  </StackLayout>
 </ContentPage>
