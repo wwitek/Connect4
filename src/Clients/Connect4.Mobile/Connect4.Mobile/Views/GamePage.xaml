@@ -5,7 +5,16 @@
              xmlns:viewModels="clr-namespace:Connect4.Mobile.ViewModels"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              x:Class="Connect4.Mobile.Views.GamePage"
-             xmlns:behavior="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
+             xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
+             xmlns:behavior="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             NavigationPage.HasNavigationBar="false">
+  <xfg:ContentPageGloss.BackgroundGradient>
+    <xfg:Gradient Rotation="0">
+      <xfg:GradientStep StepColor="#01244C" StepPercentage="0" />
+      <xfg:GradientStep StepColor="#044FA2" StepPercentage="1" />
+    </xfg:Gradient>
+  </xfg:ContentPageGloss.BackgroundGradient>
+  
   <mobile:GameCocosSharpView x:Name="GameView">
     <mobile:GameCocosSharpView.Behaviors>
       <behavior:EventToCommandBehavior EventName="OnCreated" 

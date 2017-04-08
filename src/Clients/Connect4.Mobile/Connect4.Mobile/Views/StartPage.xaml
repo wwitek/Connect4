@@ -4,7 +4,8 @@
              xmlns:v="clr-namespace:Connect4.Mobile.Views"
              xmlns:behavior="clr-namespace:Prism.Behaviors;assembly=Prism.Forms" 
              x:Class="Connect4.Mobile.Views.StartPage"
-             xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss">
+             xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
+             NavigationPage.HasNavigationBar="false">
   <ContentPage.Resources>
     <ResourceDictionary>
       <Style TargetType="Button">
@@ -31,7 +32,7 @@
 
   <StackLayout Spacing="20" x:Name="layout" VerticalOptions="Center" HorizontalOptions="Center">
     <Label Text="Connect Four" Margin="0,0,0,20" />
-    <Button Text="SINGLE PLAYER" />
+    <Button Text="SINGLE PLAYER" Command="{Binding StartOnePlayerGameCommand}"/>
     <Button Text="TWO PLAYERS" />
     <Button Text="ONLINE" />
   </StackLayout>

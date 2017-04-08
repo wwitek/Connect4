@@ -7,21 +7,27 @@ using System.Text;
 
 using Xamarin.Forms;
 using System.Diagnostics;
+using Prism.Unity;
 
 namespace Connect4.Mobile
 {
-    public class App : Application
+    public class App : PrismApplication
     {
         public static float ContentHeight { get; set; }
         public static float ContentWidth { get; set; }
 
-        public App()
-        {
-            //GamePageViewModel viewModel = new GamePageViewModel();
-            //MainPage = new GamePage(viewModel);
+        public App(IPlatformInitializer initializer = null) : base(initializer) { }
 
-            StartPageViewModel viewModel = new StartPageViewModel();
-            MainPage = new StartPage(viewModel);
+        protected override void OnInitialized()
+        {
+            NavigationService.NavigateAsync("MainNavigationPage/Start");
+        }
+
+        protected override void RegisterTypes()
+        {
+            Container.RegisterTypeForNavigation<MainNavigationPage>();
+            Container.RegisterTypeForNavigation<StartPage, StartPageViewModel>("Start");
+            Container.RegisterTypeForNavigation<GamePage, GamePageViewModel>("Game");
         }
 
         protected override void OnStart()

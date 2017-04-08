@@ -1,21 +1,12 @@
-﻿using Connect4.Mobile.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
-using Connect4.Mobile.EventArguments;
+﻿using Xamarin.Forms;
 
 namespace Connect4.Mobile.Views
 {
     public partial class StartPage : ContentPage
     {
-        public StartPage(StartPageViewModel viewModel)
+        public StartPage()
         {
             InitializeComponent();
-            BindingContext = viewModel;
         }
     }
 }

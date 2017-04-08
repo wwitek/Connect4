@@ -8,19 +8,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Connect4.Mobile.EventArguments;
+using Prism.Navigation;
 
 namespace Connect4.Mobile.ViewModels
 {
     public class GamePageViewModel : BindableBase
     {
+        INavigationService _navigationService { get; }
+
         public event EventHandler<OnMoveCompletedEventArgs> OnMoveCompleted;
         public ICommand CreateCommand { get; }
         public ICommand TouchCommand { get; }
 
-        public GamePageViewModel()
+        public GamePageViewModel(INavigationService navigationService)
         {
             TouchCommand = new DelegateCommand<object>(OnTouch, CanTouch);
             CreateCommand = new DelegateCommand(OnCreate);
+
+            _navigationService = navigationService;
         }
 
         private void OnCreate()

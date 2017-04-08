@@ -6,6 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Microsoft.Practices.Unity;
+using Prism.Unity;
 
 namespace Connect4.Mobile.Droid
 {
@@ -36,6 +38,13 @@ namespace Connect4.Mobile.Droid
 
             // IMPORTANT: Initialize XFGloss AFTER calling LoadApplication on the Android platform
             XFGloss.Droid.Library.Init(this, bundle);
+        }
+
+        public class AndroidInitializer : IPlatformInitializer
+        {
+            public void RegisterTypes(IUnityContainer container)
+            {
+            }
         }
     }
 }
