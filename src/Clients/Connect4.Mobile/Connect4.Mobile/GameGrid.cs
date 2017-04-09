@@ -18,15 +18,15 @@ namespace Connect4.Mobile
 
         public GameGrid()
         {
-            var tgr = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
-            tgr.Tapped += Tgr_Tapped;
-            this.GestureRecognizers.Add(tgr);
+            //var tgr = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
+            //tgr.Tapped += Tgr_Tapped;
+            //this.GestureRecognizers.Add(tgr);
 
             GameView = new GameCocosSharpView();
             GameView.OnCreated += (s, e) => OnCreated?.Invoke(s, e);
             GameView.OnTouched += (s, e) => OnTouched?.Invoke(s, e);
             GameView.OnReset += (s, e) => OnReset?.Invoke(s, e);
-            //GameView.OnQuit += (s, e) => OnQuit?.Invoke(s, e);
+            GameView.OnQuit += (s, e) => Tgr_Tapped(s, e);
             Children.Add(GameView);
         }
 
