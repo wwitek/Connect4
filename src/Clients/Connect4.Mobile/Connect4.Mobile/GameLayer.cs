@@ -114,6 +114,57 @@ namespace Connect4.Mobile
                     _drawBoardRoot.AddChild(ellipse);
                 }
             }
+
+            float scoreYPosition = _viewHeight - 10;
+            float topBarHeight = scoreYPosition - (_boardCoordinates[0, 5].Y + (float)(_circleSize * 1.5) + _circleGap) - 10;
+            float nameSize = 16;
+            float scoreSize = topBarHeight - nameSize;
+            float nameYPosition = scoreYPosition - scoreSize;
+            float leftXPosition = _boardCoordinates[0, 0].X - (_boardCoordinates[0, 0].X / 2) - _edgeGap;
+            float rightXPosition = _boardCoordinates[6, 0].X + (_circleSize / 2);
+
+            CCLabel score1Label = new CCLabel("0", "ArialBlack", scoreSize, CCLabelFormat.SystemFont);
+            score1Label.Color = new CCColor3B(C4Colors.YellowColor);
+            score1Label.HorizontalAlignment = CCTextAlignment.Left;
+            score1Label.AnchorPoint = CCPoint.AnchorUpperLeft;
+            score1Label.Position = new CCPoint(leftXPosition, scoreYPosition);
+            _drawBoardRoot.AddChild(score1Label);
+
+            CCLabel player1Label = new CCLabel("PLAYER1", "ArialBlack", nameSize, CCLabelFormat.SystemFont);
+            player1Label.Color = CCColor3B.Yellow;
+            player1Label.HorizontalAlignment = CCTextAlignment.Left;
+            player1Label.AnchorPoint = CCPoint.AnchorUpperLeft;
+            player1Label.Position = new CCPoint(leftXPosition, nameYPosition);
+            _drawBoardRoot.AddChild(player1Label);
+
+            CCLabel score2Label = new CCLabel("0", "ArialBlack", scoreSize, CCLabelFormat.SystemFont);
+            score2Label.Color = new CCColor3B(C4Colors.RedColor);
+            score2Label.HorizontalAlignment = CCTextAlignment.Right;
+            score2Label.AnchorPoint = CCPoint.AnchorUpperRight;
+            score2Label.Position = new CCPoint(rightXPosition, scoreYPosition);
+            _drawBoardRoot.AddChild(score2Label);
+
+            CCLabel player2Label = new CCLabel("PLAYER2", "ArialBlack", nameSize, CCLabelFormat.SystemFont);
+            player2Label.Color = CCColor3B.Red;
+            player2Label.HorizontalAlignment = CCTextAlignment.Right;
+            player2Label.AnchorPoint = CCPoint.AnchorUpperRight;
+            player2Label.Position = new CCPoint(rightXPosition, nameYPosition);
+            _drawBoardRoot.AddChild(player2Label);
+
+            float bottomBarHeight = _boardCoordinates[0, 0].Y - (float)(_circleSize * 0.5);
+            float quitLabelYPosition = bottomBarHeight / 2;
+            float quitLabelXPosition = _viewWidth / 2;
+            float quitSize = bottomBarHeight / 6;
+
+            CCLabel resetLabel = new CCLabel("RESET", "ArialBlack", quitSize, CCLabelFormat.SystemFont);
+            resetLabel.Position = new CCPoint(quitLabelXPosition, quitLabelYPosition);
+            resetLabel.AnchorPoint = CCPoint.AnchorMiddleBottom;
+            _drawBoardRoot.AddChild(resetLabel);
+
+            CCLabel quitLabel = new CCLabel("QUIT", "ArialBlack", quitSize, CCLabelFormat.SystemFont);
+            quitLabel.Position = new CCPoint(quitLabelXPosition, quitLabelYPosition);
+            quitLabel.AnchorPoint = CCPoint.AnchorMiddleTop;
+            _drawBoardRoot.AddChild(quitLabel);
         }
 
         private int GetColumnByTouch(CCTouch touch)
