@@ -19,11 +19,15 @@ namespace Connect4.Mobile.ViewModels
         public event EventHandler<OnMoveCompletedEventArgs> OnMoveCompleted;
         public ICommand CreateCommand { get; }
         public ICommand TouchCommand { get; }
+        public ICommand ResetCommand { get; }
+        public ICommand QuitCommand { get; }
 
         public GamePageViewModel(INavigationService navigationService)
         {
             TouchCommand = new DelegateCommand<object>(OnTouch, CanTouch);
             CreateCommand = new DelegateCommand(OnCreate);
+            ResetCommand = new DelegateCommand(OnReset);
+            QuitCommand = new DelegateCommand(OnQuit);
 
             _navigationService = navigationService;
         }
@@ -46,6 +50,16 @@ namespace Connect4.Mobile.ViewModels
         private bool CanTouch(object touchedColumn)
         {
             return true;
+        }
+
+        private void OnReset()
+        {
+            Debug.WriteLine("Game reset!");
+        }
+
+        private void OnQuit()
+        {
+            _navigationService.GoBackAsync();
         }
     }
 }

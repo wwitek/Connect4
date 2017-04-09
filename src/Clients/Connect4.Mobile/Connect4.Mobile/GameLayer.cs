@@ -25,6 +25,8 @@ namespace Connect4.Mobile
         private float[] QuitHeightRange = new float[2];
 
         public event EventHandler OnTouched;
+        public event EventHandler OnReset;
+        public event EventHandler OnQuit;
 
         public GameLayer(float viewWidth, float viewHeight)
             : base(C4Colors.StartColor, C4Colors.EndColor, new CCPoint(0f, 1f))
@@ -64,10 +66,12 @@ namespace Connect4.Mobile
                     else if (partClicked == GamePagePart.ResetButton)
                     {
                         Debug.WriteLine("Reset");
+                        OnReset?.Invoke(this, EventArgs.Empty);
                     }
                     else if (partClicked == GamePagePart.QuitButton)
                     {
                         Debug.WriteLine("Quit");
+                        OnQuit?.Invoke(this, EventArgs.Empty);
                     }
                 }
             };

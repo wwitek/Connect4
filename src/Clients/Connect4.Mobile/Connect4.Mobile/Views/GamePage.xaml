@@ -22,6 +22,10 @@
       <behavior:EventToCommandBehavior EventName="OnTouched" 
                                        Command="{Binding TouchCommand}" 
                                        EventArgsParameterPath="Column"/>
+      <behavior:EventToCommandBehavior EventName="OnReset"
+                                       Command="{Binding ResetCommand}" />
+      <behavior:EventToCommandBehavior EventName="OnQuit"
+                                       Command="{Binding QuitCommand}" />      
     </mobile:GameCocosSharpView.Behaviors>
   </mobile:GameCocosSharpView>
 </ContentPage>

@@ -17,6 +17,8 @@ namespace Connect4.Mobile
 
         public event EventHandler OnCreated;
         public event EventHandler OnTouched;
+        public event EventHandler OnReset;
+        public event EventHandler OnQuit;
 
         public GameCocosSharpView()
             : base()
@@ -55,6 +57,8 @@ namespace Connect4.Mobile
                     GameView.ContentManager.SearchPaths = contentSearchPaths;
                     GameScene = new GameScene(GameView);
                     GameScene.OnTouched += (s, e) => OnTouched?.Invoke(s, e);
+                    GameScene.OnReset += (s, e) => OnReset?.Invoke(s, e);
+                    GameScene.OnQuit += (s, e) => OnQuit?.Invoke(s, e);
                     GameView.RunWithScene(GameScene);
                 }
             }
