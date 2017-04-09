@@ -42,7 +42,7 @@ namespace Connect4.Mobile.ViewModels
             int column = 0;
             if (int.TryParse(touchedColumn.ToString(), out column))
             {
-                OnMoveCompletedEventArgs args = new OnMoveCompletedEventArgs { MoveId = 1, Column = column, Row = 0 };
+                OnMoveCompletedEventArgs args = new OnMoveCompletedEventArgs { Player = Enums.PlayerColor.Red, MoveId = 1, Column = column, Row = 0 };
                 OnMoveCompleted?.Invoke(this, args);
             }
         }

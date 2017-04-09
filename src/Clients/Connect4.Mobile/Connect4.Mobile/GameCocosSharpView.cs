@@ -1,4 +1,5 @@
 ﻿using CocosSharp;
+using Connect4.Mobile.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,9 +66,14 @@ namespace Connect4.Mobile
             OnCreated?.Invoke(sender, ea);
         }
 
-        public void MoveBall(int x, int y)
+        public void MoveBall(PlayerColor player, int x, int y)
         {
-            GameScene.MoveBall(x, y);
+            GameScene.MoveBall(player, x, y);
+        }
+
+        public void SetScore(PlayerColor player, int score)
+        {
+            GameScene.SetScore(player, score);
         }
     }
 }

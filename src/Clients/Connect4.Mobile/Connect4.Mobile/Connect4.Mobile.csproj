@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Enums\GamePagePart.cs" />
+    <Compile Include="Enums\PlayerColor.cs" />
     <Compile Include="EventArguments\OnMoveCompletedEventArgs.cs" />
     <Compile Include="EventArguments\OnTouchedEventArgs.cs" />
     <Compile Include="Utilities\C4Colors.cs" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Connect4.Mobile.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace Connect4.Mobile.EventArguments
 {
     public class OnMoveCompletedEventArgs : EventArgs
     {
+        public PlayerColor Player;
         public int MoveId;
         public int Column;
         public int Row;

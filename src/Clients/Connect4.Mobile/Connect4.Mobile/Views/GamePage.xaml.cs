@@ -20,7 +20,7 @@ namespace Connect4.Mobile.Views
 
         private void GamePage_OnMoveCompleted(object sender, OnMoveCompletedEventArgs e)
         {
-            GameView.MoveBall(e.Column, e.Row);
+            GameView.MoveBall(e.Player, e.Column, e.Row);
         }
     }
 }

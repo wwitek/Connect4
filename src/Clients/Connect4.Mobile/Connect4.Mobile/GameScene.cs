@@ -1,4 +1,5 @@
 ﻿using CocosSharp;
+using Connect4.Mobile.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,14 @@ namespace Connect4.Mobile
             AddLayer(GameLayer);
         }
 
-        public void MoveBall(int x, int y)
+        public void MoveBall(PlayerColor player, int x, int y)
         {
-            GameLayer.MoveBall(x, y);
+            GameLayer.MoveBall(player, x, y);
+        }
+
+        public void SetScore(PlayerColor player, int score)
+        {
+            GameLayer.SetScore(player, score);
         }
     }
 }
