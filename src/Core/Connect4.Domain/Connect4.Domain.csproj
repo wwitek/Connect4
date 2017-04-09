@@ -35,7 +35,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <Folder Include="Enums\" />
     <Folder Include="Exceptions\" />
     <Folder Include="Factories\" />
     <Folder Include="Helpers\" />
@@ -45,6 +44,7 @@
     <Compile Include="Entities\Board.cs" />
     <Compile Include="Entities\Field.cs" />
     <Compile Include="Entities\Game.cs" />
+    <Compile Include="Enums\GameType.cs" />
     <Compile Include="Interfaces\IBoard.cs" />
     <Compile Include="Interfaces\IField.cs" />
     <Compile Include="Interfaces\IGame.cs" />

@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Connect4.Mobile.EventArguments;
 using Prism.Navigation;
+using Connect4.Domain.Enums;
 
 namespace Connect4.Mobile.ViewModels
 {
-    public class GamePageViewModel : BindableBase
+    public class GamePageViewModel : BindableBase, INavigationAware
     {
         public GamePageViewModel(INavigationService navigationService)
         {
@@ -31,7 +32,8 @@ namespace Connect4.Mobile.ViewModels
         public ICommand ResetCommand { get; }
         public ICommand QuitCommand { get; }
 
-        private INavigationService NavigationService { get; } 
+        private INavigationService NavigationService { get; }
+        private GameType Type { get; set; }
 
         private void OnCreate()
         {
@@ -61,6 +63,28 @@ namespace Connect4.Mobile.ViewModels
         private void OnQuit()
         {
             NavigationService.GoBackAsync();
+        }
+
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+        }
+
+        public void OnNavigatedTo(NavigationParameters parameters)
+        {
+        }
+
+        public void OnNavigatingTo(NavigationParameters parameters)
+        {
+            try
+            {
+                Type = (GameType)parameters["Type"];
+                Debug.WriteLine(Type.ToString());
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine("Exception: " + ex);
+                NavigationService.GoBackAsync();
+            }
         }
     }
 }

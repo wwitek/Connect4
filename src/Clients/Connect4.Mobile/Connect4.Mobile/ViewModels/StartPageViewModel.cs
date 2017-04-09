@@ -10,6 +10,7 @@ using Xamarin.Forms;
 using Connect4.Mobile.EventArguments;
 using Prism.Navigation;
 using Prism.Commands;
+using Connect4.Domain.Enums;
 
 namespace Connect4.Mobile.ViewModels
 {
@@ -19,6 +20,8 @@ namespace Connect4.Mobile.ViewModels
         {
             NavigationService = navigationService;
             StartOnePlayerGameCommand = new DelegateCommand(StartOnePlayerGame);
+            StartTwoPlayersGameCommand = new DelegateCommand(StartTwoPlayersGame);
+            StartOnlineGameCommand = new DelegateCommand(StartOnlineGame);
         }
 
         public ICommand StartOnePlayerGameCommand { get; }
@@ -29,7 +32,23 @@ namespace Connect4.Mobile.ViewModels
 
         public void StartOnePlayerGame()
         {
-            NavigationService.NavigateAsync("Game");
+            NavigationParameters param = new NavigationParameters();
+            param.Add("Type", GameType.SinglePlayer);
+            NavigationService.NavigateAsync("Game", param);
+        }
+
+        public void StartTwoPlayersGame()
+        {
+            NavigationParameters param = new NavigationParameters();
+            param.Add("Type", GameType.TwoPlayers);
+            NavigationService.NavigateAsync("Game", param);
+        }
+
+        public void StartOnlineGame()
+        {
+            NavigationParameters param = new NavigationParameters();
+            param.Add("Type", GameType.Online);
+            NavigationService.NavigateAsync("Game", param);
         }
     }
 }
