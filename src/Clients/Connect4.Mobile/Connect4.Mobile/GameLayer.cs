@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Connect4.Mobile.Utilities;
 using Connect4.Mobile.EventArguments;
+using Connect4.Mobile.Enums;
 
 namespace Connect4.Mobile
 {
@@ -18,6 +19,10 @@ namespace Connect4.Mobile
         private readonly CCPoint[,] _boardCoordinates;
         private readonly CCNode _drawBoardRoot;
         private readonly CCNode _drawPreDropRoot;
+
+        private float[] BoardHeightRange = new float[2];
+        private float[] ResetHeightRange = new float[2];
+        private float[] QuitHeightRange = new float[2];
 
         public event EventHandler OnTouched;
 
@@ -45,11 +50,25 @@ namespace Connect4.Mobile
             {
                 if (touches.Count > 0)
                 {
-                    var targetColumn = GetColumnByTouch(touches[0]);
-                    OnTouchedEventArgs tea = new OnTouchedEventArgs(targetColumn);
-                    OnTouched?.Invoke(this, tea);
-
-                    _drawPreDropRoot.RemoveAllChildren();
+                    GamePagePart partClicked = GetGamePagePartClicked(touches[0]);
+                    if (partClicked == GamePagePart.Board)
+                    {
+                        var targetColumn = GetColumnByTouch(touches[0]);
+                        if (targetColumn >= 0)
+                        {
+                            OnTouchedEventArgs tea = new OnTouchedEventArgs(targetColumn);
+                            OnTouched?.Invoke(this, tea);
+                            _drawPreDropRoot.RemoveAllChildren();
+                        }
+                    }
+                    else if (partClicked == GamePagePart.ResetButton)
+                    {
+                        Debug.WriteLine("Reset");
+                    }
+                    else if (partClicked == GamePagePart.QuitButton)
+                    {
+                        Debug.WriteLine("Quit");
+                    }
                 }
             };
             AddEventListener(touchListener, this);
@@ -63,10 +82,16 @@ namespace Connect4.Mobile
             if (touches.Count > 0)
             {
                 var targetColumn = GetColumnByTouch(touches[0]);
-                CCDrawNode ball = DrawBall(targetColumn);
-
-                _drawPreDropRoot.RemoveAllChildren();
-                _drawPreDropRoot.AddChild(ball);
+                if (targetColumn >= 0)
+                {
+                    CCDrawNode ball = DrawBall(targetColumn);
+                    _drawPreDropRoot.RemoveAllChildren();
+                    _drawPreDropRoot.AddChild(ball);
+                }
+                else
+                {
+                    _drawPreDropRoot.RemoveAllChildren();
+                }
             }
         }
 
@@ -165,19 +190,47 @@ namespace Connect4.Mobile
             quitLabel.Position = new CCPoint(quitLabelXPosition, quitLabelYPosition);
             quitLabel.AnchorPoint = CCPoint.AnchorMiddleTop;
             _drawBoardRoot.AddChild(quitLabel);
+
+            BoardHeightRange = new float[2] { bottomBarHeight, scoreYPosition - topBarHeight };
+            ResetHeightRange = new float[2] { quitLabelYPosition, quitLabelYPosition + quitSize };
+            QuitHeightRange = new float[2] { quitLabelYPosition - quitSize, quitLabelYPosition };
+        }
+
+        private GamePagePart GetGamePagePartClicked(CCTouch touch)
+        {
+            var clickedY = touch.Location.Y;
+
+            if (clickedY > BoardHeightRange[0] && clickedY < BoardHeightRange[1])
+            {
+                return GamePagePart.Board;
+            }
+            else if (clickedY > ResetHeightRange[0] && clickedY < ResetHeightRange[1])
+            {
+                return GamePagePart.ResetButton;
+            }
+            else if (clickedY > QuitHeightRange[0] && clickedY < QuitHeightRange[1])
+            {
+                return GamePagePart.QuitButton;
+            }
+
+            return GamePagePart.Void;
         }
 
         private int GetColumnByTouch(CCTouch touch)
         {
-            var clickedX = touch.Location.X;
-            var targetColumn = _boardCoordinates.GetLength(0) - 1;
-            for (int i = 0; i < _boardCoordinates.GetLength(0); i++)
+            var targetColumn = -1;
+            if (GetGamePagePartClicked(touch) == GamePagePart.Board)
             {
-                var x = _boardCoordinates[i, 0].X + (_circleSize / 2) + (_circleGap / 2);
-                if (clickedX < x)
+                var clickedX = touch.Location.X;
+                targetColumn = _boardCoordinates.GetLength(0) - 1;
+                for (int i = 0; i < _boardCoordinates.GetLength(0); i++)
                 {
-                    targetColumn = i;
-                    break;
+                    var x = _boardCoordinates[i, 0].X + (_circleSize / 2) + (_circleGap / 2);
+                    if (clickedX < x)
+                    {
+                        targetColumn = i;
+                        break;
+                    }
                 }
             }
             return targetColumn;
