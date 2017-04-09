@@ -40,6 +40,7 @@
     <Compile Include="Enums\PlayerColor.cs" />
     <Compile Include="EventArguments\OnMoveCompletedEventArgs.cs" />
     <Compile Include="EventArguments\OnTouchedEventArgs.cs" />
+    <Compile Include="GameGrid.cs" />
     <Compile Include="Utilities\C4Colors.cs" />
     <Compile Include="GameLayer.cs" />
     <Compile Include="GameScene.cs" />
