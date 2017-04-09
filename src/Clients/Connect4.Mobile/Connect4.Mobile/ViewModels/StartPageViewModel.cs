@@ -15,21 +15,21 @@ namespace Connect4.Mobile.ViewModels
 {
     public class StartPageViewModel : BindableBase
     {
-        INavigationService _navigationService { get; }
+        public StartPageViewModel(INavigationService navigationService)
+        {
+            NavigationService = navigationService;
+            StartOnePlayerGameCommand = new DelegateCommand(StartOnePlayerGame);
+        }
 
         public ICommand StartOnePlayerGameCommand { get; }
         public ICommand StartTwoPlayersGameCommand { get; }
         public ICommand StartOnlineGameCommand { get; }
 
-        public StartPageViewModel(INavigationService navigationService)
-        {
-            _navigationService = navigationService;
-            StartOnePlayerGameCommand = new DelegateCommand(StartOnePlayerGame);
-        }
+        private INavigationService NavigationService { get; }
 
         public void StartOnePlayerGame()
         {
-            _navigationService.NavigateAsync("Game");
+            NavigationService.NavigateAsync("Game");
         }
     }
 }

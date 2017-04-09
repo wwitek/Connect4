@@ -14,14 +14,6 @@ namespace Connect4.Mobile.ViewModels
 {
     public class GamePageViewModel : BindableBase
     {
-        INavigationService _navigationService { get; }
-
-        public event EventHandler<OnMoveCompletedEventArgs> OnMoveCompleted;
-        public ICommand CreateCommand { get; }
-        public ICommand TouchCommand { get; }
-        public ICommand ResetCommand { get; }
-        public ICommand QuitCommand { get; }
-
         public GamePageViewModel(INavigationService navigationService)
         {
             TouchCommand = new DelegateCommand<object>(OnTouch, CanTouch);
@@ -29,8 +21,17 @@ namespace Connect4.Mobile.ViewModels
             ResetCommand = new DelegateCommand(OnReset);
             QuitCommand = new DelegateCommand(OnQuit);
 
-            _navigationService = navigationService;
+            NavigationService = navigationService;
         }
+
+        public event EventHandler<OnMoveCompletedEventArgs> OnMoveCompleted;
+
+        public ICommand CreateCommand { get; }
+        public ICommand TouchCommand { get; }
+        public ICommand ResetCommand { get; }
+        public ICommand QuitCommand { get; }
+
+        private INavigationService NavigationService { get; } 
 
         private void OnCreate()
         {
@@ -59,7 +60,7 @@ namespace Connect4.Mobile.ViewModels
 
         private void OnQuit()
         {
-            _navigationService.GoBackAsync();
+            NavigationService.GoBackAsync();
         }
     }
 }

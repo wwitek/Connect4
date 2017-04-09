@@ -11,16 +11,6 @@ namespace Connect4.Mobile
 {
     public class GameCocosSharpView : CocosSharpView
     {
-        private double ScreenWidth { get; }
-        private double ScreenHeight { get; }
-        private CCGameView GameView { get; set; }
-        private GameScene GameScene { get; set; }
-
-        public event EventHandler OnCreated;
-        public event EventHandler OnTouched;
-        public event EventHandler OnReset;
-        public event EventHandler OnQuit;
-
         public GameCocosSharpView()
             : base()
         {
@@ -32,18 +22,15 @@ namespace Connect4.Mobile
             ViewCreated = OnViewCreated;
         }
 
-        // Obsolete constructor
-        // Screen size is taken from App.ContentHeight and App.ContentWidth
-        //public GameCocosSharpView(double viewWidth, double viewHeight)
-        //    : base()
-        //{
-        //    _screenWidth = viewWidth;
-        //    _screenHeight = viewHeight;
-        //    Margin = 0;
-        //    HorizontalOptions = LayoutOptions.FillAndExpand;
-        //    VerticalOptions = LayoutOptions.FillAndExpand;
-        //    ViewCreated = OnViewCreated;
-        //}
+        public event EventHandler OnCreated;
+        public event EventHandler OnTouched;
+        public event EventHandler OnReset;
+        public event EventHandler OnQuit;
+
+        private double ScreenWidth { get; }
+        private double ScreenHeight { get; }
+        private CCGameView GameView { get; set; }
+        private GameScene GameScene { get; set; }
 
         private void OnViewCreated(object sender, EventArgs ea)
         {
