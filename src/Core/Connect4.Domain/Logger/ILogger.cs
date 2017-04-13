@@ -1,15 +1,13 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Connect4.Tests
+namespace Connect4.Domain.Logger
 {
-    [TestFixture]
-    class BoardTests
+    public interface ILogger
     {
-
+        void Log(LogEntry entry);
     }
 }
