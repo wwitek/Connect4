@@ -5,5 +5,7 @@
         int PlayerId { get; set; }
         int Row { get; set; }
         int Column { get; set; }
+
+        void Reset();
     }
 }

@@ -13,10 +13,15 @@ namespace Connect4.Domain.Entities
         public int Row { get; set; }
         public int Column { get; set; }
 
-        internal Field(int row, int column)
+        public Field(int row, int column)
         {
             Row = row;
             Column = column;
+            PlayerId = 0;
+        }
+
+        public void Reset()
+        {
             PlayerId = 0;
         }
     }

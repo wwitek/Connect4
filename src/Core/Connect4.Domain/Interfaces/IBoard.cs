@@ -10,7 +10,8 @@ namespace Connect4.Domain.Interfaces
     {
         void Reset();
         bool IsColumnFull(int column);
-        int DropChip(int column, int player);
+        int GetLowestEmptyRow(int column);
+        void InsertChip(int row, int column, int player);
         bool IsChipConnected(int row, int column);
         List<IField> GetConnectedChips(int row, int column);
     }
