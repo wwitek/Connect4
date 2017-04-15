@@ -64,12 +64,159 @@ namespace Connect4.Domain.Entities
 
         public bool IsChipConnected(int row, int column)
         {
+            int playerId = Fields[row, column].PlayerId;
+            int inARow = 1;
+
+            // Vertically
+            // --------------------------------------------
+            for (int i = row - 1; i >= 0; i--)
+            {
+                if (Fields[i, column].PlayerId != playerId) break;
+                inARow++;
+            }
+            for (int i = row + 1; i < Height; i++)
+            {
+                if (Fields[i, column].PlayerId != playerId) break;
+                inARow++;
+            }
+
+            if (inARow >= 4) return true;
+            inARow = 1;
+
+            // Horizontally
+            // --------------------------------------------
+            for (int i = column - 1; i >= 0; i--)
+            {
+                if (Fields[row, i].PlayerId != playerId) break;
+                inARow++;
+            }
+            for (int i = column + 1; i < Width; i++)
+            {
+                if (Fields[row, i].PlayerId != playerId) break;
+                inARow++;
+            }
+
+            if (inARow >= 4) return true;
+            inARow = 1;
+
+            // Diagonally - Northwest to Southeast
+            // --------------------------------------------
+
+            // Northwest
+            for (int i = 1; i <= Math.Min(row, column); i++)
+            {
+                if (Fields[row - i, column - i].PlayerId != playerId) break;
+                inARow++;
+            }
+            // Southeast
+            for (int i = 1; i < Math.Min(Height - row, Width - column); i++)
+            {
+                if (Fields[row + i, column + i].PlayerId != playerId) break;
+                inARow++;
+            }
+
+            if (inARow >= 4) return true;
+            inARow = 1;
+
+            // Diagonally - Southwest to Northeast  
+            // --------------------------------------------
+
+            // Southwest
+            for (int i = 1; i <= Math.Min(Height - row - 1, column); i++)
+            {
+                if (Fields[row + i, column - i].PlayerId != playerId) break;
+                inARow++;
+            }
+            // Northeast
+            for (int i = 1; i <= Math.Min(row, Width - column - 1); i++)
+            {
+                if (Fields[row - i, column + i].PlayerId != playerId) break;
+                inARow++;
+            }
+
+            if (inARow >= 4) return true;
             return false;
         }
 
         public List<IField> GetConnectedChips(int row, int column)
         {
-            return null;
+            int playerId = Fields[row, column].PlayerId;
+
+            List<IField> tempConnectedFields = new List<IField>();
+            List<IField> allConnectedFields = new List<IField>();
+            allConnectedFields.Add(Fields[row, column]);
+
+            // Vertically
+            // --------------------------------------------
+            for (int i = row - 1; i >= 0; i--)
+            {
+                if (Fields[i, column].PlayerId != playerId) break;
+                tempConnectedFields.Add(Fields[i, column]);
+            }
+            for (int i = row + 1; i < Height; i++)
+            {
+                if (Fields[i, column].PlayerId != playerId) break;
+                tempConnectedFields.Add(Fields[i, column]);
+            }
+
+            if (tempConnectedFields.Count >= 3) allConnectedFields.AddRange(tempConnectedFields);
+            tempConnectedFields.Clear();
+
+            // Horizontally
+            // --------------------------------------------
+            for (int i = column - 1; i >= 0; i--)
+            {
+                if (Fields[row, i].PlayerId != playerId) break;
+                tempConnectedFields.Add(Fields[row, i]);
+            }
+            for (int i = column + 1; i < Width; i++)
+            {
+                if (Fields[row, i].PlayerId != playerId) break;
+                tempConnectedFields.Add(Fields[row, i]);
+            }
+
+            if (tempConnectedFields.Count >= 3) allConnectedFields.AddRange(tempConnectedFields);
+            tempConnectedFields.Clear();
+
+            // Diagonally - Northwest to Southeast
+            // --------------------------------------------
+
+            // Northwest
+            for (int i = 1; i <= Math.Min(row, column); i++)
+            {
+                if (Fields[row - i, column - i].PlayerId != playerId) break;
+                tempConnectedFields.Add(Fields[row - i, column - i]);
+            }
+            // Southeast
+            for (int i = 1; i < Math.Min(Height - row, Width - column); i++)
+            {
+                if (Fields[row + i, column + i].PlayerId != playerId) break;
+                tempConnectedFields.Add(Fields[row + i, column + i]);
+            }
+
+            if (tempConnectedFields.Count >= 3) allConnectedFields.AddRange(tempConnectedFields);
+            tempConnectedFields.Clear();
+
+            // Diagonally - Southwest to Northeast  
+            // --------------------------------------------
+
+            // Southwest
+            for (int i = 1; i <= Math.Min(Height - row - 1, column); i++)
+            {
+                if (Fields[row + i, column - i].PlayerId != playerId) break;
+                tempConnectedFields.Add(Fields[row + i, column - i]);
+            }
+            // Northeast
+            for (int i = 1; i <= Math.Min(row, Width - column - 1); i++)
+            {
+                if (Fields[row - i, column + i].PlayerId != playerId) break;
+                tempConnectedFields.Add(Fields[row - i, column + i]);
+            }
+
+            if (tempConnectedFields.Count >= 3) allConnectedFields.AddRange(tempConnectedFields);
+            tempConnectedFields.Clear();
+
+            return allConnectedFields;
         }
 
         public override string ToString()

@@ -11,12 +11,13 @@ namespace Connect4.Tests
 {
     public static class TestHelper
     {
-        public static IField MockField(int x, int y, int playerId)
+        public static IField MockField(int row, int column, int playerId)
         {
             var mock = new Mock<IField>();
-            mock.Setup(m => m.Column).Returns(x);
-            mock.Setup(m => m.Row).Returns(y);
-            mock.Setup(m => m.PlayerId).Returns(playerId);
+            mock.SetupAllProperties();
+            mock.Object.Column = column;
+            mock.Object.Row = row;
+            mock.Object.PlayerId = playerId;
             return mock.Object;
         }
 
