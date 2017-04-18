@@ -9,6 +9,13 @@ namespace Connect4.Domain.Entities
 {
     public class Game : IGame
     {
+        private IBoard Board { get; }
+        private List<IPlayer> Players { get; }
 
+        public Game(IBoard board, List<IPlayer> players)
+        {
+            Board = board;
+            Players = players;
+        }
     }
 }

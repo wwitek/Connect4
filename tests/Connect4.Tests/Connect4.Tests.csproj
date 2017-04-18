@@ -58,6 +58,9 @@
     <Compile Include="UnitTests\BoardTests.cs" />
     <Compile Include="UnitTests\FieldFactoryTests.cs" />
     <Compile Include="UnitTests\FieldTests.cs" />
+    <Compile Include="UnitTests\GameFactoryTests.cs" />
+    <Compile Include="UnitTests\GameTests.cs" />
+    <Compile Include="UnitTests\PlayerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Core\Connect4.API\Connect4.API.csproj">

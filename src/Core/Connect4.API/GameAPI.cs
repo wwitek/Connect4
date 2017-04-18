@@ -12,7 +12,7 @@ namespace Connect4.API
     {
         public void Start(GameType gameType)
         {
-
+             
         }
 
         public void Move(IMove move)

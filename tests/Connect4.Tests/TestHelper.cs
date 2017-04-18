@@ -21,6 +21,19 @@ namespace Connect4.Tests
             return mock.Object;
         }
 
+        public static IField[,] MockEmptyFieldArray(int rows, int columns)
+        {
+            IField[,] fields = new IField[rows, columns];
+            for (int i = 0; i < fields.GetLength(0); i++)
+            {
+                for (int j = 0; j < fields.GetLength(1); j++)
+                {
+                    fields[i, j] = MockField(i, j, 0);
+                }
+            }
+            return fields;
+        }
+
         public static IField[,] MockFieldArray(int[,] ids)
         {
             IField[,] fields = new IField[ids.GetLength(0), ids.GetLength(1)];
@@ -32,6 +45,12 @@ namespace Connect4.Tests
                 }
             }
             return fields;
+        }
+
+        public static IBoard MockEmptyBoard()
+        {
+            var mock = new Mock<IBoard>();
+            return mock.Object;
         }
     }
 }
