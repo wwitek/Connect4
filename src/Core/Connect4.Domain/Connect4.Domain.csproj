@@ -47,9 +47,12 @@
     <Compile Include="Enums\GameState.cs" />
     <Compile Include="Enums\GameType.cs" />
     <Compile Include="Enums\PlayerType.cs" />
+    <Compile Include="EventArguments\MoveEventArgs.cs" />
     <Compile Include="Exceptions\BoardException.cs" />
     <Compile Include="Factories\BoardFactory.cs" />
     <Compile Include="Factories\FieldFactory.cs" />
+    <Compile Include="Factories\GameFactory.cs" />
+    <Compile Include="Factories\PlayerFactory.cs" />
     <Compile Include="Utilities\Requires.cs" />
     <Compile Include="Interfaces\Factories\IBoardFactory.cs" />
     <Compile Include="Interfaces\Factories\IFieldFactory.cs" />

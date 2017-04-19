@@ -12,6 +12,8 @@ namespace Connect4.Domain.Entities
         public int Row { get; set; }
         public int Column { get; set; }
         public int PlayerId { get; set; }
+        public bool IsWinner { get; set; }
+        public bool IsDraw { get; set; }
 
         public Move(int row, int column, int playerId)
         {

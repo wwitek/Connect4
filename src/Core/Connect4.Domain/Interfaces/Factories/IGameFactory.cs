@@ -9,6 +9,6 @@ namespace Connect4.Domain.Interfaces.Factories
 {
     public interface IGameFactory
     {
-        IGame Create(IList<IPlayer> players);
+        IGame Create(List<IPlayer> players);
     }
 }

@@ -11,5 +11,8 @@ namespace Connect4.Domain.Interfaces
         int Row { get; set; }
         int Column { get; set; }
         int PlayerId { get; set; }
+
+        bool IsWinner { get; set; }
+        bool IsDraw { get; set; }
     }
 }
