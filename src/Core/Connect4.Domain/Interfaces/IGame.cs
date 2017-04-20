@@ -8,8 +8,6 @@ namespace Connect4.Domain.Interfaces
     public interface IGame
     {
         event EventHandler<MoveEventArgs> OnMoveMade;
-
-        bool IsMoveValid(int playerId, int column);
-        void Move(int playerId, int column);
+        bool TryMove(int column);
     }
 }

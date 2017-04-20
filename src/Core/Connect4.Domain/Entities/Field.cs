@@ -19,10 +19,5 @@ namespace Connect4.Domain.Entities
             Column = column;
             PlayerId = 0;
         }
-
-        public void Reset()
-        {
-            PlayerId = 0;
-        }
     }
 }

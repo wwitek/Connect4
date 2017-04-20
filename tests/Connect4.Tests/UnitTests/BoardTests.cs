@@ -36,14 +36,8 @@ namespace Connect4.Tests.UnitTests
             IField[,] fields = new IField[6, 7];
             Assert.That(() => new Board(fields), Throws.TypeOf<ArgumentNullException>());
         }
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        [TestCase(5)]
-        [TestCase(6)]
-        public void ResetBoardTest(int column)
+        [Test]
+        public void IsBoardFull_TrueTest()
         {
             var fields = TestHelper.MockFieldArray(new int[,]
             {
@@ -55,7 +49,22 @@ namespace Connect4.Tests.UnitTests
                 {1, 1, 1, 1, 1, 1, 1}
             });
             IBoard board = new Board(fields);
-            board.Reset();
+            Assert.AreEqual(true, board.IsBoardFull());
+        }
+        [Test]
+        public void IsBoardFull_FalseTest()
+        {
+            var fields = TestHelper.MockFieldArray(new int[,]
+            {
+                {1, 1, 1, 1, 1, 1, 0},
+                {1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1}
+            });
+            IBoard board = new Board(fields);
+            Assert.AreEqual(false, board.IsBoardFull());
         }
         [Test]
         public void IsOneColumnFull_TrueTest()
@@ -72,14 +81,8 @@ namespace Connect4.Tests.UnitTests
             IBoard board = new Board(fields);
             Assert.AreEqual(true, board.IsColumnFull(1));
         }
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        [TestCase(5)]
-        [TestCase(6)]
-        public void AreAllColumnsFull_TrueTest(int column)
+        [Test]
+        public void AreAllColumnsFull_TrueTest([Values(0,1,2,3,4,5,6)] int column)
         {
             var fields = TestHelper.MockFieldArray(new int[,]
             {
@@ -93,14 +96,8 @@ namespace Connect4.Tests.UnitTests
             IBoard board = new Board(fields);
             Assert.AreEqual(true, board.IsColumnFull(column));
         }
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        [TestCase(5)]
-        [TestCase(6)]
-        public void IsColumnFull_FalseTest(int column)
+        [Test]
+        public void IsColumnFull_FalseTest([Values(0, 1, 2, 3, 4, 5, 6)] int column)
         {
             var fields = TestHelper.MockFieldArray(new int[,]
             {
@@ -129,14 +126,8 @@ namespace Connect4.Tests.UnitTests
             IBoard board = new Board(fields);
             Assert.AreEqual(1, board.GetLowestEmptyRow(3));
         }
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        [TestCase(5)]
-        [TestCase(6)]
-        public void GetLowestEmptyRowExceptionTest(int column)
+        [Test]
+        public void GetLowestEmptyRowExceptionTest([Values(0, 1, 2, 3, 4, 5, 6)] int column)
         {
             var fields = TestHelper.MockFieldArray(new int[,]
             {
@@ -172,14 +163,8 @@ namespace Connect4.Tests.UnitTests
             board.InsertChip(row, column, 2);
             Assert.AreEqual(expectedLowestEmptyRow, board.GetLowestEmptyRow(column));
         }
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        [TestCase(5)]
-        [TestCase(6)]
-        public void InsertChipIntoTopRowTest(int column)
+        [Test]
+        public void InsertChipIntoTopRowTest([Values(0, 1, 2, 3, 4, 5, 6)] int column)
         {
             var fields = TestHelper.MockFieldArray(new int[,]
             {
@@ -194,14 +179,8 @@ namespace Connect4.Tests.UnitTests
             board.InsertChip(0, column, 2);
             Assert.AreEqual(true, board.IsColumnFull(column));
         }
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        [TestCase(5)]
-        [TestCase(6)]
-        public void InsertChipExceptionTest(int column)
+        [Test]
+        public void InsertChipExceptionTest([Values(0, 1, 2, 3, 4, 5, 6)] int column)
         {
             var fields = TestHelper.MockFieldArray(new int[,]
             {

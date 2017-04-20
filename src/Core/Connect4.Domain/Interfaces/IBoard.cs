@@ -8,8 +8,8 @@ namespace Connect4.Domain.Interfaces
 {
     public interface IBoard
     {
-        void Reset();
         bool IsColumnFull(int column);
+        bool IsBoardFull();
         int GetLowestEmptyRow(int column);
         void InsertChip(int row, int column, int player);
         bool IsChipConnected(int row, int column);

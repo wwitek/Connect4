@@ -13,15 +13,6 @@ namespace Connect4.Tests.UnitTests
     public class FieldTests
     {
         [Test]
-        public void ResetFieldTest()
-        {
-            IField field = new Field(0, 0);
-            field.PlayerId = 1;
-            field.Reset();
-            Assert.AreEqual(0, field.PlayerId);
-        }
-
-        [Test]
         public void IsEmpty_TrueTest()
         {
             IField field = new Field(0, 0);

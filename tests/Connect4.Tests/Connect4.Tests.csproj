@@ -60,6 +60,7 @@
     <Compile Include="UnitTests\FieldTests.cs" />
     <Compile Include="UnitTests\GameFactoryTests.cs" />
     <Compile Include="UnitTests\GameTests.cs" />
+    <Compile Include="UnitTests\PlayerFactoryTests.cs" />
     <Compile Include="UnitTests\PlayerTests.cs" />
   </ItemGroup>
   <ItemGroup>

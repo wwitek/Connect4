@@ -11,16 +11,16 @@ namespace Connect4.Domain.Factories
 {
     public class GameFactory : IGameFactory
     {
-        private readonly IBoard board;
+        private IBoardFactory BoardFactory { get; }
 
-        public GameFactory(IBoard board)
+        public GameFactory(IBoardFactory boardFactory)
         {
-            this.board = board;
+            BoardFactory = boardFactory;
         }
 
         public IGame Create(List<IPlayer> players)
         {
-
+            IBoard board = BoardFactory.Create(6, 7);
             return new Game(board, players);
         }
     }

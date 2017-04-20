@@ -13,7 +13,7 @@ namespace Connect4.Domain.Entities
         private IBoard Board { get; }
         private List<IPlayer> Players { get; }
         private GameState State { get; set; }
-        private int CurrentPlayer { get; set; }
+        private IPlayer CurrentPlayer { get; set; }
 
         public event EventHandler<MoveEventArgs> OnMoveMade;
 
@@ -22,6 +22,8 @@ namespace Connect4.Domain.Entities
             State = GameState.New;
             Board = board;
             Players = players;
+
+            StartGame();
         }
 
         private async void StartGame()
@@ -32,33 +34,38 @@ namespace Connect4.Domain.Entities
                 {
                     foreach (IPlayer player in Players)
                     {
-                        CurrentPlayer = player.Id;
+                        CurrentPlayer = player;
                         IMove move = player.WaitForMove(Board);
                         OnMoveMade?.Invoke(this, new MoveEventArgs(move));
 
                         State = GameState.Running;
-                        if (move.IsWinner || move.IsDraw) State = GameState.Finished;
+                        if (move.IsWinner || move.IsDraw)
+                        {
+                            State = GameState.Finished;
+                            break;
+                        }
                     }
                 }
             });
         }
 
-        public bool IsMoveValid(int playerId, int column)
+        private bool IsMoveValid(int column)
         {
             if (Board.IsColumnFull(column)) return false;
-            if (playerId != CurrentPlayer) return false;
+            if (!CurrentPlayer.AllowUserInteraction) return false;
             if (State == GameState.Finished || State == GameState.Aborted) return false;
-
             return true;
         }
 
-        public void Move(int playerId, int column)
+        public bool TryMove(int column)
         {
-            IPlayer player = Players.FirstOrDefault(p => p.Id == playerId);
+            if (!IsMoveValid(column)) return false;
+            IPlayer player = Players.FirstOrDefault(p => p.Id == CurrentPlayer.Id);
             if (player != null)
             {
                 player.InjectMove(column);
             }
+            return true;
         }
     }
 }

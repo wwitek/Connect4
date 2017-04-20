@@ -8,6 +8,6 @@ namespace Connect4.Domain.Interfaces.Factories
 {
     public interface IBoardFactory
     {
-        IBoard Create(int width, int height);
+        IBoard Create(int height, int width);
     }
 }

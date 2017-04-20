@@ -30,11 +30,13 @@ namespace Connect4.Domain.Entities.Players
         public IMove WaitForMove(IBoard board)
         {
             int injectedColumn = InjectedMoves.Take();
-
             int row = board.GetLowestEmptyRow(injectedColumn);
             board.InsertChip(row, injectedColumn, Id);
 
-            return new Move(row, injectedColumn, Id);
+            IMove move = new Move(row, injectedColumn, Id);
+            move.IsWinner = board.IsChipConnected(row, injectedColumn);
+            move.IsDraw = !move.IsWinner && board.IsBoardFull(); 
+            return move;
         }
     }
 }

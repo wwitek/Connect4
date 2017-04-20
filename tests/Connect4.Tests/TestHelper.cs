@@ -52,5 +52,11 @@ namespace Connect4.Tests
             var mock = new Mock<IBoard>();
             return mock.Object;
         }
+
+        public static IPlayer MockPlayer(int id)
+        {
+            var mock = new Mock<IPlayer>();
+            return mock.Object;
+        }
     }
 }

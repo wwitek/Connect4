@@ -8,8 +8,8 @@ namespace Connect4.Domain.Enums
 {
     public enum PlayerType
     {
-        Human,
+        Local,
         Bot,
-        OnlinePlayer
+        Online
     }
 }

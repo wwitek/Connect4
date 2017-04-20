@@ -14,9 +14,16 @@ namespace Connect4.Domain.Factories
     {
         public IPlayer Create(PlayerType type, int id)
         {
-
-
-            return new LocalPlayer(id);
+            switch(type)
+            {
+                case PlayerType.Local:
+                    return new LocalPlayer(id);
+                case PlayerType.Bot:
+                    return new BotPlayer(id);
+                case PlayerType.Online:
+                    return new OnlinePlayer(id);
+            }
+            return null;
         }
     }
 }

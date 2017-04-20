@@ -24,22 +24,20 @@ namespace Connect4.Domain.Entities
             Fields = fields;
         }
 
-        public void Reset()
-        {
-            for (int i = 0; i < Height; i++)
-            {
-                for (int j = 0; j < Width; j++)
-                {
-                    Fields[i, j].Reset();
-                }
-            }
-        }
-
         public bool IsColumnFull(int column)
         {
             for (int i = 0; i < Height; i++)
             {
                 if (Fields[i, column].PlayerId == 0) return false;
+            }
+            return true;
+        }
+
+        public bool IsBoardFull()
+        {
+            for (int i = 0; i < Width; i++)
+            {
+                if (!IsColumnFull(i)) return false;
             }
             return true;
         }
@@ -217,23 +215,6 @@ namespace Connect4.Domain.Entities
             tempConnectedFields.Clear();
 
             return allConnectedFields;
-        }
-
-        public override string ToString()
-        {
-            string toReturn = "";
-            string line = "";
-            for (int i = 0; i < Height; i++)
-            {
-                for (int j = 0; j < Width; j++)
-                {
-                    line += (Fields[i, j].PlayerId).ToString() + " ";
-                }
-                toReturn += line + Environment.NewLine;
-                Debug.WriteLine(line);
-                line = "";
-            }
-            return toReturn;
         }
     }
 }
