@@ -1,5 +1,6 @@
 ﻿using Connect4.Domain.Entities;
 using Connect4.Domain.Interfaces;
+using Connect4.Domain.Interfaces.Factories;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Connect4.Tests.UnitTests
             players.Add(TestHelper.MockPlayer(1));
             players.Add(TestHelper.MockPlayer(2));
             IBoard board = TestHelper.MockEmptyBoard();
-
+            
             IGame game = new Game(board, players);
             bool result = game.TryMove(0);
             Assert.AreEqual(true, result);

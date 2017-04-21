@@ -1,4 +1,7 @@
-﻿using Connect4.Domain.Interfaces;
+﻿using Connect4.Domain.Entities;
+using Connect4.Domain.Entities.Players;
+using Connect4.Domain.Factories;
+using Connect4.Domain.Interfaces;
 using Connect4.Domain.Interfaces.Factories;
 using Moq;
 using System;
@@ -49,13 +52,20 @@ namespace Connect4.Tests
 
         public static IBoard MockEmptyBoard()
         {
-            var mock = new Mock<IBoard>();
+            IField[,] fields = MockEmptyFieldArray(6, 7);
+            var mock = new Mock<Board>(fields);
+            return mock.Object;
+        }
+
+        public static IBoardFactory MockBoardFactory()
+        {
+            var mock = new Mock<BoardFactory>();
             return mock.Object;
         }
 
         public static IPlayer MockPlayer(int id)
         {
-            var mock = new Mock<IPlayer>();
+            var mock = new Mock<LocalPlayer>(id) { CallBase = true };
             return mock.Object;
         }
     }
