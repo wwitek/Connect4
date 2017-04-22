@@ -1,5 +1,6 @@
 ﻿using Connect4.Domain.Enums;
 using Connect4.Domain.EventArguments;
+using Connect4.Domain.Exceptions;
 using Connect4.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace Connect4.Domain.Entities
             Board = board;
             Players = players;
 
+            CurrentPlayer = players[0];
             StartGame();
         }
 
@@ -51,8 +53,12 @@ namespace Connect4.Domain.Entities
 
         private bool IsMoveValid(int column)
         {
-            if (Board.IsColumnFull(column)) return false;
-            if (!CurrentPlayer.AllowUserInteraction) return false;
+            if (Board == null) throw new GameException("Board cannot be null. Cannot performe IsMoveValid method");
+            if (CurrentPlayer == null) throw new GameException("CurrentPlayer cannot be null. Cannot performe IsMoveValid method");
+            if (CurrentPlayer.Id == 0) throw new GameException("CurrentPlayer.Id cannot be 0. Cannot performe IsMoveValid method");
+
+            if (Board == null || Board.IsColumnFull(column)) return false;
+            if (CurrentPlayer == null || CurrentPlayer.Id == 0 || !CurrentPlayer.AllowUserInteraction) return false;
             if (State == GameState.Finished || State == GameState.Aborted) return false;
             return true;
         }

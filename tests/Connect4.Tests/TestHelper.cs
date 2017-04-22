@@ -14,7 +14,7 @@ namespace Connect4.Tests
 {
     public static class TestHelper
     {
-        public static IField MockField(int row, int column, int playerId)
+        public static IField FakeField(int row, int column, int playerId)
         {
             var mock = new Mock<IField>();
             mock.SetupAllProperties();
@@ -24,46 +24,40 @@ namespace Connect4.Tests
             return mock.Object;
         }
 
-        public static IField[,] MockEmptyFieldArray(int rows, int columns)
+        public static IField[,] FakeEmptyFieldArray(int rows, int columns)
         {
             IField[,] fields = new IField[rows, columns];
             for (int i = 0; i < fields.GetLength(0); i++)
             {
                 for (int j = 0; j < fields.GetLength(1); j++)
                 {
-                    fields[i, j] = MockField(i, j, 0);
+                    fields[i, j] = FakeField(i, j, 0);
                 }
             }
             return fields;
         }
 
-        public static IField[,] MockFieldArray(int[,] ids)
+        public static IField[,] FakeFieldArray(int[,] ids)
         {
             IField[,] fields = new IField[ids.GetLength(0), ids.GetLength(1)];
             for (int i = 0; i < fields.GetLength(0); i++)
             {
                 for (int j = 0; j < fields.GetLength(1); j++)
                 {
-                    fields[i, j] = MockField(i, j, ids[i, j]);
+                    fields[i, j] = FakeField(i, j, ids[i, j]);
                 }
             }
             return fields;
         }
 
-        public static IBoard MockEmptyBoard()
+        public static IBoard FakeEmptyBoard()
         {
-            IField[,] fields = MockEmptyFieldArray(6, 7);
-            var mock = new Mock<Board>(fields);
-            return mock.Object;
+            IField[,] fieldStubs = FakeEmptyFieldArray(6, 7);
+            var fakeBoard = new Mock<Board>(fieldStubs);
+            return fakeBoard.Object;
         }
 
-        public static IBoardFactory MockBoardFactory()
-        {
-            var mock = new Mock<BoardFactory>();
-            return mock.Object;
-        }
-
-        public static IPlayer MockPlayer(int id)
+        public static IPlayer FakeLocalPlayer(int id)
         {
             var mock = new Mock<LocalPlayer>(id) { CallBase = true };
             return mock.Object;

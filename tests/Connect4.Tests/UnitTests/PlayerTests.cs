@@ -34,26 +34,10 @@ namespace Connect4.Tests.UnitTests
         [Test, Timeout(1000)]
         public void LocalPlayer_WaitForMoveTest()
         {
-            IBoard board = TestHelper.MockEmptyBoard();
+            IBoard board = TestHelper.FakeEmptyBoard();
             IPlayer player = new LocalPlayer(1);
             player.InjectMove(1);
 
-            IMove move = player.WaitForMove(board);
-            Assert.AreEqual(1, move.Column);
-        }
-
-        [Test, Timeout(1000)]
-        public void LocalPlayer_WaitForMoveMultithreadedTest()
-        {
-            IPlayer player = new LocalPlayer(1);
-
-            Task.Factory.StartNew(() =>
-            {
-                Thread.Sleep(100);
-                player.InjectMove(1);
-            });
-
-            IBoard board = TestHelper.MockEmptyBoard();
             IMove move = player.WaitForMove(board);
             Assert.AreEqual(1, move.Column);
         }

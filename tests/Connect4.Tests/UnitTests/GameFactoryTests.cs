@@ -16,24 +16,18 @@ namespace Connect4.Tests.UnitTests
     public class GameFactoryTests
     {
         [Test]
-        public void CreateGameTest()
+        public void CreateGameFactoryTest()
         {
             List<IPlayer> players = new List<IPlayer>();
-            players.Add(TestHelper.MockPlayer(1));
-            players.Add(TestHelper.MockPlayer(2));
+            players.Add(TestHelper.FakeLocalPlayer(1));
+            players.Add(TestHelper.FakeLocalPlayer(2));
 
-            IBoardFactory boardFactory = TestHelper.MockBoardFactory();
+            var mockedBoardFactory = new Mock<IBoardFactory>();
+            
+            IGameFactory gameFactory = new GameFactory(mockedBoardFactory.Object);
+            gameFactory.Create(players);
 
-
-            IGameFactory gameFactory = new GameFactory(boardFactory);
-
-            IGame game = gameFactory.Create(players);
-            bool result = game.TryMove(0);
-            Assert.AreEqual(true, result);
+            mockedBoardFactory.Verify(m => m.Create(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
         }
     }
-
-
-
-
 }

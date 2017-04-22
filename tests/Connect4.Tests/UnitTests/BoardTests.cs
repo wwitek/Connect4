@@ -14,7 +14,7 @@ namespace Connect4.Tests.UnitTests
         [Test]
         public void CreateBoardTest()
         {
-            var fields = TestHelper.MockFieldArray(new int[,]
+            var fields = TestHelper.FakeFieldArray(new int[,]
             {
                 {1, 1, 1, 1, 1, 1, 1},
                 {1, 1, 1, 1, 1, 1, 1},
@@ -39,7 +39,7 @@ namespace Connect4.Tests.UnitTests
         [Test]
         public void IsBoardFull_TrueTest()
         {
-            var fields = TestHelper.MockFieldArray(new int[,]
+            var fields = TestHelper.FakeFieldArray(new int[,]
             {
                 {1, 1, 1, 1, 1, 1, 1},
                 {1, 1, 1, 1, 1, 1, 1},
@@ -54,7 +54,7 @@ namespace Connect4.Tests.UnitTests
         [Test]
         public void IsBoardFull_FalseTest()
         {
-            var fields = TestHelper.MockFieldArray(new int[,]
+            var fields = TestHelper.FakeFieldArray(new int[,]
             {
                 {1, 1, 1, 1, 1, 1, 0},
                 {1, 1, 1, 1, 1, 1, 1},
@@ -67,9 +67,16 @@ namespace Connect4.Tests.UnitTests
             Assert.AreEqual(false, board.IsBoardFull());
         }
         [Test]
+        public void IsBoardFull_Empty_FalseTest()
+        {
+            var fields = TestHelper.FakeEmptyFieldArray(6, 7);
+            IBoard board = new Board(fields);
+            Assert.AreEqual(false, board.IsBoardFull());
+        }
+        [Test]
         public void IsOneColumnFull_TrueTest()
         {
-            var fields = TestHelper.MockFieldArray(new int[,]
+            var fields = TestHelper.FakeFieldArray(new int[,]
             {
                 {0, 1, 0, 0, 0, 0, 0},
                 {0, 1, 0, 0, 0, 0, 0},
@@ -84,7 +91,7 @@ namespace Connect4.Tests.UnitTests
         [Test]
         public void AreAllColumnsFull_TrueTest([Values(0,1,2,3,4,5,6)] int column)
         {
-            var fields = TestHelper.MockFieldArray(new int[,]
+            var fields = TestHelper.FakeFieldArray(new int[,]
             {
                 {1, 1, 1, 1, 1, 1, 1},
                 {1, 1, 1, 1, 1, 1, 1},
@@ -99,7 +106,7 @@ namespace Connect4.Tests.UnitTests
         [Test]
         public void IsColumnFull_FalseTest([Values(0, 1, 2, 3, 4, 5, 6)] int column)
         {
-            var fields = TestHelper.MockFieldArray(new int[,]
+            var fields = TestHelper.FakeFieldArray(new int[,]
             {
                 {0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 1, 0},
@@ -114,7 +121,7 @@ namespace Connect4.Tests.UnitTests
         [Test]
         public void GetLowestEmptyRowTest()
         {
-            var fields = TestHelper.MockFieldArray(new int[,]
+            var fields = TestHelper.FakeFieldArray(new int[,]
             {
                 {0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0},
@@ -129,7 +136,7 @@ namespace Connect4.Tests.UnitTests
         [Test]
         public void GetLowestEmptyRowExceptionTest([Values(0, 1, 2, 3, 4, 5, 6)] int column)
         {
-            var fields = TestHelper.MockFieldArray(new int[,]
+            var fields = TestHelper.FakeFieldArray(new int[,]
             {
                 {1, 1, 1, 1, 1, 1, 1},
                 {1, 1, 1, 1, 1, 1, 1},
@@ -150,7 +157,7 @@ namespace Connect4.Tests.UnitTests
         [TestCase(6, 5, 4)]
         public void InsertChipTest(int column, int row, int expectedLowestEmptyRow)
         {
-            var fields = TestHelper.MockFieldArray(new int[,]
+            var fields = TestHelper.FakeFieldArray(new int[,]
             {
                 {0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0},
@@ -166,7 +173,7 @@ namespace Connect4.Tests.UnitTests
         [Test]
         public void InsertChipIntoTopRowTest([Values(0, 1, 2, 3, 4, 5, 6)] int column)
         {
-            var fields = TestHelper.MockFieldArray(new int[,]
+            var fields = TestHelper.FakeFieldArray(new int[,]
             {
                 {0, 0, 0, 0, 0, 0, 0},
                 {1, 1, 1, 1, 1, 1, 1},
@@ -182,7 +189,7 @@ namespace Connect4.Tests.UnitTests
         [Test]
         public void InsertChipExceptionTest([Values(0, 1, 2, 3, 4, 5, 6)] int column)
         {
-            var fields = TestHelper.MockFieldArray(new int[,]
+            var fields = TestHelper.FakeFieldArray(new int[,]
             {
                 {1, 1, 1, 1, 1, 1, 1},
                 {1, 1, 1, 1, 1, 1, 1},
@@ -199,7 +206,7 @@ namespace Connect4.Tests.UnitTests
         {
             get
             {
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0},
@@ -208,7 +215,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 0, 1, 0, 0, 0},
                     {0, 0, 0, 1, 0, 0, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 1, 0, 0, 0},
                     {0, 0, 0, 1, 0, 0, 0},
@@ -217,7 +224,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 0, 1, 0, 0, 0},
                     {0, 0, 0, 1, 0, 0, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 1, 0, 0, 0},
                     {0, 0, 0, 1, 0, 0, 0},
@@ -226,7 +233,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0},
@@ -235,7 +242,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0},
@@ -244,7 +251,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0},
@@ -253,7 +260,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {1, 0, 0, 0, 0, 0, 0},
                     {0, 1, 0, 0, 0, 0, 0},
@@ -262,7 +269,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 1, 0, 0, 0, 0, 0},
@@ -271,7 +278,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 0, 0, 1, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0},
@@ -280,7 +287,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 0, 0, 1, 0, 0},
                     {0, 0, 0, 0, 0, 1, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 1},
                     {0, 0, 0, 0, 0, 1, 0},
@@ -289,7 +296,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 1, 0},
@@ -298,7 +305,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 1, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0},
@@ -308,7 +315,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 1, 0, 0, 0, 0, 0}
                 });
 
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 1},
                     {0, 0, 0, 0, 0, 1, 0},
@@ -317,7 +324,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 1, 1, 0, 0, 0},
                     {0, 1, 0, 1, 0, 0, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 1, 0, 0, 1},
                     {0, 0, 0, 1, 0, 1, 0},
@@ -326,7 +333,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 1, 1, 0, 0, 0},
                     {0, 1, 0, 1, 0, 0, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {1, 0, 0, 0, 0, 0, 1},
                     {0, 1, 0, 0, 0, 1, 0},
@@ -348,7 +355,7 @@ namespace Connect4.Tests.UnitTests
         {
             get
             {
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0},
@@ -357,7 +364,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 2, 1, 2, 0, 0},
                     {0, 2, 2, 1, 2, 2, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0},
@@ -366,7 +373,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 2, 2, 2, 2, 0},
                     {0, 2, 2, 2, 2, 2, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0},
@@ -375,7 +382,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 2, 2, 2, 2, 0, 0},
                     {0, 2, 2, 2, 2, 2, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 1, 0, 0, 0},
@@ -384,7 +391,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 2, 2, 2, 0, 0},
                     {0, 2, 2, 1, 2, 2, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0},
@@ -393,7 +400,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 2, 0, 1, 0, 0},
                     {0, 2, 2, 0, 2, 2, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0},
@@ -402,7 +409,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 1, 0, 2, 0, 0},
                     {0, 2, 2, 0, 2, 2, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0},
@@ -411,7 +418,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 2, 1, 2, 0, 0},
                     {0, 2, 2, 1, 2, 2, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 2, 0, 0, 0},
                     {0, 0, 0, 1, 0, 0, 0},
@@ -420,7 +427,7 @@ namespace Connect4.Tests.UnitTests
                     {0, 0, 2, 2, 2, 0, 0},
                     {0, 2, 2, 2, 2, 2, 0}
                 });
-                yield return TestHelper.MockFieldArray(new int[,]
+                yield return TestHelper.FakeFieldArray(new int[,]
                 {
                     {0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0},
@@ -443,9 +450,9 @@ namespace Connect4.Tests.UnitTests
             get
             {
                 List<IField> rootNotConnectedField = new List<IField>();
-                rootNotConnectedField.Add(TestHelper.MockField(3, 3, 1));
+                rootNotConnectedField.Add(TestHelper.FakeField(3, 3, 1));
                 yield return new Tuple<IField[,], List<IField>>(
-                    TestHelper.MockFieldArray(new int[,]
+                    TestHelper.FakeFieldArray(new int[,]
                     {
                                         {1, 1, 1, 1, 1, 1, 1},
                                         {1, 2, 2, 2, 2, 2, 1},
@@ -456,34 +463,34 @@ namespace Connect4.Tests.UnitTests
                     }), rootNotConnectedField);
 
                 List<IField> expectedConnectedFields = new List<IField>();
-                expectedConnectedFields.Add(TestHelper.MockField(3, 3, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(3, 3, 1));
                 // Vertically
-                expectedConnectedFields.Add(TestHelper.MockField(2, 3, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(1, 3, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(0, 3, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(4, 3, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(5, 3, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(2, 3, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(1, 3, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(0, 3, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(4, 3, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(5, 3, 1));
                 // Horizontally
-                expectedConnectedFields.Add(TestHelper.MockField(3, 2, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(3, 1, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(3, 0, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(3, 4, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(3, 5, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(3, 6, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(3, 2, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(3, 1, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(3, 0, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(3, 4, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(3, 5, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(3, 6, 1));
                 // Diagonally - Northwest to Southeast
-                expectedConnectedFields.Add(TestHelper.MockField(2, 2, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(1, 1, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(0, 0, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(4, 4, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(5, 5, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(2, 2, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(1, 1, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(0, 0, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(4, 4, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(5, 5, 1));
                 // Diagonally - Southwest to Northeast
-                expectedConnectedFields.Add(TestHelper.MockField(4, 2, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(5, 1, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(2, 4, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(1, 5, 1));
-                expectedConnectedFields.Add(TestHelper.MockField(0, 6, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(4, 2, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(5, 1, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(2, 4, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(1, 5, 1));
+                expectedConnectedFields.Add(TestHelper.FakeField(0, 6, 1));
                 yield return new Tuple<IField[,], List<IField>>(
-                    TestHelper.MockFieldArray(new int[,]
+                    TestHelper.FakeFieldArray(new int[,]
                     {
                         {1, 0, 0, 1, 0, 0, 1},
                         {0, 1, 0, 1, 0, 1, 0},

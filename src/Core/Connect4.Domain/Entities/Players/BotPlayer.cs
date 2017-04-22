@@ -20,7 +20,7 @@ namespace Connect4.Domain.Entities.Players
 
         public bool InjectMove(int column)
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         public IMove WaitForMove(IBoard board)

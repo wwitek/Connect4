@@ -49,6 +49,7 @@
     <Compile Include="Enums\PlayerType.cs" />
     <Compile Include="EventArguments\MoveEventArgs.cs" />
     <Compile Include="Exceptions\BoardException.cs" />
+    <Compile Include="Exceptions\GameException.cs" />
     <Compile Include="Factories\BoardFactory.cs" />
     <Compile Include="Factories\FieldFactory.cs" />
     <Compile Include="Factories\GameFactory.cs" />
