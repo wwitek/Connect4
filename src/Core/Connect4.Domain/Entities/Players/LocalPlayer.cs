@@ -4,7 +4,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Connect4.Domain.Entities.Players
 {
@@ -35,7 +34,7 @@ namespace Connect4.Domain.Entities.Players
 
             IMove move = new Move(row, injectedColumn, Id);
             move.IsWinner = board.IsChipConnected(row, injectedColumn);
-            move.IsDraw = !move.IsWinner && board.IsBoardFull(); 
+            move.IsDraw = !move.IsWinner && board.IsBoardFull();
             return move;
         }
     }

@@ -39,19 +39,7 @@ namespace Connect4.Tests.UnitTests
             players.Add(TestHelper.FakeLocalPlayer(1));
             players.Add(TestHelper.FakeLocalPlayer(2));
 
-            IField[,] fieldStubs = new IField[6, 7];
-            for (int i = 0; i < fieldStubs.GetLength(0); i++)
-            {
-                for (int j = 0; j < fieldStubs.GetLength(1); j++)
-                {
-                    var mock = new Mock<IField>();
-                    mock.SetupAllProperties();
-                    mock.Object.Column = j;
-                    mock.Object.Row = i;
-                    mock.Object.PlayerId = 0;
-                    fieldStubs[i, j] = mock.Object;
-                }
-            }
+            IField[,] fieldStubs = TestHelper.FakeEmptyFieldArray(6, 7);
             var boardStub = new Mock<Board>(fieldStubs);
 
             IGame game = new Game(boardStub.Object, players);
