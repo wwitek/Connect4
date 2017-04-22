@@ -36,9 +36,9 @@ namespace Connect4.Domain.Entities.Players
             int row = board.GetLowestEmptyRow(column);
             board.InsertChip(row, column, Id);
 
-            IMove move = new Move(row, column, Id);
-            move.IsWinner = board.IsChipConnected(row, column);
-            move.IsDraw = !move.IsWinner && board.IsBoardFull();
+            bool isWinner = board.IsChipConnected(row, column);
+            bool isDraw = !isWinner && board.IsBoardFull();
+            IMove move = new Move(row, column, Id, isWinner, isDraw);
             return move;
         }
     }

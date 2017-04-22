@@ -32,9 +32,9 @@ namespace Connect4.Domain.Entities.Players
             int row = board.GetLowestEmptyRow(injectedColumn);
             board.InsertChip(row, injectedColumn, Id);
 
-            IMove move = new Move(row, injectedColumn, Id);
-            move.IsWinner = board.IsChipConnected(row, injectedColumn);
-            move.IsDraw = !move.IsWinner && board.IsBoardFull();
+            bool isWinner = board.IsChipConnected(row, injectedColumn);
+            bool isDraw = !isWinner && board.IsBoardFull();
+            IMove move = new Move(row, injectedColumn, Id, isWinner, isDraw);
             return move;
         }
     }

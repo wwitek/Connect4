@@ -8,11 +8,11 @@ namespace Connect4.Domain.Interfaces
 {
     public interface IMove
     {
-        int Row { get; set; }
-        int Column { get; set; }
-        int PlayerId { get; set; }
+        int Row { get; }
+        int Column { get; }
+        int PlayerId { get; }
 
-        bool IsWinner { get; set; }
-        bool IsDraw { get; set; }
+        bool IsWinner { get; }
+        bool IsDraw { get; }
     }
 }

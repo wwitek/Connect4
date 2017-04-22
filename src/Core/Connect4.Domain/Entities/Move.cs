@@ -1,4 +1,5 @@
-﻿using Connect4.Domain.Interfaces;
+﻿using Connect4.Domain.Exceptions;
+using Connect4.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +10,21 @@ namespace Connect4.Domain.Entities
 {
     public class Move : IMove
     {
-        public int Row { get; set; }
-        public int Column { get; set; }
-        public int PlayerId { get; set; }
-        public bool IsWinner { get; set; }
-        public bool IsDraw { get; set; }
+        public int Row { get; }
+        public int Column { get; }
+        public int PlayerId { get; }
+        public bool IsWinner { get; }
+        public bool IsDraw { get; }
 
-        public Move(int row, int column, int playerId)
+        public Move(int row, int column, int playerId, bool isWinner = false, bool isDraw = false)
         {
+            if (isWinner && isDraw) throw new MoveException("Move cannot be winning and draw at the same time");
+
             Row = row;
             Column = column;
             PlayerId = playerId;
+            IsWinner = isWinner;
+            IsDraw = isDraw;
         }
     }
 }
