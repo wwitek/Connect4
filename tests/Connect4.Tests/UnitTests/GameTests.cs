@@ -33,7 +33,7 @@ namespace Connect4.Tests.UnitTests
         [Test]
         public void GameOnMoveMadeTest()
         {
-            bool OnMoveMadeWasRasied = false;
+            int OnMoveMadeWasRasiedCounter = 0;
 
             List<IPlayer> players = new List<IPlayer>();
             players.Add(TestHelper.FakeLocalPlayer(1));
@@ -43,11 +43,56 @@ namespace Connect4.Tests.UnitTests
             var boardStub = new Mock<Board>(fieldStubs);
 
             IGame game = new Game(boardStub.Object, players);
-            game.OnMoveMade += (s, e) => OnMoveMadeWasRasied = true;
+            game.OnMoveMade += (s, e) => OnMoveMadeWasRasiedCounter++;
 
             game.TryMove(0);
+            Assert.AreEqual(1, OnMoveMadeWasRasiedCounter);
+        }
 
-            Assert.AreEqual(true, OnMoveMadeWasRasied);
+        [Test]
+        public void GameMultipleOnMoveMadeTest()
+        {
+            int OnMoveMadeWasRasiedCounter = 0;
+
+            List<IPlayer> players = new List<IPlayer>();
+            players.Add(TestHelper.FakeLocalPlayer(1));
+            players.Add(TestHelper.FakeLocalPlayer(2));
+
+            IField[,] fieldStubs = TestHelper.FakeEmptyFieldArray(6, 7);
+            var boardStub = new Mock<Board>(fieldStubs);
+
+            IGame game = new Game(boardStub.Object, players);
+            game.OnMoveMade += (s, e) => OnMoveMadeWasRasiedCounter++;
+
+            game.TryMove(0);
+            game.TryMove(0);
+            game.TryMove(0);
+            game.TryMove(0);
+            game.TryMove(0);
+            game.TryMove(0);
+
+            game.TryMove(2);
+            game.TryMove(2);
+            game.TryMove(2);
+            game.TryMove(2);
+            game.TryMove(2);
+            game.TryMove(2);
+
+            game.TryMove(4);
+            game.TryMove(4);
+            game.TryMove(4);
+            game.TryMove(4);
+            game.TryMove(4);
+            game.TryMove(4);
+
+            game.TryMove(6);
+            game.TryMove(6);
+            game.TryMove(6);
+            game.TryMove(6);
+            game.TryMove(6);
+            game.TryMove(6);
+
+            Assert.AreEqual(24, OnMoveMadeWasRasiedCounter);
         }
     }
 }
