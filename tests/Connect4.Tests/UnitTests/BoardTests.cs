@@ -187,7 +187,7 @@ namespace Connect4.Tests.UnitTests
             Assert.AreEqual(true, board.IsColumnFull(column));
         }
         [Test]
-        public void InsertChipExceptionTest([Values(0, 1, 2, 3, 4, 5, 6)] int column)
+        public void InsertChip_FullBoardExceptionTest([Values(0, 1, 2, 3, 4, 5, 6)] int column)
         {
             var fields = TestHelper.FakeFieldArray(new int[,]
             {
@@ -200,6 +200,73 @@ namespace Connect4.Tests.UnitTests
             });
             IBoard board = new Board(fields);
             Assert.That(() => board.InsertChip(0, column, 1), Throws.TypeOf<BoardException>());
+        }
+
+        [TestCase(0, 5)]
+        [TestCase(1, 4)]
+        [TestCase(2, 3)]
+        [TestCase(3, 2)]
+        [TestCase(4, 1)]
+        [TestCase(5, 0)]
+        [TestCase(6, 5)]
+        public void InsertChip_FieldOccupiedExceptionTest(int column, int row)
+        {
+            var fields = TestHelper.FakeFieldArray(new int[,]
+            {
+                {0, 0, 0, 0, 0, 1, 0},
+                {0, 0, 0, 0, 2, 2, 0},
+                {0, 0, 0, 2, 2, 1, 0},
+                {0, 0, 1, 1, 1, 2, 0},
+                {0, 1, 2, 1, 2, 1, 0},
+                {1, 2, 2, 1, 2, 2, 2}
+            });
+            IBoard board = new Board(fields);
+            Assert.That(() => board.InsertChip(row, column, 1), Throws.TypeOf<BoardException>());
+        }
+
+        [TestCase(0, 5)]
+        [TestCase(1, 4)]
+        [TestCase(2, 3)]
+        [TestCase(3, 2)]
+        [TestCase(4, 1)]
+        [TestCase(5, 0)]
+        [TestCase(6, 5)]
+        public void RemoveChipTest(int column, int row)
+        {
+            var fields = TestHelper.FakeFieldArray(new int[,]
+            {
+                {0, 0, 0, 0, 0, 1, 0},
+                {0, 0, 0, 0, 2, 2, 0},
+                {0, 0, 0, 2, 2, 1, 0},
+                {0, 0, 1, 1, 1, 2, 0},
+                {0, 1, 2, 1, 2, 1, 0},
+                {1, 2, 2, 1, 2, 2, 2}
+            });
+            IBoard board = new Board(fields);
+            board.RemoveChip(row, column);
+            board.InsertChip(row, column, 1);
+        }
+
+        [TestCase(0, 5)]
+        [TestCase(1, 4)]
+        [TestCase(2, 3)]
+        [TestCase(3, 2)]
+        [TestCase(4, 1)]
+        [TestCase(5, 0)]
+        [TestCase(6, 5)]
+        public void RemoveChip_AlreadyEmptyExceptionTest(int column, int row)
+        {
+            var fields = TestHelper.FakeFieldArray(new int[,]
+            {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 2, 0},
+                {0, 0, 0, 0, 2, 1, 0},
+                {0, 0, 0, 1, 1, 2, 0},
+                {0, 0, 2, 1, 2, 1, 0},
+                {0, 2, 2, 1, 2, 2, 0}
+            });
+            IBoard board = new Board(fields);
+            Assert.That(() => board.RemoveChip(row, column), Throws.TypeOf<BoardException>());
         }
 
         public static IEnumerable<IField[,]> ConnectedFieldArrays

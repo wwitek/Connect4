@@ -57,7 +57,16 @@ namespace Connect4.Domain.Entities
         public void InsertChip(int row, int column, int playerId)
         {
             if (IsColumnFull(column)) throw new BoardException("Cannot insert chip into this column. It's full already");
+            if (Fields[row, column].PlayerId != 0) throw new BoardException($"The field [row={row},column={column}] is already occupied by player={playerId}");
+
             Fields[row, column].PlayerId = playerId;
+        }
+
+        public void RemoveChip(int row, int column)
+        {
+            if (Fields[row, column].PlayerId == 0) throw new BoardException($"The field [row={row},column={column}] is already empty");
+
+            Fields[row, column].PlayerId = 0;
         }
 
         public bool IsChipConnected(int row, int column)

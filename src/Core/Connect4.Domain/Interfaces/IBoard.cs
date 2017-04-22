@@ -12,6 +12,7 @@ namespace Connect4.Domain.Interfaces
         bool IsBoardFull();
         int GetLowestEmptyRow(int column);
         void InsertChip(int row, int column, int player);
+        void RemoveChip(int row, int column);
         bool IsChipConnected(int row, int column);
         List<IField> GetConnectedChips(int row, int column);
     }
