@@ -8,6 +8,9 @@ namespace Connect4.Domain.Interfaces
 {
     public interface IBoard
     {
+        int Height { get; }
+        int Width { get; }
+
         bool IsColumnFull(int column);
         bool IsBoardFull();
         int GetLowestEmptyRow(int column);

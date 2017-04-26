@@ -1,4 +1,5 @@
-﻿using Connect4.Domain.Interfaces;
+﻿using Connect4.Domain.AI;
+using Connect4.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,13 +26,8 @@ namespace Connect4.Domain.Entities.Players
 
         public IMove WaitForMove(IBoard board)
         {
-            int column = 0;
-            while (true)
-            {
-                Random r = new Random();
-                column = r.Next(0, 6);
-                if (!board.IsColumnFull(column)) break;
-            }
+            AlphaBeta alphaBeta = new AlphaBeta();
+            int column = alphaBeta.GenerateMove(board, 2, 1);
 
             int row = board.GetLowestEmptyRow(column);
             board.InsertChip(row, column, Id);

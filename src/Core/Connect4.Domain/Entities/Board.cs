@@ -14,8 +14,8 @@ namespace Connect4.Domain.Entities
     public class Board : IBoard
     {
         private IField[,] Fields { get; }
-        private int Height { get { return (Fields != null ? Fields.GetLength(0) : 0); } }
-        private int Width { get { return (Fields != null ? Fields.GetLength(1) : 0); } }
+        public int Height { get { return (Fields != null ? Fields.GetLength(0) : 0); } }
+        public int Width { get { return (Fields != null ? Fields.GetLength(1) : 0); } }
 
         public Board(IField[,] fields)
         {
@@ -26,11 +26,7 @@ namespace Connect4.Domain.Entities
 
         public bool IsColumnFull(int column)
         {
-            for (int i = 0; i < Height; i++)
-            {
-                if (Fields[i, column].PlayerId == 0) return false;
-            }
-            return true;
+            return Fields.Cast<IField>().Take(7).ToList()[column].PlayerId != 0;
         }
 
         public bool IsBoardFull()
