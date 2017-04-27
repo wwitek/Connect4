@@ -68,13 +68,13 @@ namespace Connect4.Domain.AI
             int row = Board.GetLowestEmptyRow(column);
             Board.InsertChip(row, column, MyId);
 
-            double value = AlfaBetaPruning(false, MaxDepth, int.MinValue, int.MaxValue, row, column);
+            double value = AlphaBetaPruning(false, MaxDepth, int.MinValue, int.MaxValue, row, column);
 
             Board.RemoveChip(row, column);
             return value;
         }
 
-        private double AlfaBetaPruning(bool isMax, int depth, double alfa, double beta, int insertedRow, int insertedColumn)
+        private double AlphaBetaPruning(bool isMax, int depth, double alpha, double beta, int insertedRow, int insertedColumn)
         {
             columnCounter++;
 
@@ -103,14 +103,14 @@ namespace Connect4.Domain.AI
                         int rowIndex = Board.GetLowestEmptyRow(columnIndex);
                         Board.InsertChip(rowIndex, columnIndex, MyId);
 
-                        double alfabeta = AlfaBetaPruning(false, depth - 1, alfa, beta, rowIndex, columnIndex);
-                        alfa = Math.Max(alfa, alfabeta);
+                        double alphabetaResult = AlphaBetaPruning(false, depth - 1, alpha, beta, rowIndex, columnIndex);
+                        alpha = Math.Max(alpha, alphabetaResult);
 
                         Board.RemoveChip(rowIndex, columnIndex);
-                        if (beta <= alfa) break;
+                        if (beta <= alpha) break;
                     }
                 }
-                return alfa;
+                return alpha;
             }
             else
             {
@@ -121,11 +121,11 @@ namespace Connect4.Domain.AI
                         int rowIndex = Board.GetLowestEmptyRow(columnIndex);
                         Board.InsertChip(rowIndex, columnIndex, OpponentId);
 
-                        double alfabeta = AlfaBetaPruning(true, depth - 1, alfa, beta, rowIndex, columnIndex);
-                        beta = Math.Min(beta, alfabeta);
+                        double alphabetaResult = AlphaBetaPruning(true, depth - 1, alpha, beta, rowIndex, columnIndex);
+                        beta = Math.Min(beta, alphabetaResult);
 
                         Board.RemoveChip(rowIndex, columnIndex);
-                        if (beta <= alfa) break;
+                        if (beta <= alpha) break;
                     }
                 }
                 return beta;
