@@ -15,6 +15,8 @@ namespace Connect4.Domain.AI
         private const int LoseValue = -1;
         private const int DrawValue = 0;
 
+        private readonly int[] ColumnOrder = new int[7] { 3, 2, 4, 1, 5, 0, 6 };
+
         private IBoard Board;
         private int BoardWidth;
         private int MyId;
@@ -66,13 +68,13 @@ namespace Connect4.Domain.AI
             int row = Board.GetLowestEmptyRow(column);
             Board.InsertChip(row, column, MyId);
 
-            double value = AlfaBetaPruning(false, MaxDepth, int.MinValue, int.MaxValue, MyId, row, column);
+            double value = AlfaBetaPruning(false, MaxDepth, int.MinValue, int.MaxValue, row, column);
 
             Board.RemoveChip(row, column);
             return value;
         }
 
-        private double AlfaBetaPruning(bool isMax, int depth, double alfa, double beta, int insertedPlayer, int insertedRow, int insertedColumn)
+        private double AlfaBetaPruning(bool isMax, int depth, double alfa, double beta, int insertedRow, int insertedColumn)
         {
             columnCounter++;
 
@@ -82,7 +84,7 @@ namespace Connect4.Domain.AI
                 double score = 0;
                 if (isConnected)
                 {
-                    score = (insertedPlayer == MyId) ? WinValue : LoseValue;
+                    score = (!isMax) ? WinValue : LoseValue;
                 }
                 else if (depth == 0)
                 {
@@ -94,14 +96,14 @@ namespace Connect4.Domain.AI
 
             if (isMax)
             {
-                for (int columnIndex = 0; columnIndex < BoardWidth; columnIndex++)
+                foreach (int columnIndex in ColumnOrder)
                 {
                     if (!Board.IsColumnFull(columnIndex))
                     {
                         int rowIndex = Board.GetLowestEmptyRow(columnIndex);
                         Board.InsertChip(rowIndex, columnIndex, MyId);
 
-                        double alfabeta = AlfaBetaPruning(false, depth - 1, alfa, beta, MyId, rowIndex, columnIndex);
+                        double alfabeta = AlfaBetaPruning(false, depth - 1, alfa, beta, rowIndex, columnIndex);
                         alfa = Math.Max(alfa, alfabeta);
 
                         Board.RemoveChip(rowIndex, columnIndex);
@@ -112,14 +114,14 @@ namespace Connect4.Domain.AI
             }
             else
             {
-                for (int columnIndex = 0; columnIndex < BoardWidth; columnIndex++)
+                foreach (int columnIndex in ColumnOrder)
                 {
                     if (!Board.IsColumnFull(columnIndex))
                     {
                         int rowIndex = Board.GetLowestEmptyRow(columnIndex);
                         Board.InsertChip(rowIndex, columnIndex, OpponentId);
 
-                        double alfabeta = AlfaBetaPruning(true, depth - 1, alfa, beta, OpponentId, rowIndex, columnIndex);
+                        double alfabeta = AlfaBetaPruning(true, depth - 1, alfa, beta, rowIndex, columnIndex);
                         beta = Math.Min(beta, alfabeta);
 
                         Board.RemoveChip(rowIndex, columnIndex);

@@ -15,7 +15,27 @@ namespace Connect4.Tests.UnitTests
     public class AlphaBetaTests
     {
         [Test]
-        public void FirstTest()
+        public void AlphaBetaTests1()
+        {
+            var fieldStubs = TestHelper.FakeFieldArray(new int[,]
+            {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 1, 0, 0},
+                {0, 2, 0, 0, 1, 0, 0},
+                {0, 2, 1, 2, 1, 0, 0},
+                {1, 1, 1, 2, 2, 2, 0}
+            });
+            var boardStub = new Mock<Board>(fieldStubs) { CallBase = true };
+
+            AlphaBeta alphaBeta = new AlphaBeta();
+            int madeMove = alphaBeta.GenerateMove(boardStub.Object, 2, 1);
+
+            Assert.AreEqual(6, madeMove);
+        }
+
+        [Test]
+        public void AlphaBetaTest2()
         {
             var fieldStubs = TestHelper.FakeFieldArray(new int[,]
             {
@@ -23,7 +43,7 @@ namespace Connect4.Tests.UnitTests
                 {0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
                 {1, 1, 1, 2, 2, 2, 0}
             });
             var boardStub = new Mock<Board>(fieldStubs) { CallBase = true };
