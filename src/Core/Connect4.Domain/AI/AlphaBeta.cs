@@ -22,8 +22,8 @@ namespace Connect4.Domain.AI
         private int MyId;
         private int OpponentId;
 
-        private int columnCounter = 0;
-        private int allCounter = 0;
+        private int columnHits = 0;
+        private int allHits = 0;
 
         public int GenerateMove(IBoard board, int myId, int opponentId)
         {
@@ -39,10 +39,10 @@ namespace Connect4.Domain.AI
                 if (!Board.IsColumnFull(columnIndex))
                 {
                     double value = GetMoveValue(columnIndex);
-                    Debug.WriteLine("Move {0}: {1} ({2})", columnIndex, value, columnCounter);
+                    Debug.WriteLine("Move {0}: {1} ({2})", columnIndex, value, columnHits);
 
-                    allCounter += columnCounter;
-                    columnCounter = 0;
+                    allHits += columnHits;
+                    columnHits = 0;
                     if (value > max)
                     {
                         max = value;
@@ -56,7 +56,7 @@ namespace Connect4.Domain.AI
                 }
             }
 
-            Debug.WriteLine("All hits: {0}", allCounter);
+            Debug.WriteLine("All hits: {0}", allHits);
 
             Random random = new Random();
             int move = moves[random.Next(0, moves.Count)];
@@ -76,7 +76,7 @@ namespace Connect4.Domain.AI
 
         private double AlphaBetaPruning(bool isMax, int depth, double alpha, double beta, int insertedRow, int insertedColumn)
         {
-            columnCounter++;
+            columnHits++;
 
             bool isConnected = Board.IsChipConnected(insertedRow, insertedColumn);
             if (isConnected || depth == 0)
