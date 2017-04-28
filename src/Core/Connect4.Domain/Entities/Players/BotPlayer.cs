@@ -26,7 +26,8 @@ namespace Connect4.Domain.Entities.Players
 
         public IMove WaitForMove(IBoard board)
         {
-            AlphaBeta alphaBeta = new AlphaBeta();
+            IBoardEvaluation eval = new BasicBoardEvaluation();
+            AlphaBeta alphaBeta = new AlphaBeta(eval);
             int column = alphaBeta.GenerateMove(board, 2, 1);
 
             int row = board.GetLowestEmptyRow(column);

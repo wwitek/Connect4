@@ -16,6 +16,7 @@ namespace Connect4.Domain.AI
         private const int DrawValue = 0;
 
         private readonly int[] ColumnOrder = new int[7] { 3, 2, 4, 1, 5, 0, 6 };
+        private IBoardEvaluation Evaluation { get; }
 
         private IBoard Board;
         private int BoardWidth;
@@ -24,6 +25,11 @@ namespace Connect4.Domain.AI
 
         private int columnHits = 0;
         private int allHits = 0;
+
+        public AlphaBeta(IBoardEvaluation evaluation)
+        {
+            Evaluation = evaluation;
+        }
 
         public int GenerateMove(IBoard board, int myId, int opponentId)
         {
@@ -77,7 +83,6 @@ namespace Connect4.Domain.AI
         private double AlphaBetaPruning(bool isMax, int depth, double alpha, double beta, int insertedRow, int insertedColumn)
         {
             columnHits++;
-
             bool isConnected = Board.IsChipConnected(insertedRow, insertedColumn);
             if (isConnected || depth == 0)
             {
