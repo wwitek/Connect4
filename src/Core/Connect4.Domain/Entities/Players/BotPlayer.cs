@@ -28,7 +28,12 @@ namespace Connect4.Domain.Entities.Players
         {
             IBoardEvaluation eval = new BasicBoardEvaluation();
             AlphaBeta alphaBeta = new AlphaBeta(eval);
-            int column = alphaBeta.GenerateMove(board, 2, 1);
+            IterativeDeepeningSearch interDeepeningSearch = new IterativeDeepeningSearch(alphaBeta);
+
+            //int[] order = { 3, 2, 4, 1, 5, 0, 6 };
+            //int column = alphaBeta.GenerateMove(board, 6, 2, 1, ref order).Item1;
+
+            int column = interDeepeningSearch.Search(board, 2, 1);
 
             int row = board.GetLowestEmptyRow(column);
             board.InsertChip(row, column, Id);

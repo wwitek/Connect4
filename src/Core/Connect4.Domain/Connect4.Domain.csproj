@@ -40,6 +40,7 @@
     <Compile Include="AI\AlphaBeta.cs" />
     <Compile Include="AI\BasicBoardEvaluation.cs" />
     <Compile Include="AI\IBoardEvaluation.cs" />
+    <Compile Include="AI\IterativeDeepeningSearch.cs" />
     <Compile Include="Entities\Board.cs" />
     <Compile Include="Entities\Field.cs" />
     <Compile Include="Entities\Game.cs" />
