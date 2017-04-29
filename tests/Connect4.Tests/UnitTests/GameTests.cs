@@ -46,6 +46,7 @@ namespace Connect4.Tests.UnitTests
             game.OnMoveMade += (s, e) => OnMoveMadeWasRasiedCounter++;
 
             game.TryMove(0);
+
             Assert.AreEqual(1, OnMoveMadeWasRasiedCounter);
         }
 

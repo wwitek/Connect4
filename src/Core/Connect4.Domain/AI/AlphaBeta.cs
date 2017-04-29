@@ -11,10 +11,6 @@ namespace Connect4.Domain.AI
     public class AlphaBeta
     {
         private const int MaxDepth = 6;
-        private const int WinValue = 1;
-        private const int LoseValue = -1;
-        private const int DrawValue = 0;
-
         private readonly int[] ColumnOrder = new int[7] { 3, 2, 4, 1, 5, 0, 6 };
         private IBoardEvaluation Evaluation { get; }
 
@@ -24,6 +20,8 @@ namespace Connect4.Domain.AI
         private int OpponentId;
 
         private int columnHits = 0;
+        private int evalHits = 0;
+        private int allEvalHits = 0;
         private int allHits = 0;
 
         public AlphaBeta(IBoardEvaluation evaluation)
@@ -39,16 +37,19 @@ namespace Connect4.Domain.AI
             OpponentId = opponentId;
 
             List<int> moves = new List<int>();
-            double max = -1;
+            double max = double.MinValue;
             for (int columnIndex = 0; columnIndex < BoardWidth; columnIndex++)
             {
                 if (!Board.IsColumnFull(columnIndex))
                 {
                     double value = GetMoveValue(columnIndex);
-                    Debug.WriteLine("Move {0}: {1} ({2})", columnIndex, value, columnHits);
 
+                    Debug.WriteLine("Move {0}: {1} (hits={2},evalHits={3})", columnIndex, value, columnHits, evalHits);
                     allHits += columnHits;
+                    allEvalHits += evalHits;
                     columnHits = 0;
+                    evalHits = 0;
+
                     if (value > max)
                     {
                         max = value;
@@ -63,6 +64,7 @@ namespace Connect4.Domain.AI
             }
 
             Debug.WriteLine("All hits: {0}", allHits);
+            Debug.WriteLine("All eval hits: {0}", allEvalHits);
 
             Random random = new Random();
             int move = moves[random.Next(0, moves.Count)];
@@ -86,17 +88,8 @@ namespace Connect4.Domain.AI
             bool isConnected = Board.IsChipConnected(insertedRow, insertedColumn);
             if (isConnected || depth == 0)
             {
-                double score = 0;
-                if (isConnected)
-                {
-                    score = (!isMax) ? WinValue : LoseValue;
-                }
-                else if (depth == 0)
-                {
-                    score = DrawValue;
-                }
-
-                return score / (MaxDepth - depth + 1);
+                evalHits++;
+                return Evaluation.Evaluate(Board, MyId, OpponentId);
             }
 
             if (isMax)

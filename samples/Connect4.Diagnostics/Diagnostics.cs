@@ -39,18 +39,20 @@ namespace Connect4.Diagnostics
             lock (testLocker)
             {
                 Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Reset();
+
                 AutoResetEvent MoveMadeSignal = new AutoResetEvent(false);
 
                 IGame game = CreateGame(fields);
                 game.OnMoveMade += (s, e) =>
                 {
-                    //string time = "";
+                    string time = "";
                     if (e.Move.PlayerId == 1) stopwatch.Start();
                     if (e.Move.PlayerId == 2)
                     {
                         stopwatch.Stop();
-                        //time = $"(time: { stopwatch.ElapsedMilliseconds }ms)";
-                        //Console.WriteLine($"Moved: { e.Move.Column } { time }");
+                        time = $"(time: { stopwatch.ElapsedMilliseconds }ms)";
+                        Console.WriteLine($"Moved: { e.Move.Column } { time }");
                         MoveMadeSignal.Set();
                     }
                 };

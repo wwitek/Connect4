@@ -54,12 +54,13 @@ namespace Connect4.Diagnostics
             foreach(var sample in samples)
             {
                 long totalTime = 0;
-                for(int i=0;i<10;i++)
+                int count = 1;
+                for(int i=0;i<count;i++)
                 {
                     long oneTestTime = diagnostics.Test(sample.Ids, sample.NextPlayerMove);
                     totalTime += oneTestTime;
                 }
-                Console.WriteLine($"Test { ++testCounter }) Time={ Convert.ToDouble((totalTime / 10)) }ms");
+                Console.WriteLine($"Test { ++testCounter }) Time={ Convert.ToDouble((totalTime / count)) }ms");
             }
             Console.ReadKey();
         }

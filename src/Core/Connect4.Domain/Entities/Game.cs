@@ -16,7 +16,6 @@ namespace Connect4.Domain.Entities
         private List<IPlayer> Players { get; }
         private GameState State { get; set; }
         private IPlayer CurrentPlayer { get; set; }
-        //private AutoResetEvent MoveMadeSignal { get; }
 
         public event EventHandler<MoveEventArgs> OnMoveMade;
 
@@ -27,7 +26,6 @@ namespace Connect4.Domain.Entities
             Players = players;
 
             CurrentPlayer = players[0];
-            //MoveMadeSignal = new AutoResetEvent(false);
             StartGame();
         }
 
@@ -42,7 +40,6 @@ namespace Connect4.Domain.Entities
                         CurrentPlayer = player;
                         IMove move = player.WaitForMove(Board);
                         OnMoveMade?.Invoke(this, new MoveEventArgs(move));
-                        //MoveMadeSignal.Set();
 
                         State = GameState.Running;
                         if (move.IsWinner || move.IsDraw)
@@ -76,7 +73,6 @@ namespace Connect4.Domain.Entities
                 if (player != null)
                 {
                     result = player.InjectMove(column);
-                    //MoveMadeSignal.WaitOne();
                 }
             }
             return result;

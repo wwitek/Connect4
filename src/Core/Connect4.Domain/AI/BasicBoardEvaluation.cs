@@ -22,13 +22,15 @@ namespace Connect4.Domain.AI
             int my1s = my4s.Count(fours => fours.Count(f => f.PlayerId == myId) == 1);
             int my2s = my4s.Count(fours => fours.Count(f => f.PlayerId == myId) == 2);
             int my3s = my4s.Count(fours => fours.Count(f => f.PlayerId == myId) == 3);
-            int opponent1s = my4s.Count(fours => fours.Count(f => f.PlayerId == opponentId) == 1);
-            int opponent2s = my4s.Count(fours => fours.Count(f => f.PlayerId == opponentId) == 2);
-            int opponent3s = my4s.Count(fours => fours.Count(f => f.PlayerId == opponentId) == 3);
+            int myWinning = my4s.Count(fours => fours.Count(f => f.PlayerId == myId) == 4);
 
-            int myScore = my1s + (int)Math.Pow(my2s, 2) + (int)Math.Pow(my3s, 2);
-            int opponentScore = opponent1s + (int)Math.Pow(opponent2s, 2) + (int)Math.Pow(opponent3s, 2);
+            int opponent1s = opponent4s.Count(fours => fours.Count(f => f.PlayerId == opponentId) == 1);
+            int opponent2s = opponent4s.Count(fours => fours.Count(f => f.PlayerId == opponentId) == 2);
+            int opponent3s = opponent4s.Count(fours => fours.Count(f => f.PlayerId == opponentId) == 3);
+            int opponentWinning = opponent4s.Count(fours => fours.Count(f => f.PlayerId == opponentId) == 4);
 
+            int myScore = my1s + my2s * 6 + my3s * 106 + myWinning * 10000;
+            int opponentScore = opponent1s * 2 + opponent2s * 8 + opponent3s * 208 + opponentWinning * 15000;
             return myScore - opponentScore;
         }
     }
