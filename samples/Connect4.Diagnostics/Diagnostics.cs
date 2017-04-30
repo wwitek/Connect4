@@ -28,8 +28,8 @@ namespace Connect4.Diagnostics
             }
             IBoard board = new Board(fields);
             List<IPlayer> players = new List<IPlayer>();
-            players.Add(new LocalPlayer(1));
-            players.Add(new BotPlayer(2));
+            players.Add(new LocalPlayer(2));
+            players.Add(new BotPlayer(1));
             IGame game = new Game(board, players);
             return game;
         }

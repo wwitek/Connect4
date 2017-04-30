@@ -90,7 +90,13 @@ namespace Connect4.Domain.AI
             if (isConnected || depth == 0)
             {
                 evalHits++;
-                return Evaluation.Evaluate(Board, MyId, OpponentId);
+                int evalOld = Evaluation.Evaluate(Board, MyId, OpponentId);
+                int evalNew = Evaluation.FastEvaluate(Board, MyId, OpponentId);
+                if (evalOld != evalNew)
+                {
+                    
+                }
+                return evalOld;
             }
 
             if (isMax)
