@@ -12,11 +12,13 @@ namespace Connect4.Domain.Entities.Players
     {
         public int Id { get; }
         public bool AllowUserInteraction { get; }
+        private IterativeDeepeningSearch InterDeepeningSearch { get; }
 
-        public BotPlayer(int id)
+        public BotPlayer(int id, IterativeDeepeningSearch interDeepeningSearch)
         {
             Id = id;
             AllowUserInteraction = false;
+            InterDeepeningSearch = interDeepeningSearch;
         }
 
         public bool InjectMove(int column)
@@ -26,14 +28,9 @@ namespace Connect4.Domain.Entities.Players
 
         public IMove WaitForMove(IBoard board)
         {
-            IBoardEvaluation eval = new BasicBoardEvaluation();
-            AlphaBeta alphaBeta = new AlphaBeta(eval);
-            IterativeDeepeningSearch interDeepeningSearch = new IterativeDeepeningSearch(alphaBeta);
-
             //int[] order = { 3, 2, 4, 1, 5, 0, 6 };
-            //int column = alphaBeta.GenerateMove(board, 6, 2, 1, ref order).Item1;
-
-            int column = interDeepeningSearch.Search(board, 2, 1);
+            //int column = AlphaBetaSearch.GenerateMove(board, 6, 2, 1, ref order).Item1;
+            int column = InterDeepeningSearch.Search(board, 2, 1);
 
             int row = board.GetLowestEmptyRow(column);
             board.InsertChip(row, column, Id);

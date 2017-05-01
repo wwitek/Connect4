@@ -11,6 +11,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Connect4.Domain.AI;
 
 namespace Connect4.Tester
 {
@@ -23,9 +24,13 @@ namespace Connect4.Tester
         {
             base.OnStartup(e);
 
+            IBoardEvaluation eval = new BasicBoardEvaluation();
+            AlphaBeta alphaBetaSearch = new AlphaBeta(eval);
+            IterativeDeepeningSearch interDeepeningSearch = new IterativeDeepeningSearch(alphaBetaSearch);
+
             IFieldFactory fieldFactory = new FieldFactory();
             IBoardFactory boardFactory = new BoardFactory(fieldFactory);
-            IPlayerFactory playerFactory = new PlayerFactory();
+            IPlayerFactory playerFactory = new PlayerFactory(interDeepeningSearch);
             IGameFactory gameFactory = new GameFactory(boardFactory);
 
             GameAPI api = new GameAPI(gameFactory, playerFactory);

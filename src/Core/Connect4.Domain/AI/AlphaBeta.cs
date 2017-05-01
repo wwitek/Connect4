@@ -86,17 +86,10 @@ namespace Connect4.Domain.AI
         private double AlphaBetaPruning(bool isMax, int depth, double alpha, double beta, int insertedRow, int insertedColumn)
         {
             columnHits++;
-            bool isConnected = Board.IsChipConnected(insertedRow, insertedColumn);
-            if (isConnected || depth == 0)
+            if (depth == 0 || Board.IsChipConnected(insertedRow, insertedColumn))
             {
                 evalHits++;
-                int evalOld = Evaluation.Evaluate(Board, MyId, OpponentId);
-                int evalNew = Evaluation.FastEvaluate(Board, MyId, OpponentId);
-                if (evalOld != evalNew)
-                {
-                    
-                }
-                return evalOld;
+                return Evaluation.Evaluate(Board, MyId, OpponentId); ;
             }
 
             if (isMax)

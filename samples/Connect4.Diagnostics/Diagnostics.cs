@@ -8,14 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Connect4.Domain.AI;
 
 namespace Connect4.Diagnostics
 {
     public class Diagnostics
     {
-        private static readonly object testLocker = new object();
-
-        public IGame CreateGame(int[,] ids)
+        public List<long> BotMoveTest(int[,] ids, int count)
         {
             IField[,] fields = new IField[ids.GetLength(0), ids.GetLength(1)];
             for (int i = 0; i < fields.GetLength(0); i++)
@@ -27,39 +26,25 @@ namespace Connect4.Diagnostics
                 }
             }
             IBoard board = new Board(fields);
-            List<IPlayer> players = new List<IPlayer>();
-            players.Add(new LocalPlayer(2));
-            players.Add(new BotPlayer(1));
-            IGame game = new Game(board, players);
-            return game;
-        }
 
-        public long Test(int[,] fields, int nextPlayerMove)
-        {
-            lock (testLocker)
+            IBoardEvaluation eval = new BasicBoardEvaluation();
+            AlphaBeta alphaBetaSearch = new AlphaBeta(eval);
+            IterativeDeepeningSearch interDeepeningSearch = new IterativeDeepeningSearch(alphaBetaSearch);
+
+            List<long> totalTime = new List<long>();
+            for (int i = 0; i < count; i++)
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Reset();
 
-                AutoResetEvent MoveMadeSignal = new AutoResetEvent(false);
+                stopwatch.Start();
+                int column = interDeepeningSearch.Search(board, 2, 1);
+                stopwatch.Stop();
+                totalTime.Add(stopwatch.ElapsedMilliseconds);
 
-                IGame game = CreateGame(fields);
-                game.OnMoveMade += (s, e) =>
-                {
-                    string time = "";
-                    if (e.Move.PlayerId == 1) stopwatch.Start();
-                    if (e.Move.PlayerId == 2)
-                    {
-                        stopwatch.Stop();
-                        time = $"(time: { stopwatch.ElapsedMilliseconds }ms)";
-                        Console.WriteLine($"Moved: { e.Move.Column } { time }");
-                        MoveMadeSignal.Set();
-                    }
-                };
-                game.TryMove(nextPlayerMove);
-                MoveMadeSignal.WaitOne();
-                return stopwatch.ElapsedMilliseconds;
+                Console.WriteLine($"Moved to column { column } in time={ stopwatch.ElapsedMilliseconds }ml");
             }
+            return totalTime;
         }
     }
 }

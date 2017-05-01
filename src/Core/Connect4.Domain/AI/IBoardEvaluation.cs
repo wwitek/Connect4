@@ -10,6 +10,5 @@ namespace Connect4.Domain.AI
     public interface IBoardEvaluation
     {
         int Evaluate(IBoard board, int myId, int opponentId);
-        int FastEvaluate(IBoard board, int myId, int opponentId);
     }
 }

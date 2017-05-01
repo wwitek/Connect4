@@ -227,8 +227,8 @@ namespace Connect4.Domain.Entities
 
             return allConnectedFields;
         }
-        
-        public List<int> GetEvaluationIds(int rowLength)
+
+        public List<int> GetEvaluationIdsList(int rowLength)
         {
             switch (rowLength)
             {
@@ -243,6 +243,91 @@ namespace Connect4.Domain.Entities
             }
             return null;
         }
+
+        private List<IField[]> RowsOfFour
+        {
+            get
+            {
+                if (_rowsOfFour != null) return _rowsOfFour;
+                List<IField[]> list = new List<IField[]>()
+                {
+                    // Diagonal /
+                    new[] { Fields[3, 0], Fields[2, 1], Fields[1, 2], Fields[0, 3] },
+                    new[] { Fields[5, 3], Fields[4, 4], Fields[3, 5], Fields[2, 6] },
+                    // Diagonal \
+                    new[] { Fields[2, 0], Fields[3, 1], Fields[4, 2], Fields[5, 3] },
+                    new[] { Fields[0, 3], Fields[1, 4], Fields[2, 5], Fields[3, 5] },
+                };
+                _rowsOfFour = list;
+                return list;
+            }
+        }
+        private List<IField[]> RowsOfFive
+        {
+            get
+            {
+                if (_rowsOfFive != null) return _rowsOfFive;
+                List<IField[]> list = new List<IField[]>()
+                {
+                    // Diagonal /
+                    new[] { Fields[4, 0], Fields[3, 1], Fields[2, 2], Fields[1, 3] , Fields[0, 4]},
+                    new[] { Fields[5, 2], Fields[4, 3], Fields[3, 4], Fields[2, 5], Fields[1, 6] },
+                    // Diagonal \
+                    new[] { Fields[1, 0], Fields[2, 1], Fields[3, 2], Fields[4, 3], Fields[5, 4] },
+                    new[] { Fields[0, 2], Fields[1, 3], Fields[2, 4], Fields[3, 5], Fields[4, 5] },
+                };
+                _rowsOfFive = list;
+                return list;
+            }
+        }
+        private List<IField[]> RowsOfSix
+        {
+            get
+            {
+                if (_rowsOfSix != null) return _rowsOfSix;
+                List<IField[]> list = new List<IField[]>()
+                {
+                    // Vertical Fours
+                    new[] { Fields[0, 0], Fields[1, 0], Fields[2, 0], Fields[3, 0], Fields[4, 0], Fields[5, 0] },
+                    new[] { Fields[0, 1], Fields[1, 1], Fields[2, 1], Fields[3, 1], Fields[4, 1], Fields[5, 1] },
+                    new[] { Fields[0, 2], Fields[1, 2], Fields[2, 2], Fields[3, 2], Fields[4, 2], Fields[5, 2] },
+                    new[] { Fields[0, 3], Fields[1, 3], Fields[2, 3], Fields[3, 3], Fields[4, 3], Fields[5, 3] },
+                    new[] { Fields[0, 4], Fields[1, 4], Fields[2, 4], Fields[3, 4], Fields[4, 4], Fields[5, 4] },
+                    new[] { Fields[0, 5], Fields[1, 5], Fields[2, 5], Fields[3, 5], Fields[4, 5], Fields[5, 5] },
+                    new[] { Fields[0, 6], Fields[1, 6], Fields[2, 6], Fields[3, 6], Fields[4, 6], Fields[5, 6] },
+
+                    // Diagonal /
+                    new[] { Fields[5, 0], Fields[4, 1], Fields[3, 2], Fields[2, 3], Fields[1, 4], Fields[0, 5] },
+                    new[] { Fields[5, 1], Fields[4, 2], Fields[3, 3], Fields[2, 4], Fields[1, 5], Fields[0, 6] },
+
+                    // Diagonal \
+                    new[] { Fields[0, 0], Fields[1, 1], Fields[2, 2], Fields[3, 3], Fields[4, 4], Fields[5, 5] },
+                    new[] { Fields[0, 1], Fields[1, 2], Fields[2, 3], Fields[3, 4], Fields[4, 5], Fields[5, 6] },
+                };
+                _rowsOfSix = list;
+                return list;
+            }
+        }
+        private List<IField[]> RowsOfSeven
+        {
+            get
+            {
+                if (_rowsOfSeven != null) return _rowsOfSeven;
+                List<IField[]> list = new List<IField[]>()
+                {
+                    // Horizontal Fours
+                    new[] { Fields[0, 0], Fields[0, 1], Fields[0, 2], Fields[0, 3], Fields[0, 4], Fields[0, 5], Fields[0, 6] },
+                    new[] { Fields[1, 0], Fields[1, 1], Fields[1, 2], Fields[1, 3], Fields[1, 4], Fields[1, 5], Fields[1, 6] },
+                    new[] { Fields[2, 0], Fields[2, 1], Fields[2, 2], Fields[2, 3], Fields[2, 4], Fields[2, 5], Fields[2, 6] },
+                    new[] { Fields[3, 0], Fields[3, 1], Fields[3, 2], Fields[3, 3], Fields[3, 4], Fields[3, 5], Fields[3, 6] },
+                    new[] { Fields[4, 0], Fields[4, 1], Fields[4, 2], Fields[4, 3], Fields[4, 4], Fields[4, 5], Fields[4, 6] },
+                    new[] { Fields[5, 0], Fields[5, 1], Fields[5, 2], Fields[5, 3], Fields[5, 4], Fields[5, 5], Fields[5, 6] },
+                };
+                _rowsOfSeven = list;
+                return list;
+            }
+        }
+
         public List<IField[]> PossibleFours
         {
             get
@@ -328,89 +413,6 @@ namespace Connect4.Domain.Entities
                     new IField[4] { Fields[0, 3], Fields[1, 4], Fields[2, 5], Fields[3, 5] }, //4
                 };
                 _possibleFours = list;
-                return list;
-            }
-        }
-        private List<IField[]> RowsOfFour
-        {
-            get
-            {
-                if (_rowsOfFour != null) return _rowsOfFour;
-                List<IField[]> list = new List<IField[]>()
-                {
-                    // Diagonal /
-                    new[] { Fields[3, 0], Fields[2, 1], Fields[1, 2], Fields[0, 3] },
-                    new[] { Fields[5, 3], Fields[4, 4], Fields[3, 5], Fields[2, 6] },
-                    // Diagonal \
-                    new[] { Fields[2, 0], Fields[3, 1], Fields[4, 2], Fields[5, 3] },
-                    new[] { Fields[0, 3], Fields[1, 4], Fields[2, 5], Fields[3, 5] },
-                };
-                _rowsOfFour = list;
-                return list;
-            }
-        }
-        private List<IField[]> RowsOfFive
-        {
-            get
-            {
-                if (_rowsOfFive != null) return _rowsOfFive;
-                List<IField[]> list = new List<IField[]>()
-                {
-                    // Diagonal /
-                    new[] { Fields[4, 0], Fields[3, 1], Fields[2, 2], Fields[1, 3] , Fields[0, 4]},
-                    new[] { Fields[5, 2], Fields[4, 3], Fields[3, 4], Fields[2, 5], Fields[1, 6] },
-                    // Diagonal \
-                    new[] { Fields[1, 0], Fields[2, 1], Fields[3, 2], Fields[4, 3], Fields[5, 4] },
-                    new[] { Fields[0, 2], Fields[1, 3], Fields[2, 4], Fields[3, 5], Fields[4, 5] },
-                };
-                _rowsOfFive = list;
-                return list;
-            }
-        }
-        private List<IField[]> RowsOfSix
-        {
-            get
-            {
-                if (_rowsOfSix != null) return _rowsOfSix;
-                List<IField[]> list = new List<IField[]>()
-                {
-                    // Vertical Fours
-                    new[] { Fields[0, 0], Fields[1, 0], Fields[2, 0], Fields[3, 0], Fields[4, 0], Fields[5, 0] },
-                    new[] { Fields[0, 1], Fields[1, 1], Fields[2, 1], Fields[3, 1], Fields[4, 1], Fields[5, 1] },
-                    new[] { Fields[0, 2], Fields[1, 2], Fields[2, 2], Fields[3, 2], Fields[4, 2], Fields[5, 2] },
-                    new[] { Fields[0, 3], Fields[1, 3], Fields[2, 3], Fields[3, 3], Fields[4, 3], Fields[5, 3] },
-                    new[] { Fields[0, 4], Fields[1, 4], Fields[2, 4], Fields[3, 4], Fields[4, 4], Fields[5, 4] },
-                    new[] { Fields[0, 5], Fields[1, 5], Fields[2, 5], Fields[3, 5], Fields[4, 5], Fields[5, 5] },
-                    new[] { Fields[0, 6], Fields[1, 6], Fields[2, 6], Fields[3, 6], Fields[4, 6], Fields[5, 6] },
-
-                    // Diagonal /
-                    new[] { Fields[5, 0], Fields[4, 1], Fields[3, 2], Fields[2, 3], Fields[1, 4], Fields[0, 5] },
-                    new[] { Fields[5, 1], Fields[4, 2], Fields[3, 3], Fields[2, 4], Fields[1, 5], Fields[0, 6] },
-
-                    // Diagonal \
-                    new[] { Fields[0, 0], Fields[1, 1], Fields[2, 2], Fields[3, 3], Fields[4, 4], Fields[5, 5] },
-                    new[] { Fields[0, 1], Fields[1, 2], Fields[2, 3], Fields[3, 4], Fields[4, 5], Fields[5, 6] },
-                };
-                _rowsOfSix = list;
-                return list;
-            }
-        }
-        private List<IField[]> RowsOfSeven
-        {
-            get
-            {
-                if (_rowsOfSeven != null) return _rowsOfSeven;
-                List<IField[]> list = new List<IField[]>()
-                {
-                    // Horizontal Fours
-                    new[] { Fields[0, 0], Fields[0, 1], Fields[0, 2], Fields[0, 3], Fields[0, 4], Fields[0, 5], Fields[0, 6] },
-                    new[] { Fields[1, 0], Fields[1, 1], Fields[1, 2], Fields[1, 3], Fields[1, 4], Fields[1, 5], Fields[1, 6] },
-                    new[] { Fields[2, 0], Fields[2, 1], Fields[2, 2], Fields[2, 3], Fields[2, 4], Fields[2, 5], Fields[2, 6] },
-                    new[] { Fields[3, 0], Fields[3, 1], Fields[3, 2], Fields[3, 3], Fields[3, 4], Fields[3, 5], Fields[3, 6] },
-                    new[] { Fields[4, 0], Fields[4, 1], Fields[4, 2], Fields[4, 3], Fields[4, 4], Fields[4, 5], Fields[4, 6] },
-                    new[] { Fields[5, 0], Fields[5, 1], Fields[5, 2], Fields[5, 3], Fields[5, 4], Fields[5, 5], Fields[5, 6] },
-                };
-                _rowsOfSeven = list;
                 return list;
             }
         }

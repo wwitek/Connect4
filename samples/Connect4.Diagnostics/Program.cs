@@ -19,49 +19,44 @@ namespace Connect4.Diagnostics
         static void Main(string[] args)
         {
             Diagnostics diagnostics = new Diagnostics();
-            List<TestSample> samples = new List<TestSample>()
-            {
-                new TestSample(new int[,]
-                {
-                    {0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0},
-                    {0, 2, 0, 0, 2, 0, 0},
-                    {2, 2, 0, 0, 1, 2, 0},
-                    {1, 1, 0, 0, 1, 1, 0}
-                }, 2),
-                new TestSample(new int[,]
-                {
-                    {0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0},
-                    {2, 0, 0, 0, 0, 0, 0},
-                    {1, 1, 1, 2, 0, 2, 0}
-                }, 1),
-                new TestSample(new int[,]
-                {
-                    {0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 1, 0, 2},
-                    {0, 0, 0, 2, 2, 0, 1},
-                    {0, 0, 0, 2, 1, 1, 1},
-                    {0, 0, 0, 1, 2, 1, 2},
-                    {0, 1, 2, 2, 1, 2, 2}
-                }, 0),
-            };
+            List<long> times = new List<long>();
+            double avg = 0;
 
-            int testCounter = 0;
-            foreach(var sample in samples)
+            times = diagnostics.BotMoveTest(new int[,]
             {
-                long totalTime = 0;
-                int count = 1;
-                for(int i=0;i<count;i++)
-                {
-                    long oneTestTime = diagnostics.Test(sample.Ids, sample.NextPlayerMove);
-                    totalTime += oneTestTime;
-                }
-                Console.WriteLine($"Test { ++testCounter }) Time={ Convert.ToDouble((totalTime / count)) }ms");
-            }
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 2, 0, 0, 2, 0, 0},
+                {2, 2, 0, 0, 1, 2, 0},
+                {1, 1, 1, 0, 1, 1, 0}
+            }, 5);
+            avg = times.Average();
+            Console.WriteLine($"Avg Time={ Math.Round(avg, 0) }ml");
+
+            times = diagnostics.BotMoveTest(new int[,]
+            {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {2, 1, 0, 0, 0, 0, 0},
+                {1, 1, 1, 2, 0, 2, 0}
+            }, 5);
+            avg = times.Average();
+            Console.WriteLine($"Avg Time={ Math.Round(avg, 0) }ml");
+
+            times = diagnostics.BotMoveTest(new int[,]
+            {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 1, 0, 2},
+                {0, 0, 0, 2, 2, 0, 1},
+                {0, 0, 0, 2, 1, 1, 1},
+                {0, 0, 0, 1, 2, 1, 2},
+                {1, 1, 2, 2, 1, 2, 2}
+            }, 5);
+            avg = times.Average();
+            Console.WriteLine($"Avg Time={ Math.Round(avg, 0) }ml");
             Console.ReadKey();
         }
     }

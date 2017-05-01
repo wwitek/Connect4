@@ -21,6 +21,6 @@ namespace Connect4.Domain.Interfaces
         List<IField> GetConnectedChips(int row, int column);
 
         List<IField[]> PossibleFours { get; }
-        List<int> GetEvaluationIds(int rowLength);
+        List<int> GetEvaluationIdsList(int rowLength);
     }
 }
