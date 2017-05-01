@@ -22,6 +22,8 @@ namespace Connect4.Diagnostics
             List<long> times = new List<long>();
             double avg = 0;
 
+            int count = 5;
+
             times = diagnostics.BotMoveTest(new int[,]
             {
                 {0, 0, 0, 0, 0, 0, 0},
@@ -30,7 +32,7 @@ namespace Connect4.Diagnostics
                 {0, 2, 0, 0, 2, 0, 0},
                 {2, 2, 0, 0, 1, 2, 0},
                 {1, 1, 1, 0, 1, 1, 0}
-            }, 5);
+            }, count);
             avg = times.Average();
             Console.WriteLine($"Avg Time={ Math.Round(avg, 0) }ml");
 
@@ -42,7 +44,7 @@ namespace Connect4.Diagnostics
                 {0, 0, 0, 0, 0, 0, 0},
                 {2, 1, 0, 0, 0, 0, 0},
                 {1, 1, 1, 2, 0, 2, 0}
-            }, 5);
+            }, count);
             avg = times.Average();
             Console.WriteLine($"Avg Time={ Math.Round(avg, 0) }ml");
 
@@ -54,7 +56,7 @@ namespace Connect4.Diagnostics
                 {0, 0, 0, 2, 1, 1, 1},
                 {0, 0, 0, 1, 2, 1, 2},
                 {1, 1, 2, 2, 1, 2, 2}
-            }, 5);
+            }, count);
             avg = times.Average();
             Console.WriteLine($"Avg Time={ Math.Round(avg, 0) }ml");
             Console.ReadKey();
