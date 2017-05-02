@@ -11,7 +11,6 @@ namespace Connect4.Domain.AI
 {
     public class AlphaBeta
     {
-        private int MaxDepth { get; set; }
         private int[] ColumnOrder { get; set; }
         private IBoardEvaluation Evaluation { get; }
 
@@ -22,65 +21,63 @@ namespace Connect4.Domain.AI
 
         private int columnHits = 0;
         private int evalHits = 0;
-        private int allEvalHits = 0;
-        private int allHits = 0;
-        public int allInAll = 0;
 
         public AlphaBeta(IBoardEvaluation evaluation)
         {
             Evaluation = evaluation;
         }
 
-        public Tuple<int, double> GenerateMove(IBoard board, int maxDepth, int myId, int opponentId, ref int[] columnOrder)
+        public Tuple<int, double> GenerateMove(IBoard board, int depth, int myId, int opponentId, ref int[] columnOrder)
         {
-            allEvalHits = 0;
-            allHits = 0;
+            columnHits = 0;
+            evalHits = 0;
 
             Board = board;
             BoardWidth = board.Width;
             MyId = myId;
             OpponentId = opponentId;
-            MaxDepth = maxDepth;
             ColumnOrder = columnOrder;
 
             List<Tuple<int, double>> moves = new List<Tuple<int, double>>();
-            for (int columnIndex = 0; columnIndex < BoardWidth; columnIndex++)
+            double alphabetaResult = -1000000;
+            foreach (int columnIndex in ColumnOrder)
             {
                 if (!Board.IsColumnFull(columnIndex))
                 {
-                    double value = GetMoveValue(columnIndex);
-
-                    Debug.WriteLine("Move {0}: {1} (hits={2},evalHits={3})", columnIndex, value, columnHits, evalHits);
-                    allHits += columnHits;
-                    allEvalHits += evalHits;
-                    columnHits = 0;
-                    evalHits = 0;
-                    
-                    moves.Add(new Tuple<int, double>(columnIndex, value));
-                }
-                else
-                {
-                    moves.Add(new Tuple<int, double>(columnIndex, -1000000));
+                    int rowIndex = Board.GetLowestEmptyRow(columnIndex);
+                    Board.InsertChip(rowIndex, columnIndex, MyId);
+                    alphabetaResult = Math.Max(alphabetaResult, AlphaBetaPruning(false, depth - 1, int.MinValue, int.MaxValue, rowIndex, columnIndex));
+                    moves.Add(new Tuple<int, double>(columnIndex, alphabetaResult));
+                    Board.RemoveChip(rowIndex, columnIndex);
                 }
             }
 
-            Debug.WriteLine("All hits: {0}", allHits);
-            Debug.WriteLine("All eval hits: {0}", allEvalHits);
-            allInAll += allHits;
+            Debug.WriteLine("All hits: {0}", columnHits);
+            Debug.WriteLine("All eval hits: {0}{1}", evalHits, Environment.NewLine);
 
-            columnOrder = moves.OrderByDescending(m => m.Item2).Select(m => m.Item1).ToArray();
-            return moves.OrderByDescending(m => m.Item2).FirstOrDefault();
+            Tuple<int, double> bestMove = moves.OrderByDescending(m => m.Item2).FirstOrDefault();
+            //columnOrder = UpdateOrder(bestMove, columnOrder);
+            return bestMove;
         }
 
-        private double GetMoveValue(int column)
+        private int[] UpdateOrder(Tuple<int, double> bestMove, int[] currentOrder)
         {
-            int row = Board.GetLowestEmptyRow(column);
-            Board.InsertChip(row, column, MyId);
+            while (currentOrder[0] != bestMove.Item1)
+            {
+                currentOrder = ShiftLeft(currentOrder);
+            }
+            return currentOrder;
+        }
 
-            double value = AlphaBetaPruning(false, MaxDepth, int.MinValue, int.MaxValue, row, column);
-
-            Board.RemoveChip(row, column);
-            return value;
+        public int[] ShiftLeft(int[] arr)
+        {
+            int[] demo = new int[arr.Length];
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+                demo[i] = arr[i + 1];
+            }
+            demo[demo.Length - 1] = arr[0];
+            return demo;
         }
 
         private double AlphaBetaPruning(bool isMax, int depth, double alpha, double beta, int insertedRow, int insertedColumn)
@@ -94,7 +91,7 @@ namespace Connect4.Domain.AI
 
             if (isMax)
             {
-                double alphabetaResult = -10000;
+                double alphabetaResult = -1000000;
                 foreach (int columnIndex in ColumnOrder)
                 {
                     if (!Board.IsColumnFull(columnIndex))
@@ -113,7 +110,7 @@ namespace Connect4.Domain.AI
             }
             else
             {
-                double alphabetaResult = 10000;
+                double alphabetaResult = 1000000;
                 foreach (int columnIndex in ColumnOrder)
                 {
                     if (!Board.IsColumnFull(columnIndex))

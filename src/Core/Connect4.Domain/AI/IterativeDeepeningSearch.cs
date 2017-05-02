@@ -19,16 +19,20 @@ namespace Connect4.Domain.AI
 
         public int Search(IBoard board, int myId, int opponentId)
         {
+            Stopwatch stopwatch = new Stopwatch();
+
             int[] order = {3, 2, 4, 1, 5, 0, 6};
             int depth = 1;
             var result = AlphaBeta.GenerateMove(board, depth, myId, opponentId, ref order);
             while (true)
             {
                 if (Math.Abs(result.Item2) > 5000) return result.Item1;
+                stopwatch.Reset();
+                stopwatch.Start();
                 result = AlphaBeta.GenerateMove(board, ++depth, myId, opponentId, ref order);
-                if (depth == 6) break;
+                stopwatch.Stop();
+                if (stopwatch.ElapsedMilliseconds > 200 || depth == 8) break;
             }
-            Debug.WriteLine("All in all hits: {0}" + Environment.NewLine, AlphaBeta.allInAll);
             return result.Item1;
         }
     }
