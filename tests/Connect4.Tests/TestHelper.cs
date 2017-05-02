@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Connect4.Domain.AI;
 
 namespace Connect4.Tests
 {
@@ -61,6 +62,16 @@ namespace Connect4.Tests
         {
             var mock = new Mock<LocalPlayer>(id) { CallBase = true };
             return mock.Object;
+        }
+
+        public static IterativeDeepeningSearch FakeIterativeDeepeningSearch()
+        {
+            Mock<IBoardEvaluation> evalStub = new Mock<IBoardEvaluation>();
+            Mock<AlphaBeta> alphaBetaSearchStub = new Mock<AlphaBeta>(MockBehavior.Strict, evalStub.Object);
+            Mock<IterativeDeepeningSearch> iterativeDeepeningSearchStub
+                = new Mock<IterativeDeepeningSearch>(MockBehavior.Strict, alphaBetaSearchStub.Object);
+
+            return iterativeDeepeningSearchStub.Object;
         }
     }
 }

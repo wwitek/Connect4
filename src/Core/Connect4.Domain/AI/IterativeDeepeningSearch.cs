@@ -10,7 +10,7 @@ namespace Connect4.Domain.AI
 {
     public class IterativeDeepeningSearch
     {
-        private AlphaBeta AlphaBeta { get; }
+        public AlphaBeta AlphaBeta { get; }
 
         public IterativeDeepeningSearch(AlphaBeta alphaBeta)
         {
