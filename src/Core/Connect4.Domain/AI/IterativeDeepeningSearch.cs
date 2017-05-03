@@ -21,8 +21,9 @@ namespace Connect4.Domain.AI
         {
             Stopwatch stopwatch = new Stopwatch();
 
-            int[] order = {3, 2, 4, 1, 5, 0, 6};
             int depth = 1;
+            List<int> order = new List<int> { 3, 2, 4, 1, 5, 0, 6 };
+
             var result = AlphaBeta.GenerateMove(board, depth, myId, opponentId, ref order);
             while (true)
             {
@@ -31,7 +32,7 @@ namespace Connect4.Domain.AI
                 stopwatch.Start();
                 result = AlphaBeta.GenerateMove(board, ++depth, myId, opponentId, ref order);
                 stopwatch.Stop();
-                if (stopwatch.ElapsedMilliseconds > 200 || depth == 8) break;
+                if (stopwatch.ElapsedMilliseconds > 500 || depth == 8) break;
             }
             return result.Item1;
         }

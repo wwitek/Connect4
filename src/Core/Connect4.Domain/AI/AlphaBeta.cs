@@ -11,27 +11,22 @@ namespace Connect4.Domain.AI
 {
     public class AlphaBeta
     {
-        private int[] ColumnOrder { get; set; }
+        private List<int> ColumnOrder { get; set; }
         private IBoardEvaluation Evaluation { get; }
 
         private IBoard Board { get; set; }
         private int BoardWidth { get; set; }
         private int MyId { get; set; }
         private int OpponentId { get; set; }
-
-        private int columnHits = 0;
-        private int evalHits = 0;
+        private List<int> DefaultOrder { get; } = new List<int> { 3, 2, 4, 1, 5, 0, 6 };
 
         public AlphaBeta(IBoardEvaluation evaluation)
         {
             Evaluation = evaluation;
         }
 
-        public Tuple<int, double> GenerateMove(IBoard board, int depth, int myId, int opponentId, ref int[] columnOrder)
+        public Tuple<int, double> GenerateMove(IBoard board, int depth, int myId, int opponentId, ref List<int> columnOrder)
         {
-            columnHits = 0;
-            evalHits = 0;
-
             Board = board;
             BoardWidth = board.Width;
             MyId = myId;
@@ -51,41 +46,23 @@ namespace Connect4.Domain.AI
                     Board.RemoveChip(rowIndex, columnIndex);
                 }
             }
-
-            Debug.WriteLine("All hits: {0}", columnHits);
-            Debug.WriteLine("All eval hits: {0}{1}", evalHits, Environment.NewLine);
-
+            
             Tuple<int, double> bestMove = moves.OrderByDescending(m => m.Item2).FirstOrDefault();
-            //columnOrder = UpdateOrder(bestMove, columnOrder);
+            columnOrder = UpdateOrder(bestMove.Item1);
             return bestMove;
         }
 
-        private int[] UpdateOrder(Tuple<int, double> bestMove, int[] currentOrder)
+        private List<int> UpdateOrder(int bestColumn)
         {
-            while (currentOrder[0] != bestMove.Item1)
-            {
-                currentOrder = ShiftLeft(currentOrder);
-            }
-            return currentOrder;
-        }
-
-        public int[] ShiftLeft(int[] arr)
-        {
-            int[] demo = new int[arr.Length];
-            for (int i = 0; i < arr.Length - 1; i++)
-            {
-                demo[i] = arr[i + 1];
-            }
-            demo[demo.Length - 1] = arr[0];
-            return demo;
+            List<int> newOrder = new List<int>() { bestColumn };
+            newOrder.AddRange(DefaultOrder.Where(o => o != bestColumn));
+            return newOrder;
         }
 
         private double AlphaBetaPruning(bool isMax, int depth, double alpha, double beta, int insertedRow, int insertedColumn)
         {
-            columnHits++;
             if (depth == 0 || Board.IsChipConnected(insertedRow, insertedColumn))
             {
-                evalHits++;
                 return Evaluation.Evaluate(Board, MyId, OpponentId); ;
             }
 
