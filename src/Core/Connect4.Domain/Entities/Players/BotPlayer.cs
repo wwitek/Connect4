@@ -28,8 +28,8 @@ namespace Connect4.Domain.Entities.Players
 
         public IMove WaitForMove(IBoard board)
         {
-            //int[] order = { 3, 2, 4, 1, 5, 0, 6 };
-            //int column = InterDeepeningSearch.AlphaBeta.GenerateMove(board, 6, 2, 1, ref order).Item1;
+            //List<int> order = new List<int> { 3, 2, 4, 1, 5, 0, 6 };
+            //int column = InterDeepeningSearch.AlphaBeta.GenerateMove(board, 8, 2, 1, ref order).Item1;
             int column = InterDeepeningSearch.Search(board, 2, 1);
 
             int row = board.GetLowestEmptyRow(column);
