@@ -30,11 +30,12 @@ namespace Connect4.Tests.UnitTests
             Assert.AreEqual(true, result);
         }
 
-        [Test]
+        [Test, Timeout(1000)]
         public void GameOnMoveMadeTest()
         {
-            int OnMoveMadeWasRasiedCounter = 0;
+            AutoResetEvent eventSignal = new AutoResetEvent(false);
 
+            int OnMoveMadeWasRasiedCounter = 0;
             List<IPlayer> players = new List<IPlayer>();
             players.Add(TestHelper.FakeLocalPlayer(1));
             players.Add(TestHelper.FakeLocalPlayer(2));
@@ -43,18 +44,23 @@ namespace Connect4.Tests.UnitTests
             var boardStub = new Mock<Board>(fieldStubs);
 
             IGame game = new Game(boardStub.Object, players);
-            game.OnMoveMade += (s, e) => OnMoveMadeWasRasiedCounter++;
-
+            game.OnMoveMade += (s, e) =>
+            {
+                eventSignal.Set();
+                OnMoveMadeWasRasiedCounter++;
+            };
             game.TryMove(0);
 
+            eventSignal.WaitOne();
             Assert.AreEqual(1, OnMoveMadeWasRasiedCounter);
         }
 
-        [Test]
+        [Test, Timeout(5000)]
         public void GameMultipleOnMoveMadeTest()
         {
-            int OnMoveMadeWasRasiedCounter = 0;
+            AutoResetEvent eventSignal = new AutoResetEvent(false);
 
+            int onMoveMadeWasRasiedCounter = 0;
             List<IPlayer> players = new List<IPlayer>();
             players.Add(TestHelper.FakeLocalPlayer(1));
             players.Add(TestHelper.FakeLocalPlayer(2));
@@ -63,37 +69,27 @@ namespace Connect4.Tests.UnitTests
             var boardStub = new Mock<Board>(fieldStubs);
 
             IGame game = new Game(boardStub.Object, players);
-            game.OnMoveMade += (s, e) => OnMoveMadeWasRasiedCounter++;
+            game.OnMoveMade += (s, e) =>
+            {
+                eventSignal.Set();
+                onMoveMadeWasRasiedCounter++;
+            };
 
             game.TryMove(0);
+            eventSignal.WaitOne();
+            Assert.AreEqual(1, onMoveMadeWasRasiedCounter);
+            
             game.TryMove(0);
-            game.TryMove(0);
-            game.TryMove(0);
-            game.TryMove(0);
-            game.TryMove(0);
+            eventSignal.WaitOne();
+            Assert.AreEqual(2, onMoveMadeWasRasiedCounter);
 
-            game.TryMove(2);
-            game.TryMove(2);
-            game.TryMove(2);
-            game.TryMove(2);
-            game.TryMove(2);
-            game.TryMove(2);
+            game.TryMove(0);
+            eventSignal.WaitOne();
+            Assert.AreEqual(3, onMoveMadeWasRasiedCounter);
 
-            game.TryMove(4);
-            game.TryMove(4);
-            game.TryMove(4);
-            game.TryMove(4);
-            game.TryMove(4);
-            game.TryMove(4);
-
-            game.TryMove(6);
-            game.TryMove(6);
-            game.TryMove(6);
-            game.TryMove(6);
-            game.TryMove(6);
-            game.TryMove(6);
-
-            Assert.AreEqual(24, OnMoveMadeWasRasiedCounter);
+            game.TryMove(0);
+            eventSignal.WaitOne();
+            Assert.AreEqual(4, onMoveMadeWasRasiedCounter);
         }
     }
 }

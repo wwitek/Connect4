@@ -411,7 +411,7 @@ namespace Connect4.Tests.UnitTests
                 });
             }
         }
-        [TestCaseSource("ConnectedFieldArrays")]
+        [TestCaseSource(nameof(ConnectedFieldArrays))]
         public void IsConnected_TrueTest(IField[,] fields)
         {
             IBoard board = new Board(fields);
@@ -505,7 +505,7 @@ namespace Connect4.Tests.UnitTests
                 });
             }
         }
-        [TestCaseSource("NotConnectedFieldArrays")]
+        [TestCaseSource(nameof(NotConnectedFieldArrays))]
         public void IsConnected_FalseTest(IField[,] fields)
         {
             IBoard board = new Board(fields);
@@ -568,7 +568,7 @@ namespace Connect4.Tests.UnitTests
                     }), expectedConnectedFields);
             }
         }
-        [TestCaseSource("ConnectedFields")]
+        [TestCaseSource(nameof(ConnectedFields))]
         public void ConnectedFieldsTest(Tuple<IField[,], List<IField>> fields)
         {
             IBoard board = new Board(fields.Item1);

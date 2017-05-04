@@ -52,10 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoardExtensions.cs" />
     <Compile Include="TestHelper.cs" />
     <Compile Include="UnitTests\BasicBoardEvaluationTests.cs" />
     <Compile Include="UnitTests\BoardFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests\BoardGetEvaluationIdsTests.cs" />
     <Compile Include="UnitTests\BoardTests.cs" />
     <Compile Include="UnitTests\FieldFactoryTests.cs" />
     <Compile Include="UnitTests\FieldTests.cs" />
