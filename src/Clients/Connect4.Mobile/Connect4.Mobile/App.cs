@@ -8,6 +8,7 @@ using System.Text;
 using Xamarin.Forms;
 using System.Diagnostics;
 using Prism.Unity;
+using Microsoft.AspNet.SignalR.Client;
 
 namespace Connect4.Mobile
 {
@@ -33,6 +34,17 @@ namespace Connect4.Mobile
         protected override void OnStart()
         {
             // Handle when your app starts
+            try
+            {
+                var hubConnection = new HubConnection("http://10.0.1.60:49919/");
+                var chatHubProxy = hubConnection.CreateHubProxy("GameHub");
+
+                hubConnection.Start();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         protected override void OnSleep()
