@@ -153,6 +153,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\Connect4.API\Connect4.API.csproj">
+      <Project>{3a2922fe-1426-4b57-a3e0-1157ba01b783}</Project>
+      <Name>Connect4.API</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Core\Connect4.Domain\Connect4.Domain.csproj">
       <Project>{d7dc601d-0161-4bb3-b690-5813e7db72d5}</Project>
       <Name>Connect4.Domain</Name>

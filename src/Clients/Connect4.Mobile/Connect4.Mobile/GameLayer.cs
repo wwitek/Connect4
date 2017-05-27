@@ -277,12 +277,10 @@ namespace Connect4.Mobile
             drawBall.AddChild(ball);
 
             float timePerRow = 0.15f;
-            float timeToTake = (BoardCoordinates.GetLength(1) - y) * timePerRow;
+            float timeToMove = (y + 1) * timePerRow;
+            var destinationYPosition = -1 * ((y + 1) * (CircleSize + CircleGap));
 
-            var boardHeight = (BoardCoordinates.GetLength(1) * (CircleSize + CircleGap)) * -1;
-            boardHeight += (y * (CircleSize + CircleGap));
-
-            CCFiniteTimeAction coreAction = new CCMoveTo(timeToTake, new CCPoint(0, boardHeight));
+            CCFiniteTimeAction coreAction = new CCMoveTo(timeToMove, new CCPoint(0, destinationYPosition));
             CCAction easing = new CCEaseBounceInOut(coreAction);
             drawBall.AddAction(coreAction);
         }

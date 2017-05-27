@@ -4,11 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using Xamarin.Forms;
 using System.Diagnostics;
 using Prism.Unity;
+using Microsoft.Practices.Unity;
 using Microsoft.AspNet.SignalR.Client;
+using Connect4.API;
+using Connect4.Domain.Factories;
+using Connect4.Domain.Interfaces.Factories;
+using Connect4.Domain.AI;
 
 namespace Connect4.Mobile
 {
@@ -26,6 +30,13 @@ namespace Connect4.Mobile
 
         protected override void RegisterTypes()
         {
+            Container.RegisterType<IFieldFactory, FieldFactory>();
+            Container.RegisterType<IBoardFactory, BoardFactory>();
+            Container.RegisterType<IGameFactory, GameFactory>();
+            Container.RegisterType<IBoardEvaluation, BasicBoardEvaluation>();
+            Container.RegisterType<IPlayerFactory, PlayerFactory>();
+            Container.RegisterType<IGameAPI, GameAPI>();
+
             Container.RegisterTypeForNavigation<MainNavigationPage>();
             Container.RegisterTypeForNavigation<StartPage, StartPageViewModel>("Start");
             Container.RegisterTypeForNavigation<GamePage, GamePageViewModel>("Game");
@@ -34,17 +45,6 @@ namespace Connect4.Mobile
         protected override void OnStart()
         {
             // Handle when your app starts
-            try
-            {
-                var hubConnection = new HubConnection("http://10.0.1.60:49919/");
-                var chatHubProxy = hubConnection.CreateHubProxy("GameHub");
-
-                hubConnection.Start();
-            }
-            catch (Exception ex)
-            {
-
-            }
         }
 
         protected override void OnSleep()

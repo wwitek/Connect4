@@ -10,12 +10,18 @@ using System.Windows.Input;
 using Connect4.Mobile.EventArguments;
 using Prism.Navigation;
 using Connect4.Domain.Enums;
+using Microsoft.AspNet.SignalR.Client;
+using Connect4.API;
+using Connect4.Domain.EventArguments;
+using Connect4.Mobile.Enums;
 
 namespace Connect4.Mobile.ViewModels
 {
     public class GamePageViewModel : BindableBase, INavigationAware
     {
-        public GamePageViewModel(INavigationService navigationService)
+        private IGameAPI GameAPI { get; set; }
+
+        public GamePageViewModel(INavigationService navigationService, IGameAPI api)
         {
             TouchCommand = new DelegateCommand<object>(OnTouch, CanTouch);
             CreateCommand = new DelegateCommand(OnCreate);
@@ -23,6 +29,8 @@ namespace Connect4.Mobile.ViewModels
             QuitCommand = new DelegateCommand(OnQuit);
 
             NavigationService = navigationService;
+            GameAPI = api;
+            GameAPI.OnMoveMade += GameAPI_OnMoveMade;
         }
 
         public event EventHandler<OnMoveCompletedEventArgs> OnMoveCompleted;
@@ -45,9 +53,18 @@ namespace Connect4.Mobile.ViewModels
             int column = 0;
             if (int.TryParse(touchedColumn.ToString(), out column))
             {
-                OnMoveCompletedEventArgs args = new OnMoveCompletedEventArgs { Player = Enums.PlayerColor.Red, MoveId = 1, Column = column, Row = 0 };
-                OnMoveCompleted?.Invoke(this, args);
+                GameAPI.TryMove(column);
             }
+        }
+
+        private void GameAPI_OnMoveMade(object sender, MoveEventArgs e)
+        {
+            PlayerColor player = (e.Move.PlayerId == 1) ? PlayerColor.Red : PlayerColor.Yellow;
+            int column = e.Move.Column;
+            int row = e.Move.Row;
+
+            OnMoveCompletedEventArgs args = new OnMoveCompletedEventArgs { Player = player, MoveId = 1, Column = column, Row = row };
+            OnMoveCompleted?.Invoke(this, args);
         }
 
         private bool CanTouch(object touchedColumn)
@@ -67,10 +84,32 @@ namespace Connect4.Mobile.ViewModels
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
+            try
+            {
+                Type = (GameType)parameters["Type"];
+                Debug.WriteLine("OnNavigatedFrom - " + Type.ToString());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception: " + ex);
+                NavigationService.GoBackAsync();
+            }
         }
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
+            try
+            {
+                Type = (GameType)parameters["Type"];
+                Debug.WriteLine("OnNavigatedTo - " + Type.ToString());
+
+                GameAPI.Start(Type);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception: " + ex);
+                NavigationService.GoBackAsync();
+            }
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)
@@ -78,7 +117,7 @@ namespace Connect4.Mobile.ViewModels
             try
             {
                 Type = (GameType)parameters["Type"];
-                Debug.WriteLine(Type.ToString());
+                Debug.WriteLine("OnNavigatingTo - " + Type.ToString());
             }
             catch(Exception ex)
             {

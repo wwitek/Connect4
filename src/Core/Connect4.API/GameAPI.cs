@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Connect4.API
 {
-    public class GameAPI
+    public class GameAPI : IGameAPI
     {
         private IGameFactory GameFactory { get; }
         private IPlayerFactory PlayerFactory { get; }

@@ -23,6 +23,7 @@ namespace Connect4.Domain.Entities.Players
 
         public bool InjectMove(int column)
         {
+            // Method used only for a local-type player
             throw new NotImplementedException();
         }
 
