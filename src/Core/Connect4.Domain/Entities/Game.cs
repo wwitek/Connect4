@@ -13,8 +13,6 @@ namespace Connect4.Domain.Entities
 {
     public class Game : IGame
     {
-        private const int dropTimePerRow = 150;
-
         private IBoard Board { get; }
         private List<IPlayer> Players { get; }
 
@@ -34,27 +32,15 @@ namespace Connect4.Domain.Entities
 
         private async void StartGame()
         {
-            await Task.Factory.StartNew(async () =>
+            await Task.Factory.StartNew(() =>
             {
                 while (State != GameState.Finished && State != GameState.Aborted)
                 {
-                    Stopwatch stopwatch = new Stopwatch();
-                    int maxDropTime = 0;
                     foreach (IPlayer player in Players)
                     {
                         CurrentPlayer = player;
                         IMove move = player.WaitForMove(Board);
-
-                        if (!player.AllowUserInteraction)
-                        {
-                            stopwatch.Stop();
-                            int additionalDelay = maxDropTime - (int)stopwatch.ElapsedMilliseconds;
-                            if (additionalDelay > 0) await Task.Delay(additionalDelay);
-                        }
-
                         OnMoveMade?.Invoke(this, new MoveEventArgs(move));
-                        maxDropTime = (move.Row + 1) * dropTimePerRow;
-                        stopwatch.Restart();
 
                         State = GameState.Running;
                         if (move.IsWinner || move.IsDraw)

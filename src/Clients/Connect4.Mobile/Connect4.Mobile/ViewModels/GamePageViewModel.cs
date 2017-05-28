@@ -19,6 +19,10 @@ namespace Connect4.Mobile.ViewModels
 {
     public class GamePageViewModel : BindableBase, INavigationAware
     {
+        private const int dropTimePerRow = 150;
+        private Stopwatch stopwatch = new Stopwatch();
+        private int maxDropTime = 0;
+
         private IGameAPI GameAPI { get; set; }
 
         public GamePageViewModel(INavigationService navigationService, IGameAPI api)
@@ -65,20 +69,26 @@ namespace Connect4.Mobile.ViewModels
             }
         }
 
-        private void GameAPI_OnMoveMade(object sender, MoveEventArgs e)
+        private async void GameAPI_OnMoveMade(object sender, MoveEventArgs e)
         {
             PlayerColor player = (e.Move.PlayerId == 1) ? PlayerColor.Red : PlayerColor.Yellow;
             int column = e.Move.Column;
             int row = e.Move.Row;
 
+            stopwatch.Stop();
+            int additionalDelay = maxDropTime - (int)stopwatch.Elapsed.TotalMilliseconds;
+            if (additionalDelay > 0) await Task.Delay(additionalDelay);
+
             OnMoveCompletedEventArgs args = new OnMoveCompletedEventArgs { Player = player, MoveId = 1, Column = column, Row = row };
             OnMoveCompleted?.Invoke(this, args);
+
+            maxDropTime = (row + 1) * dropTimePerRow;
+            stopwatch.Restart();
         }
 
         private bool CanPreTouch(object touchedColumn)
         {
-            return ((GameAPI != null && (GameAPI.GetGameState() == GameState.New ||  GameAPI.GetGameState() == GameState.Running))
-                && GameAPI.GetCurrentPlayer().AllowUserInteraction);
+            return CanTouch(touchedColumn);
         }
 
         private void OnPreTouch(object touchedColumn)
