@@ -1,5 +1,6 @@
 ﻿using Connect4.Domain.Enums;
 using Connect4.Domain.EventArguments;
+using Connect4.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,7 @@ namespace Connect4.API
         event EventHandler<MoveEventArgs> OnMoveMade;
         void Start(GameType gameType);
         bool TryMove(int column);
+        IPlayer GetCurrentPlayer();
+        GameState GetGameState();
     }
 }

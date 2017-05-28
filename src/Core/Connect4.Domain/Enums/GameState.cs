@@ -9,7 +9,6 @@ namespace Connect4.Domain.Enums
     public enum GameState
     {
         New,
-        Ready,
         Running,
         Finished,
         Aborted

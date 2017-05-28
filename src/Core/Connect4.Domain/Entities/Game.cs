@@ -4,6 +4,7 @@ using Connect4.Domain.Exceptions;
 using Connect4.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,11 +13,13 @@ namespace Connect4.Domain.Entities
 {
     public class Game : IGame
     {
+        private const int dropTimePerRow = 150;
+
         private IBoard Board { get; }
         private List<IPlayer> Players { get; }
-        private GameState State { get; set; }
-        private IPlayer CurrentPlayer { get; set; }
 
+        public GameState State { get; private set; }
+        public IPlayer CurrentPlayer { get; private set; }
         public event EventHandler<MoveEventArgs> OnMoveMade;
 
         public Game(IBoard board, List<IPlayer> players)
@@ -31,15 +34,27 @@ namespace Connect4.Domain.Entities
 
         private async void StartGame()
         {
-            await Task.Factory.StartNew(() =>
+            await Task.Factory.StartNew(async () =>
             {
                 while (State != GameState.Finished && State != GameState.Aborted)
                 {
+                    Stopwatch stopwatch = new Stopwatch();
+                    int maxDropTime = 0;
                     foreach (IPlayer player in Players)
                     {
                         CurrentPlayer = player;
                         IMove move = player.WaitForMove(Board);
+
+                        if (!player.AllowUserInteraction)
+                        {
+                            stopwatch.Stop();
+                            int additionalDelay = maxDropTime - (int)stopwatch.ElapsedMilliseconds;
+                            if (additionalDelay > 0) await Task.Delay(additionalDelay);
+                        }
+
                         OnMoveMade?.Invoke(this, new MoveEventArgs(move));
+                        maxDropTime = (move.Row + 1) * dropTimePerRow;
+                        stopwatch.Restart();
 
                         State = GameState.Running;
                         if (move.IsWinner || move.IsDraw)

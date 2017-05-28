@@ -23,6 +23,7 @@ namespace Connect4.Mobile
         }
 
         public event EventHandler OnCreated;
+        public event EventHandler OnPreTouched;
         public event EventHandler OnTouched;
         public event EventHandler OnReset;
         public event EventHandler OnQuit;
@@ -44,6 +45,7 @@ namespace Connect4.Mobile
                     var contentSearchPaths = new List<string>() { "Fonts", "Sounds", "Images", "Animations" };
                     GameView.ContentManager.SearchPaths = contentSearchPaths;
                     GameScene = new GameScene(GameView);
+                    GameScene.OnPreTouched += (s, e) => OnPreTouched?.Invoke(s, e);
                     GameScene.OnTouched += (s, e) => OnTouched?.Invoke(s, e);
                     GameScene.OnReset += (s, e) => OnReset?.Invoke(s, e);
                     GameScene.OnQuit += (s, e) => OnQuit?.Invoke(s, e);
@@ -51,6 +53,11 @@ namespace Connect4.Mobile
                 }
             }
             OnCreated?.Invoke(sender, ea);
+        }
+
+        public void PreTouch(PlayerColor player, int column)
+        {
+            GameScene.PreTouch(player, column);
         }
 
         public void MoveBall(PlayerColor player, int x, int y)

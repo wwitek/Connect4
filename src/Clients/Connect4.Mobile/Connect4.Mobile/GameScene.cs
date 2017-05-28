@@ -11,6 +11,7 @@ namespace Connect4.Mobile
     public class GameScene : CCScene
     {
         private GameLayer GameLayer { get; }
+        public event EventHandler OnPreTouched;
         public event EventHandler OnTouched;
         public event EventHandler OnReset;
         public event EventHandler OnQuit;
@@ -18,10 +19,16 @@ namespace Connect4.Mobile
         public GameScene(CCGameView gameView) : base(gameView)
         {
             GameLayer = new GameLayer(gameView.DesignResolution.Width, gameView.DesignResolution.Height);
+            GameLayer.OnPreTouched += (s, e) => OnPreTouched?.Invoke(s, e);
             GameLayer.OnTouched += (s, e) => OnTouched?.Invoke(s, e);
             GameLayer.OnReset += (s, e) => OnReset?.Invoke(s, e);
             GameLayer.OnQuit += (s, e) => OnQuit?.Invoke(s, e);
             AddLayer(GameLayer);
+        }
+
+        public void PreTouch(PlayerColor player, int column)
+        {
+            GameLayer.PreTouch(player, column);
         }
 
         public void MoveBall(PlayerColor player, int x, int y)

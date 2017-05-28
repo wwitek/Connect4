@@ -29,6 +29,7 @@ namespace Connect4.Mobile
         private CCLabel LeftScoreLabel { get; set; }
         private CCLabel RightScoreLabel { get; set; }
 
+        public event EventHandler OnPreTouched;
         public event EventHandler OnTouched;
         public event EventHandler OnReset;
         public event EventHandler OnQuit;
@@ -98,13 +99,8 @@ namespace Connect4.Mobile
                 var targetColumn = GetColumnByTouch(touches[0]);
                 if (targetColumn >= 0)
                 {
-                    CCDrawNode ball = DrawBall(PlayerColor.Yellow, targetColumn);
-                    DrawPreDropRoot.RemoveAllChildren();
-                    DrawPreDropRoot.AddChild(ball);
-                }
-                else
-                {
-                    DrawPreDropRoot.RemoveAllChildren();
+                    OnTouchedEventArgs tea = new OnTouchedEventArgs(targetColumn);
+                    OnPreTouched?.Invoke(this, tea);
                 }
             }
         }
@@ -266,6 +262,20 @@ namespace Connect4.Mobile
                     break;
             }
             return ball;
+        }
+
+        public void PreTouch(PlayerColor player, int column)
+        {
+            if (column >= 0)
+            {
+                CCDrawNode ball = DrawBall(player, column);
+                DrawPreDropRoot.RemoveAllChildren();
+                DrawPreDropRoot.AddChild(ball);
+            }
+            else
+            {
+                DrawPreDropRoot.RemoveAllChildren();
+            }
         }
 
         public void MoveBall(PlayerColor player, int x, int y)

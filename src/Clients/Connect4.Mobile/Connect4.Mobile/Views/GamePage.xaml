@@ -19,6 +19,9 @@
     <mobile:GameCocosSharpView.Behaviors>
       <behavior:EventToCommandBehavior EventName="OnCreated" 
                                        Command="{Binding CreateCommand}" />
+      <behavior:EventToCommandBehavior EventName="OnPreTouched" 
+                                       Command="{Binding PreTouchCommand}" 
+                                       EventArgsParameterPath="Column"/>
       <behavior:EventToCommandBehavior EventName="OnTouched" 
                                        Command="{Binding TouchCommand}" 
                                        EventArgsParameterPath="Column"/>

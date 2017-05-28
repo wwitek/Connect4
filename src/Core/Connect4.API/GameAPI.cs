@@ -50,5 +50,15 @@ namespace Connect4.API
         {
             return CurrentGame.TryMove(column);
         }
+
+        public IPlayer GetCurrentPlayer()
+        {
+            return CurrentGame?.CurrentPlayer;
+        }
+
+        public GameState GetGameState()
+        {
+            return (CurrentGame != null) ? CurrentGame.State : GameState.New;
+        }
     }
 }

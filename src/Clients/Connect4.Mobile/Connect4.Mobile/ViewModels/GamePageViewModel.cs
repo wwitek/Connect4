@@ -23,6 +23,7 @@ namespace Connect4.Mobile.ViewModels
 
         public GamePageViewModel(INavigationService navigationService, IGameAPI api)
         {
+            PreTouchCommand = new DelegateCommand<object>(OnPreTouch, CanPreTouch);
             TouchCommand = new DelegateCommand<object>(OnTouch, CanTouch);
             CreateCommand = new DelegateCommand(OnCreate);
             ResetCommand = new DelegateCommand(OnReset);
@@ -34,18 +35,25 @@ namespace Connect4.Mobile.ViewModels
         }
 
         public event EventHandler<OnMoveCompletedEventArgs> OnMoveCompleted;
+        public event EventHandler<OnPreTouchCompletedEventArgs> OnPreTouchCompleted;
 
         public ICommand CreateCommand { get; }
+        public ICommand PreTouchCommand { get; }
         public ICommand TouchCommand { get; }
         public ICommand ResetCommand { get; }
         public ICommand QuitCommand { get; }
 
         private INavigationService NavigationService { get; }
-        private GameType Type { get; set; }
 
         private void OnCreate()
         {
             Debug.WriteLine("ViewModel created");
+        }
+
+        private bool CanTouch(object touchedColumn)
+        {
+            return ((GameAPI != null && (GameAPI.GetGameState() == GameState.New || GameAPI.GetGameState() == GameState.Running))
+                && GameAPI.GetCurrentPlayer().AllowUserInteraction);
         }
 
         private void OnTouch(object touchedColumn)
@@ -67,9 +75,17 @@ namespace Connect4.Mobile.ViewModels
             OnMoveCompleted?.Invoke(this, args);
         }
 
-        private bool CanTouch(object touchedColumn)
+        private bool CanPreTouch(object touchedColumn)
         {
-            return true;
+            return ((GameAPI != null && (GameAPI.GetGameState() == GameState.New ||  GameAPI.GetGameState() == GameState.Running))
+                && GameAPI.GetCurrentPlayer().AllowUserInteraction);
+        }
+
+        private void OnPreTouch(object touchedColumn)
+        {
+            PlayerColor player = (GameAPI.GetCurrentPlayer().Id == 1) ? PlayerColor.Red : PlayerColor.Yellow;
+            OnPreTouchCompletedEventArgs args = new OnPreTouchCompletedEventArgs { Player = player, Column = (int)touchedColumn };
+            OnPreTouchCompleted?.Invoke(this, args);
         }
 
         private void OnReset()
@@ -86,8 +102,8 @@ namespace Connect4.Mobile.ViewModels
         {
             try
             {
-                Type = (GameType)parameters["Type"];
-                Debug.WriteLine("OnNavigatedFrom - " + Type.ToString());
+                var type = (GameType)parameters["Type"];
+                Debug.WriteLine("OnNavigatedFrom - " + type.ToString());
             }
             catch (Exception ex)
             {
@@ -100,10 +116,10 @@ namespace Connect4.Mobile.ViewModels
         {
             try
             {
-                Type = (GameType)parameters["Type"];
-                Debug.WriteLine("OnNavigatedTo - " + Type.ToString());
+                var type = (GameType)parameters["Type"];
+                Debug.WriteLine("OnNavigatedTo - " + type.ToString());
 
-                GameAPI.Start(Type);
+                GameAPI.Start(type);
             }
             catch (Exception ex)
             {
@@ -116,8 +132,8 @@ namespace Connect4.Mobile.ViewModels
         {
             try
             {
-                Type = (GameType)parameters["Type"];
-                Debug.WriteLine("OnNavigatingTo - " + Type.ToString());
+                var type = (GameType)parameters["Type"];
+                Debug.WriteLine("OnNavigatingTo - " + type.ToString());
             }
             catch(Exception ex)
             {
