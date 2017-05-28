@@ -56,8 +56,12 @@ namespace Connect4.Mobile.ViewModels
 
         private bool CanTouch(object touchedColumn)
         {
-            return ((GameAPI != null && (GameAPI.GetGameState() == GameState.New || GameAPI.GetGameState() == GameState.Running))
-                && GameAPI.GetCurrentPlayer().AllowUserInteraction);
+            // If the time since the beinging of the animation is smaller than max drop time
+            bool isNotAnimating = (maxDropTime - (int)stopwatch.ElapsedMilliseconds <= 0);
+            bool isRunningOrNew = GameAPI != null && (GameAPI.GetGameState() == GameState.New || GameAPI.GetGameState() == GameState.Running);
+            bool isLocalPlayer = GameAPI != null && GameAPI.GetCurrentPlayer().AllowUserInteraction;
+
+            return isLocalPlayer && isRunningOrNew && isNotAnimating;
         }
 
         private void OnTouch(object touchedColumn)
