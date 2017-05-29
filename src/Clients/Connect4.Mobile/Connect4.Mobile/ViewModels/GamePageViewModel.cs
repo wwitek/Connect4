@@ -24,6 +24,8 @@ namespace Connect4.Mobile.ViewModels
         private int maxDropTime = 0;
 
         private IGameAPI GameAPI { get; set; }
+        private INavigationService NavigationService { get; }
+        private GameType GameType { get; set; }
 
         public GamePageViewModel(INavigationService navigationService, IGameAPI api)
         {
@@ -47,8 +49,6 @@ namespace Connect4.Mobile.ViewModels
         public ICommand ResetCommand { get; }
         public ICommand QuitCommand { get; }
 
-        private INavigationService NavigationService { get; }
-
         private void OnCreate()
         {
             Debug.WriteLine("ViewModel created");
@@ -58,7 +58,11 @@ namespace Connect4.Mobile.ViewModels
         {
             // If the time since the beinging of the animation is smaller than max drop time
             bool isNotAnimating = (maxDropTime - (int)stopwatch.ElapsedMilliseconds <= 0);
+
+            // Don't allow to touch when game was finished
             bool isRunningOrNew = GameAPI != null && (GameAPI.GetGameState() == GameState.New || GameAPI.GetGameState() == GameState.Running);
+
+            // Don't allow to touch druing online or bot players
             bool isLocalPlayer = GameAPI != null && GameAPI.GetCurrentPlayer().AllowUserInteraction;
 
             return isLocalPlayer && isRunningOrNew && isNotAnimating;
@@ -79,13 +83,20 @@ namespace Connect4.Mobile.ViewModels
             int column = e.Move.Column;
             int row = e.Move.Row;
 
+            // Check if time since last move is shorter than time of last moves animation
+            // If it's shorter, that means the animation is still performing and we need to stop here till it's ended
+            // We know how long the animation will last, becasue we saved max drop time
             stopwatch.Stop();
             int additionalDelay = maxDropTime - (int)stopwatch.Elapsed.TotalMilliseconds;
             if (additionalDelay > 0) await Task.Delay(additionalDelay);
 
+            // Start the animation (invoked event should be caught in the UI layer)
             OnMoveCompletedEventArgs args = new OnMoveCompletedEventArgs { Player = player, MoveId = 1, Column = column, Row = row };
             OnMoveCompleted?.Invoke(this, args);
 
+            // Save the maximum time of ball drop and restart the stopwatch
+            // When the next move is made, check if the time massured is less then max drop time
+            // If it is, wait additional time to be sure that drop animations are not overlapping eachother.
             maxDropTime = (row + 1) * dropTimePerRow;
             stopwatch.Restart();
         }
@@ -105,6 +116,7 @@ namespace Connect4.Mobile.ViewModels
         private void OnReset()
         {
             Debug.WriteLine("Game reset!");
+            GameAPI.Start(GameType);
         }
 
         private void OnQuit()
@@ -133,7 +145,8 @@ namespace Connect4.Mobile.ViewModels
                 var type = (GameType)parameters["Type"];
                 Debug.WriteLine("OnNavigatedTo - " + type.ToString());
 
-                GameAPI.Start(type);
+                GameType = type;
+                GameAPI.Start(GameType);
             }
             catch (Exception ex)
             {

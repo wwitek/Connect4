@@ -45,6 +45,7 @@
     <Compile Include="Entities\Players\BotPlayer.cs" />
     <Compile Include="Entities\Players\LocalPlayer.cs" />
     <Compile Include="Entities\Players\OnlinePlayer.cs" />
+    <Compile Include="Enums\GameResult.cs" />
     <Compile Include="Enums\GameState.cs" />
     <Compile Include="Enums\GameType.cs" />
     <Compile Include="Enums\PlayerType.cs" />

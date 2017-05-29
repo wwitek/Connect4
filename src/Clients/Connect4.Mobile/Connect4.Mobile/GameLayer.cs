@@ -28,6 +28,8 @@ namespace Connect4.Mobile
 
         private CCLabel LeftScoreLabel { get; set; }
         private CCLabel RightScoreLabel { get; set; }
+        private CCLabel PleaseWaitLabel { get; set; }
+        private CCLabel ResultLabel { get; set; }
 
         public event EventHandler OnPreTouched;
         public event EventHandler OnTouched;
@@ -201,6 +203,13 @@ namespace Connect4.Mobile
             quitLabel.AnchorPoint = CCPoint.AnchorMiddleTop;
             DrawBoardRoot.AddChild(quitLabel);
 
+            //Todo
+            PleaseWaitLabel = new CCLabel("Please wait...", "ArialBlack", nameSize, CCLabelFormat.SystemFont);
+            PleaseWaitLabel.Position = new CCPoint(quitLabelXPosition, nameYPosition);
+            PleaseWaitLabel.AnchorPoint = CCPoint.AnchorMiddleTop;
+            //DrawBoardRoot.AddChild(PleaseWaitLabel);
+
+
             BoardHeightRange = new float[2] { bottomBarHeight, scoreYPosition - topBarHeight };
             ResetHeightRange = new float[2] { quitLabelYPosition, quitLabelYPosition + quitSize };
             QuitHeightRange = new float[2] { quitLabelYPosition - quitSize, quitLabelYPosition };
@@ -306,6 +315,16 @@ namespace Connect4.Mobile
                     RightScoreLabel.Text = score.ToString();
                     break;
             }
+        }
+
+        public void ShowPleaseWait()
+        {
+
+        }
+
+        public void ShowResult()
+        {
+
         }
     }
 }
