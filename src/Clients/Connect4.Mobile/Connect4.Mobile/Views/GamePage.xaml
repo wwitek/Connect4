@@ -8,27 +8,64 @@
              xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
              xmlns:behavior="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              NavigationPage.HasNavigationBar="false">
-  <xfg:ContentPageGloss.BackgroundGradient>
-    <xfg:Gradient Rotation="0">
-      <xfg:GradientStep StepColor="#01244C" StepPercentage="0" />
-      <xfg:GradientStep StepColor="#044FA2" StepPercentage="1" />
-    </xfg:Gradient>
-  </xfg:ContentPageGloss.BackgroundGradient>
-  
-  <mobile:GameCocosSharpView x:Name="GameView">
-    <mobile:GameCocosSharpView.Behaviors>
-      <behavior:EventToCommandBehavior EventName="OnCreated" 
-                                       Command="{Binding CreateCommand}" />
-      <behavior:EventToCommandBehavior EventName="OnPreTouched" 
-                                       Command="{Binding PreTouchCommand}" 
-                                       EventArgsParameterPath="Column"/>
-      <behavior:EventToCommandBehavior EventName="OnTouched" 
-                                       Command="{Binding TouchCommand}" 
-                                       EventArgsParameterPath="Column"/>
-      <behavior:EventToCommandBehavior EventName="OnReset"
-                                       Command="{Binding ResetCommand}" />
-      <behavior:EventToCommandBehavior EventName="OnQuit"
-                                       Command="{Binding QuitCommand}" />      
-    </mobile:GameCocosSharpView.Behaviors>
-  </mobile:GameCocosSharpView>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Button">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BorderRadius" Value="15" />
+                <Setter Property="BorderWidth" Value="1" />
+                <Setter Property="BorderColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="45" />
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <xfg:ContentPageGloss.BackgroundGradient>
+        <xfg:Gradient Rotation="0">
+            <xfg:GradientStep StepColor="#01244C" StepPercentage="0" />
+            <xfg:GradientStep StepColor="#044FA2" StepPercentage="1" />
+        </xfg:Gradient>
+    </xfg:ContentPageGloss.BackgroundGradient>
+
+    <Grid Margin="0" Padding="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="{Binding Dimensions.BoardWidth}"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="{Binding Dimensions.BoardHeight}" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="1" Grid.Row="0" Margin="0" Padding="0">
+
+        </Grid>
+
+        <Grid x:Name="BoardGrid" Grid.Column="1" Grid.Row="1" Margin="0" Padding="0">
+            <mobile:GameCocosSharpView x:Name="GameView">
+                <mobile:GameCocosSharpView.Behaviors>
+                    <behavior:EventToCommandBehavior EventName="OnCreated" 
+                                                     Command="{Binding CreateCommand}" />
+                    <behavior:EventToCommandBehavior EventName="OnPreTouched" 
+                                                     Command="{Binding PreTouchCommand}" 
+                                                     EventArgsParameterPath="Column"/>
+                    <behavior:EventToCommandBehavior EventName="OnTouched" 
+                                                     Command="{Binding TouchCommand}" 
+                                                     EventArgsParameterPath="Column"/>
+                </mobile:GameCocosSharpView.Behaviors>
+            </mobile:GameCocosSharpView>
+        </Grid>
+
+        <StackLayout Grid.Column="1" Grid.Row="2">
+            <Button Text="RESET" Command="{Binding ResetCommand}" />
+            <Button Text="QUIT" Command="{Binding QuitCommand}" />
+        </StackLayout>
+    </Grid>
 </ContentPage>

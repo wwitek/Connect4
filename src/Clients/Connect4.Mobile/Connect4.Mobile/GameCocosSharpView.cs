@@ -14,8 +14,8 @@ namespace Connect4.Mobile
         public GameCocosSharpView()
             : base()
         {
-            ScreenWidth = App.ContentWidth;
-            ScreenHeight = App.ContentHeight;
+            ScreenWidth = App.Dimensions.BoardWidth;
+            ScreenHeight = App.Dimensions.BoardHeight;
             Margin = 0;
             HorizontalOptions = LayoutOptions.FillAndExpand;
             VerticalOptions = LayoutOptions.FillAndExpand;
@@ -25,8 +25,6 @@ namespace Connect4.Mobile
         public event EventHandler OnCreated;
         public event EventHandler OnPreTouched;
         public event EventHandler OnTouched;
-        public event EventHandler OnReset;
-        public event EventHandler OnQuit;
 
         private double ScreenWidth { get; }
         private double ScreenHeight { get; }
@@ -47,8 +45,6 @@ namespace Connect4.Mobile
                     GameScene = new GameScene(GameView);
                     GameScene.OnPreTouched += (s, e) => OnPreTouched?.Invoke(s, e);
                     GameScene.OnTouched += (s, e) => OnTouched?.Invoke(s, e);
-                    GameScene.OnReset += (s, e) => OnReset?.Invoke(s, e);
-                    GameScene.OnQuit += (s, e) => OnQuit?.Invoke(s, e);
                     GameView.RunWithScene(GameScene);
                 }
             }

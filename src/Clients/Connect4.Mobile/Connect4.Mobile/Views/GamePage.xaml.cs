@@ -11,6 +11,13 @@ namespace Connect4.Mobile.Views
         public GamePage()
         {
             InitializeComponent();
+            BoardGrid.SizeChanged += OnGridSizeChanged;
+        }
+
+        private void OnGridSizeChanged(object sender, EventArgs e)
+        {
+            double _screenWidth = ((Grid)sender).Width;
+            double _screenHeight = ((Grid)sender).Height;
         }
 
         protected override void OnAppearing()

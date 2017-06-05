@@ -22,19 +22,8 @@ namespace Connect4.Mobile
         private CCNode DrawBoardRoot { get; }
         private CCNode DrawPreDropRoot { get; }
 
-        private float[] BoardHeightRange { get; set; } = new float[2];
-        private float[] ResetHeightRange { get; set; } = new float[2];
-        private float[] QuitHeightRange { get; set; } = new float[2];
-
-        private CCLabel LeftScoreLabel { get; set; }
-        private CCLabel RightScoreLabel { get; set; }
-        private CCLabel PleaseWaitLabel { get; set; }
-        private CCLabel ResultLabel { get; set; }
-
         public event EventHandler OnPreTouched;
         public event EventHandler OnTouched;
-        public event EventHandler OnReset;
-        public event EventHandler OnQuit;
 
         public GameLayer(float viewWidth, float viewHeight)
             : base(C4Colors.StartColor, C4Colors.EndColor, new CCPoint(0f, 1f))
@@ -62,29 +51,12 @@ namespace Connect4.Mobile
             {
                 if (touches.Count > 0)
                 {
-                    GamePagePart partClicked = GetGamePagePartClicked(touches[0]);
-                    if (partClicked == GamePagePart.Board)
+                    var targetColumn = GetColumnByTouch(touches[0]);
+                    if (targetColumn >= 0)
                     {
-                        var targetColumn = GetColumnByTouch(touches[0]);
-                        if (targetColumn >= 0)
-                        {
-                            OnTouchedEventArgs tea = new OnTouchedEventArgs(targetColumn);
-                            OnTouched?.Invoke(this, tea);
-                            DrawPreDropRoot.RemoveAllChildren();
-                        }
-                    }
-                    else if (partClicked == GamePagePart.ResetButton)
-                    {
-                        Debug.WriteLine("Reset");
-                        OnReset?.Invoke(this, EventArgs.Empty);
-                        DrawBallsRoot.RemoveAllChildren(true);
-                        LeftScoreLabel.Text = 0.ToString();
-                        RightScoreLabel.Text = 0.ToString();
-                    }
-                    else if (partClicked == GamePagePart.QuitButton)
-                    {
-                        Debug.WriteLine("Quit");
-                        OnQuit?.Invoke(this, EventArgs.Empty);
+                        OnTouchedEventArgs tea = new OnTouchedEventArgs(targetColumn);
+                        OnTouched?.Invoke(this, tea);
+                        DrawPreDropRoot.RemoveAllChildren();
                     }
                 }
             };
@@ -109,7 +81,10 @@ namespace Connect4.Mobile
 
         private void InitializeBoardCoordinates()
         {
-            float y = (ViewHeight / 2) - (4 * CircleGap) - (4 * CircleSize);
+            // Starting point, when the board is placed in the middle of the screen. 
+            // float y = (ViewHeight / 2) - (4 * CircleGap) - (4 * CircleSize);
+
+            float y = -(CircleSize + CircleGap) + (CircleGap * 2);
             for (int j = 0; j < 6; j++)
             {
                 y += (CircleSize + CircleGap);
@@ -151,105 +126,20 @@ namespace Connect4.Mobile
                     DrawBoardRoot.AddChild(ellipse);
                 }
             }
-
-            float scoreYPosition = ViewHeight - 10;
-            float topBarHeight = scoreYPosition - (BoardCoordinates[0, 5].Y + (float)(CircleSize * 1.5) + CircleGap) - 10;
-            float nameSize = 16;
-            float scoreSize = topBarHeight - nameSize;
-            float nameYPosition = scoreYPosition - scoreSize;
-            float leftXPosition = BoardCoordinates[0, 0].X - (BoardCoordinates[0, 0].X / 2) - EdgeGap;
-            float rightXPosition = BoardCoordinates[6, 0].X + (CircleSize / 2);
-
-            LeftScoreLabel = new CCLabel("0", "ArialBlack", scoreSize, CCLabelFormat.SystemFont);
-            LeftScoreLabel.Color = new CCColor3B(C4Colors.YellowColor);
-            LeftScoreLabel.HorizontalAlignment = CCTextAlignment.Left;
-            LeftScoreLabel.AnchorPoint = CCPoint.AnchorUpperLeft;
-            LeftScoreLabel.Position = new CCPoint(leftXPosition, scoreYPosition);
-            DrawBoardRoot.AddChild(LeftScoreLabel);
-
-            CCLabel player1Label = new CCLabel("PLAYER1", "ArialBlack", nameSize, CCLabelFormat.SystemFont);
-            player1Label.Color = CCColor3B.Yellow;
-            player1Label.HorizontalAlignment = CCTextAlignment.Left;
-            player1Label.AnchorPoint = CCPoint.AnchorUpperLeft;
-            player1Label.Position = new CCPoint(leftXPosition, nameYPosition);
-            DrawBoardRoot.AddChild(player1Label);
-
-            RightScoreLabel = new CCLabel("0", "ArialBlack", scoreSize, CCLabelFormat.SystemFont);
-            RightScoreLabel.Color = new CCColor3B(C4Colors.RedColor);
-            RightScoreLabel.HorizontalAlignment = CCTextAlignment.Right;
-            RightScoreLabel.AnchorPoint = CCPoint.AnchorUpperRight;
-            RightScoreLabel.Position = new CCPoint(rightXPosition, scoreYPosition);
-            DrawBoardRoot.AddChild(RightScoreLabel);
-
-            CCLabel player2Label = new CCLabel("PLAYER2", "ArialBlack", nameSize, CCLabelFormat.SystemFont);
-            player2Label.Color = CCColor3B.Red;
-            player2Label.HorizontalAlignment = CCTextAlignment.Right;
-            player2Label.AnchorPoint = CCPoint.AnchorUpperRight;
-            player2Label.Position = new CCPoint(rightXPosition, nameYPosition);
-            DrawBoardRoot.AddChild(player2Label);
-
-            float bottomBarHeight = BoardCoordinates[0, 0].Y - (float)(CircleSize * 0.5);
-            float quitLabelYPosition = bottomBarHeight / 2;
-            float quitLabelXPosition = ViewWidth / 2;
-            float quitSize = bottomBarHeight / 6;
-
-            CCLabel resetLabel = new CCLabel("RESET", "ArialBlack", quitSize, CCLabelFormat.SystemFont);
-            resetLabel.Position = new CCPoint(quitLabelXPosition, quitLabelYPosition);
-            resetLabel.AnchorPoint = CCPoint.AnchorMiddleBottom;
-            DrawBoardRoot.AddChild(resetLabel);
-
-            CCLabel quitLabel = new CCLabel("QUIT", "ArialBlack", quitSize, CCLabelFormat.SystemFont);
-            quitLabel.Position = new CCPoint(quitLabelXPosition, quitLabelYPosition);
-            quitLabel.AnchorPoint = CCPoint.AnchorMiddleTop;
-            DrawBoardRoot.AddChild(quitLabel);
-
-            //Todo
-            PleaseWaitLabel = new CCLabel("Please wait...", "ArialBlack", nameSize, CCLabelFormat.SystemFont);
-            PleaseWaitLabel.Position = new CCPoint(quitLabelXPosition, nameYPosition);
-            PleaseWaitLabel.AnchorPoint = CCPoint.AnchorMiddleTop;
-            //DrawBoardRoot.AddChild(PleaseWaitLabel);
-
-
-            BoardHeightRange = new float[2] { bottomBarHeight, scoreYPosition - topBarHeight };
-            ResetHeightRange = new float[2] { quitLabelYPosition, quitLabelYPosition + quitSize };
-            QuitHeightRange = new float[2] { quitLabelYPosition - quitSize, quitLabelYPosition };
-        }
-
-        private GamePagePart GetGamePagePartClicked(CCTouch touch)
-        {
-            var clickedY = touch.Location.Y;
-
-            if (clickedY > BoardHeightRange[0] && clickedY < BoardHeightRange[1])
-            {
-                return GamePagePart.Board;
-            }
-            else if (clickedY > ResetHeightRange[0] && clickedY < ResetHeightRange[1])
-            {
-                return GamePagePart.ResetButton;
-            }
-            else if (clickedY > QuitHeightRange[0] && clickedY < QuitHeightRange[1])
-            {
-                return GamePagePart.QuitButton;
-            }
-
-            return GamePagePart.Void;
         }
 
         private int GetColumnByTouch(CCTouch touch)
         {
             var targetColumn = -1;
-            if (GetGamePagePartClicked(touch) == GamePagePart.Board)
+            var clickedX = touch.Location.X;
+            targetColumn = BoardCoordinates.GetLength(0) - 1;
+            for (int i = 0; i < BoardCoordinates.GetLength(0); i++)
             {
-                var clickedX = touch.Location.X;
-                targetColumn = BoardCoordinates.GetLength(0) - 1;
-                for (int i = 0; i < BoardCoordinates.GetLength(0); i++)
+                var x = BoardCoordinates[i, 0].X + (CircleSize / 2) + (CircleGap / 2);
+                if (clickedX < x)
                 {
-                    var x = BoardCoordinates[i, 0].X + (CircleSize / 2) + (CircleGap / 2);
-                    if (clickedX < x)
-                    {
-                        targetColumn = i;
-                        break;
-                    }
+                    targetColumn = i;
+                    break;
                 }
             }
             return targetColumn;
@@ -306,15 +196,7 @@ namespace Connect4.Mobile
 
         public void SetScore(PlayerColor player, int score)
         {
-            switch(player)
-            {
-                case PlayerColor.Yellow:
-                    LeftScoreLabel.Text = score.ToString();
-                    break;
-                case PlayerColor.Red:
-                    RightScoreLabel.Text = score.ToString();
-                    break;
-            }
+
         }
 
         public void ShowPleaseWait()

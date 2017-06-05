@@ -13,6 +13,7 @@ using Connect4.API;
 using Connect4.Domain.Factories;
 using Connect4.Domain.Interfaces.Factories;
 using Connect4.Domain.AI;
+using Connect4.Mobile.Utilities;
 
 namespace Connect4.Mobile
 {
@@ -20,6 +21,7 @@ namespace Connect4.Mobile
     {
         public static float ContentHeight { get; set; }
         public static float ContentWidth { get; set; }
+        public static Dimensions Dimensions { get; private set; }
 
         public App(IPlatformInitializer initializer = null) : base(initializer) { }
 
@@ -30,6 +32,10 @@ namespace Connect4.Mobile
 
         protected override void RegisterTypes()
         {
+            Dimensions dimensions = new Dimensions(ContentWidth, ContentHeight, 7, 6);
+            Container.RegisterInstance(dimensions);
+            Dimensions = dimensions;
+
             Container.RegisterType<IFieldFactory, FieldFactory>();
             Container.RegisterType<IBoardFactory, BoardFactory>();
             Container.RegisterType<IGameFactory, GameFactory>();

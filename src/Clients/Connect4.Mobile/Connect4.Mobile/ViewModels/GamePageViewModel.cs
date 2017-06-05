@@ -14,6 +14,7 @@ using Microsoft.AspNet.SignalR.Client;
 using Connect4.API;
 using Connect4.Domain.EventArguments;
 using Connect4.Mobile.Enums;
+using Connect4.Mobile.Utilities;
 
 namespace Connect4.Mobile.ViewModels
 {
@@ -27,7 +28,7 @@ namespace Connect4.Mobile.ViewModels
         private INavigationService NavigationService { get; }
         private GameType GameType { get; set; }
 
-        public GamePageViewModel(INavigationService navigationService, IGameAPI api)
+        public GamePageViewModel(INavigationService navigationService, IGameAPI api, Dimensions dimensions)
         {
             PreTouchCommand = new DelegateCommand<object>(OnPreTouch, CanPreTouch);
             TouchCommand = new DelegateCommand<object>(OnTouch, CanTouch);
@@ -38,7 +39,10 @@ namespace Connect4.Mobile.ViewModels
             NavigationService = navigationService;
             GameAPI = api;
             GameAPI.OnMoveMade += GameAPI_OnMoveMade;
+            Dimensions = dimensions;
         }
+
+        public Dimensions Dimensions { get; set; }
 
         public event EventHandler<OnMoveCompletedEventArgs> OnMoveCompleted;
         public event EventHandler<OnPreTouchCompletedEventArgs> OnPreTouchCompleted;
