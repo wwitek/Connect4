@@ -31,10 +31,10 @@ namespace Connect4.Mobile
             BoardCoordinates = new CCPoint[7, 6];
             ViewWidth = viewWidth;
             ViewHeight = viewHeight;
-            CircleGap = (float)Math.Ceiling(ViewWidth / 7 * 0.1);
-            CircleSize = (float)Math.Floor((ViewWidth - (CircleGap * 10)) / 7);
-            if (((CircleSize % 2) == 0 && (ViewWidth % 2) != 0) || ((CircleSize % 2) != 0 && (ViewWidth % 2) == 0)) CircleSize--;
-            EdgeGap = (ViewWidth - (CircleGap * 10) - (CircleSize * 7)) / 2;
+            CircleGap = (float)App.Dimensions.CircleGap;
+            CircleSize = (float)App.Dimensions.CircleSize;
+            EdgeGap = (float)App.Dimensions.BoardPadding;
+
             BallRadius = (CircleSize / 2) - 1;
             DrawBallsRoot = new CCNode();
             DrawBoardRoot = new CCNode();
@@ -84,7 +84,7 @@ namespace Connect4.Mobile
             // Starting point, when the board is placed in the middle of the screen. 
             // float y = (ViewHeight / 2) - (4 * CircleGap) - (4 * CircleSize);
 
-            float y = -(CircleSize + CircleGap) + (CircleGap * 2);
+            float y = -(CircleSize + CircleGap) + (CircleGap * 2) + EdgeGap;
             for (int j = 0; j < 6; j++)
             {
                 y += (CircleSize + CircleGap);
@@ -192,21 +192,6 @@ namespace Connect4.Mobile
             CCFiniteTimeAction coreAction = new CCMoveTo(timeToMove, new CCPoint(0, destinationYPosition));
             CCAction easing = new CCEaseBounceInOut(coreAction);
             drawBall.AddAction(coreAction);
-        }
-
-        public void SetScore(PlayerColor player, int score)
-        {
-
-        }
-
-        public void ShowPleaseWait()
-        {
-
-        }
-
-        public void ShowResult()
-        {
-
         }
     }
 }

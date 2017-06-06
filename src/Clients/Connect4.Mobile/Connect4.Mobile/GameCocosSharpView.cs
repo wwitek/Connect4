@@ -60,10 +60,5 @@ namespace Connect4.Mobile
         {
             GameScene.MoveBall(player, x, y);
         }
-
-        public void SetScore(PlayerColor player, int score)
-        {
-            GameScene.SetScore(player, score);
-        }
     }
 }

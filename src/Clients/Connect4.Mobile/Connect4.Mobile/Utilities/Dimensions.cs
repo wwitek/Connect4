@@ -60,8 +60,7 @@ namespace Connect4.Mobile.Utilities
             }
 
             int rowGapsCount = rows + 3;
-            BoardHeight = CircleGap * (rowGapsCount + 1) + CircleSize * (rows + 1);
-
+            BoardHeight = CircleGap * (rowGapsCount + 1) + CircleSize * (rows + 1) + BoardPadding;
             double topAndBottomSpaceHeight = (viewHeight - BoardHeight) / 2;
             if (MinButtonHeight * 2 > topAndBottomSpaceHeight)
             {

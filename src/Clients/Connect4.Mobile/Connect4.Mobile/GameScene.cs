@@ -31,10 +31,5 @@ namespace Connect4.Mobile
         {
             GameLayer.MoveBall(player, x, y);
         }
-
-        public void SetScore(PlayerColor player, int score)
-        {
-            GameLayer.SetScore(player, score);
-        }
     }
 }

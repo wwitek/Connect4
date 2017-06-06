@@ -45,6 +45,7 @@
     <Compile Include="GameLayer.cs" />
     <Compile Include="GameScene.cs" />
     <Compile Include="GameCocosSharpView.cs" />
+    <Compile Include="Utilities\Colors.cs" />
     <Compile Include="Utilities\Dimensions.cs" />
     <Compile Include="ViewModels\StartPageViewModel.cs" />
     <Compile Include="Views\GamePage.xaml.cs">
