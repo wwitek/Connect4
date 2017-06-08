@@ -1,5 +1,6 @@
 ﻿using CocosSharp;
 using Connect4.Mobile.Enums;
+using Connect4.Mobile.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,6 @@ namespace Connect4.Mobile
         public GameCocosSharpView()
             : base()
         {
-            ScreenWidth = App.Dimensions.BoardWidth;
-            ScreenHeight = App.Dimensions.BoardHeight;
             Margin = 0;
             HorizontalOptions = LayoutOptions.FillAndExpand;
             VerticalOptions = LayoutOptions.FillAndExpand;
@@ -26,10 +25,54 @@ namespace Connect4.Mobile
         public event EventHandler OnPreTouched;
         public event EventHandler OnTouched;
 
-        private double ScreenWidth { get; }
-        private double ScreenHeight { get; }
         private CCGameView GameView { get; set; }
         private GameScene GameScene { get; set; }
+
+        public Dimensions Dimensions
+        {
+            get
+            {
+                return (Dimensions)GetValue(DimensionsProperty);
+            }
+            set
+            {
+                try
+                {
+                    SetValue(DimensionsProperty, value);
+                }
+                catch (ArgumentException ex)
+                {
+                    // We need to do something here to let the user know
+                    // the value passed in failed databinding validation
+                    SetValue(DimensionsProperty, null);
+                }
+            }
+        }
+        public static readonly BindableProperty DimensionsProperty =
+           BindableProperty.Create(nameof(Dimensions), typeof(Dimensions), typeof(GameCocosSharpView), null);
+
+        public Colors Colors
+        {
+            get
+            {
+                return (Colors)GetValue(ColorsProperty);
+            }
+            set
+            {
+                try
+                {
+                    SetValue(ColorsProperty, value);
+                }
+                catch (ArgumentException ex)
+                {
+                    // We need to do something here to let the user know
+                    // the value passed in failed databinding validation
+                    SetValue(ColorsProperty, null);
+                }
+            }
+        }
+        public static readonly BindableProperty ColorsProperty =
+           BindableProperty.Create(nameof(Colors), typeof(Colors), typeof(GameCocosSharpView), null);
 
         private void OnViewCreated(object sender, EventArgs ea)
         {
@@ -38,11 +81,13 @@ namespace Connect4.Mobile
                 GameView = sender as CCGameView;
                 if (GameView != null)
                 {
-                    GameView.DesignResolution = new CCSizeI((int)ScreenWidth, (int)ScreenHeight);
+                    double screenWidth = Dimensions.BoardWidth;
+                    double screenHeight = Dimensions.BoardHeight;
+                    GameView.DesignResolution = new CCSizeI((int)screenWidth, (int)screenHeight);
 
                     var contentSearchPaths = new List<string>() { "Fonts", "Sounds", "Images", "Animations" };
                     GameView.ContentManager.SearchPaths = contentSearchPaths;
-                    GameScene = new GameScene(GameView);
+                    GameScene = new GameScene(GameView, Dimensions, Colors);
                     GameScene.OnPreTouched += (s, e) => OnPreTouched?.Invoke(s, e);
                     GameScene.OnTouched += (s, e) => OnTouched?.Invoke(s, e);
                     GameView.RunWithScene(GameScene);

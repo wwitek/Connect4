@@ -1,5 +1,6 @@
 ﻿using CocosSharp;
 using Connect4.Mobile.Enums;
+using Connect4.Mobile.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,9 @@ namespace Connect4.Mobile
         public event EventHandler OnPreTouched;
         public event EventHandler OnTouched;
 
-        public GameScene(CCGameView gameView) : base(gameView)
+        public GameScene(CCGameView gameView, Dimensions dimensions, Colors colors) : base(gameView)
         {
-            GameLayer = new GameLayer(gameView.DesignResolution.Width, gameView.DesignResolution.Height);
+            GameLayer = new GameLayer(gameView.DesignResolution.Width, gameView.DesignResolution.Height, dimensions, colors);
             GameLayer.OnPreTouched += (s, e) => OnPreTouched?.Invoke(s, e);
             GameLayer.OnTouched += (s, e) => OnTouched?.Invoke(s, e);
             AddLayer(GameLayer);

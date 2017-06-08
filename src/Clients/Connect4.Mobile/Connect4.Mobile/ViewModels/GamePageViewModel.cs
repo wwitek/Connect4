@@ -28,7 +28,7 @@ namespace Connect4.Mobile.ViewModels
         private INavigationService NavigationService { get; }
         private GameType GameType { get; set; }
 
-        public GamePageViewModel(INavigationService navigationService, IGameAPI api, Dimensions dimensions)
+        public GamePageViewModel(INavigationService navigationService, IGameAPI api, Dimensions dimensions, Colors colors)
         {
             PreTouchCommand = new DelegateCommand<object>(OnPreTouch, CanPreTouch);
             TouchCommand = new DelegateCommand<object>(OnTouch, CanTouch);
@@ -40,9 +40,12 @@ namespace Connect4.Mobile.ViewModels
             GameAPI = api;
             GameAPI.OnMoveMade += GameAPI_OnMoveMade;
             Dimensions = dimensions;
+            Colors = colors;
         }
 
         public Dimensions Dimensions { get; set; }
+        public Colors Colors { get; set; }
+        public string StartColor => "#01244C";
 
         public event EventHandler<OnMoveCompletedEventArgs> OnMoveCompleted;
         public event EventHandler<OnPreTouchCompletedEventArgs> OnPreTouchCompleted;

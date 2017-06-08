@@ -21,19 +21,24 @@ namespace Connect4.Mobile
         private CCNode DrawBallsRoot { get; }
         private CCNode DrawBoardRoot { get; }
         private CCNode DrawPreDropRoot { get; }
+        private Dimensions Dimensions { get; }
+        private Colors Colors { get; }
 
         public event EventHandler OnPreTouched;
         public event EventHandler OnTouched;
 
-        public GameLayer(float viewWidth, float viewHeight)
-            : base(C4Colors.StartColor, C4Colors.EndColor, new CCPoint(0f, 1f))
+        public GameLayer(float viewWidth, float viewHeight, Dimensions dimensions, Colors colors)
+            : base(colors.StartColor, colors.EndColor, new CCPoint(0f, 1f))
         {
             BoardCoordinates = new CCPoint[7, 6];
+            Dimensions = dimensions;
+            Colors = colors;
+
             ViewWidth = viewWidth;
             ViewHeight = viewHeight;
-            CircleGap = (float)App.Dimensions.CircleGap;
-            CircleSize = (float)App.Dimensions.CircleSize;
-            EdgeGap = (float)App.Dimensions.BoardPadding;
+            CircleGap = (float)dimensions.CircleGap;
+            CircleSize = (float)dimensions.CircleSize;
+            EdgeGap = (float)dimensions.BoardPadding;
 
             BallRadius = (CircleSize / 2) - 1;
             DrawBallsRoot = new CCNode();
@@ -115,14 +120,14 @@ namespace Connect4.Mobile
                     circle.DrawSolidCircle(
                         new CCPoint(x, y),
                         radius: CircleSize / 2,
-                        color: C4Colors.CircleLighterColor);
+                        color: Colors.CircleLighterColor);
                     DrawBoardRoot.AddChild(circle);
 
                     CCDrawNode ellipse = new CCDrawNode();
                     ellipse.DrawEllipse(
                         rect: new CCRect(x - (CircleSize / 2), y - (CircleSize / 2), CircleSize, CircleSize),
                         lineWidth: 1,
-                        color: C4Colors.CircleBorderLight);
+                        color: Colors.CircleBorderLight);
                     DrawBoardRoot.AddChild(ellipse);
                 }
             }
@@ -154,10 +159,10 @@ namespace Connect4.Mobile
             switch (player)
             {
                 case PlayerColor.Yellow:
-                    ball.DrawSolidCircle(pos, radius: BallRadius, color: C4Colors.YellowColor);
+                    ball.DrawSolidCircle(pos, radius: BallRadius, color: Colors.YellowColor);
                     break;
                 case PlayerColor.Red:
-                    ball.DrawSolidCircle(pos, radius: BallRadius, color: C4Colors.RedColor);
+                    ball.DrawSolidCircle(pos, radius: BallRadius, color: Colors.RedColor);
                     break;
             }
             return ball;

@@ -21,7 +21,6 @@ namespace Connect4.Mobile
     {
         public static float ContentHeight { get; set; }
         public static float ContentWidth { get; set; }
-        public static Dimensions Dimensions { get; private set; }
 
         public App(IPlatformInitializer initializer = null) : base(initializer) { }
 
@@ -34,7 +33,9 @@ namespace Connect4.Mobile
         {
             Dimensions dimensions = new Dimensions(ContentWidth, ContentHeight, 7, 6);
             Container.RegisterInstance(dimensions);
-            Dimensions = dimensions;
+
+            Colors colors = new Colors();
+            Container.RegisterInstance(colors);
 
             Container.RegisterType<IFieldFactory, FieldFactory>();
             Container.RegisterType<IBoardFactory, BoardFactory>();

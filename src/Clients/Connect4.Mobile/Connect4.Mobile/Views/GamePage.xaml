@@ -11,9 +11,10 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Button">
+                <Setter Property="Margin" Value="0" />
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="TextColor" Value="White" />
-                <Setter Property="BorderRadius" Value="15" />
+                <Setter Property="BorderRadius" Value="0" />
                 <Setter Property="BorderWidth" Value="1" />
                 <Setter Property="BorderColor" Value="White" />
                 <Setter Property="BackgroundColor" Value="Transparent" />
@@ -49,7 +50,7 @@
         </Grid>
 
         <Grid x:Name="BoardGrid" Grid.Column="1" Grid.Row="1" Margin="0" Padding="0">
-            <mobile:GameCocosSharpView x:Name="GameView">
+            <mobile:GameCocosSharpView x:Name="GameView" Dimensions="{Binding Dimensions}" Colors="{Binding Colors}">
                 <mobile:GameCocosSharpView.Behaviors>
                     <behavior:EventToCommandBehavior EventName="OnCreated" 
                                                      Command="{Binding CreateCommand}" />
