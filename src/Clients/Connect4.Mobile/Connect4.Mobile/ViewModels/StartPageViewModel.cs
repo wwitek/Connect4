@@ -11,19 +11,24 @@ using Connect4.Mobile.EventArguments;
 using Prism.Navigation;
 using Prism.Commands;
 using Connect4.Domain.Enums;
+using XFGloss;
+using Connect4.Mobile.Utilities;
 
 namespace Connect4.Mobile.ViewModels
 {
     public class StartPageViewModel : BindableBase
     {
-        public StartPageViewModel(INavigationService navigationService)
+        public StartPageViewModel(INavigationService navigationService, Dimensions dimensions, Colors colors)
         {
-            NavigationService = navigationService;
             StartOnePlayerGameCommand = new DelegateCommand(StartOnePlayerGame);
             StartTwoPlayersGameCommand = new DelegateCommand(StartTwoPlayersGame);
             StartOnlineGameCommand = new DelegateCommand(StartOnlineGame);
+
+            NavigationService = navigationService;
+            Dimensions = dimensions;
         }
 
+        public Dimensions Dimensions { get; set; }
         public ICommand StartOnePlayerGameCommand { get; }
         public ICommand StartTwoPlayersGameCommand { get; }
         public ICommand StartOnlineGameCommand { get; }

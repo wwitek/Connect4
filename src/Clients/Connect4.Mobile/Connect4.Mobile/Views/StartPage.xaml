@@ -6,34 +6,61 @@
              x:Class="Connect4.Mobile.Views.StartPage"
              xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
              NavigationPage.HasNavigationBar="false">
-  <ContentPage.Resources>
-    <ResourceDictionary>
-      <Style TargetType="Button">
-        <Setter Property="FontSize" Value="20" />
-        <Setter Property="TextColor" Value="White" />
-        <Setter Property="BorderRadius" Value="15" />
-        <Setter Property="BorderWidth" Value="1" />
-        <Setter Property="BorderColor" Value="White" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
-      </Style>
-      <Style TargetType="Label">
-        <Setter Property="FontSize" Value="45" />
-        <Setter Property="TextColor" Value="White" />
-      </Style>
-    </ResourceDictionary>
-  </ContentPage.Resources>
-  
-  <xfg:ContentPageGloss.BackgroundGradient>
-    <xfg:Gradient Rotation="0">
-      <xfg:GradientStep StepColor="#01244C" StepPercentage="0" />
-      <xfg:GradientStep StepColor="#044FA2" StepPercentage="1" />
-    </xfg:Gradient>
-  </xfg:ContentPageGloss.BackgroundGradient>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Button">
+                <Setter Property="FontSize" Value="{Binding Dimensions.ButtonFontSize}" />
+                <Setter Property="HeightRequest" Value="{Binding Dimensions.ButtonHeight}" />
+                <Setter Property="WidthRequest" Value="{Binding Dimensions.ButtonWidth}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BorderRadius" Value="15" />
+                <Setter Property="BorderWidth" Value="1" />
+                <Setter Property="BorderColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="{Binding Dimensions.TitleFontSize}" />
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-  <StackLayout Spacing="20" x:Name="layout" VerticalOptions="Center" HorizontalOptions="Center">
-    <Label Text="Connect Four" Margin="0,0,0,20" />
-    <Button Text="SINGLE PLAYER" Command="{Binding StartOnePlayerGameCommand}" />
-    <Button Text="TWO PLAYERS" Command="{Binding StartTwoPlayersGameCommand}" />
-    <Button Text="ONLINE" Command="{Binding StartOnlineGameCommand}" />
-  </StackLayout>
+    <xfg:ContentPageGloss.BackgroundGradient>
+        <xfg:Gradient Rotation="0">
+            <xfg:GradientStep StepColor="#01244C" StepPercentage="0" />
+            <xfg:GradientStep StepColor="#044FA2" StepPercentage="1" />
+        </xfg:Gradient>
+    </xfg:ContentPageGloss.BackgroundGradient>
+    <Grid RowSpacing="0" ColumnSpacing="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="{Binding Dimensions.ButtonWidth}" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="{Binding Dimensions.TitleHeight}" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="{Binding Dimensions.ButtonHeight}" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="{Binding Dimensions.ButtonHeight}" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="{Binding Dimensions.ButtonHeight}" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <BoxView Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" WidthRequest="{Binding Dimensions.BoardBorder}" BackgroundColor="Green" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+        <BoxView Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" WidthRequest="{Binding Dimensions.BoardBorder}" BackgroundColor="Green" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+
+        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Text="Connect Four" HorizontalOptions="Center" />
+        <Button Grid.Row="5" Grid.Column="1" Text="SINGLE PLAYER" Command="{Binding StartOnePlayerGameCommand}" />
+        <Button Grid.Row="7" Grid.Column="1" Text="TWO PLAYERS" Command="{Binding StartTwoPlayersGameCommand}" />
+        <Button Grid.Row="9" Grid.Column="1" Text="ONLINE" Command="{Binding StartOnlineGameCommand}" />
+        <!--<Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Text="Connect Four" HorizontalOptions="Center" />
+        <Button Grid.Row="3" Grid.Column="1" Text="SINGLE PLAYER" Command="{Binding StartOnePlayerGameCommand}" />
+        <Button Grid.Row="5" Grid.Column="1" Text="TWO PLAYERS" Command="{Binding StartTwoPlayersGameCommand}" />
+        <Button Grid.Row="7" Grid.Column="1" Text="ONLINE" Command="{Binding StartOnlineGameCommand}" />-->
+    </Grid>
 </ContentPage>

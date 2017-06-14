@@ -32,6 +32,7 @@ namespace Connect4.Mobile.Droid
             float height = metrics.HeightPixels / metrics.Density;
             statusBarHeight = statusBarHeight / metrics.Density;
 
+            App.PixelDensity = metrics.Density;
             App.ContentWidth = width;
             App.ContentHeight = (height - statusBarHeight);
             LoadApplication(new App());

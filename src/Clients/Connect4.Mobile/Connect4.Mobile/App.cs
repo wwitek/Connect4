@@ -21,6 +21,7 @@ namespace Connect4.Mobile
     {
         public static float ContentHeight { get; set; }
         public static float ContentWidth { get; set; }
+        public static float PixelDensity { get; set; }
 
         public App(IPlatformInitializer initializer = null) : base(initializer) { }
 
@@ -31,7 +32,7 @@ namespace Connect4.Mobile
 
         protected override void RegisterTypes()
         {
-            Dimensions dimensions = new Dimensions(ContentWidth, ContentHeight, 7, 6);
+            Dimensions dimensions = new Dimensions(ContentWidth, ContentHeight, 7, 6, PixelDensity);
             Container.RegisterInstance(dimensions);
 
             Colors colors = new Colors();
