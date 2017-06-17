@@ -9,9 +9,6 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Button">
-                <Setter Property="FontSize" Value="{Binding Dimensions.ButtonFontSize}" />
-                <Setter Property="HeightRequest" Value="{Binding Dimensions.ButtonHeight}" />
-                <Setter Property="WidthRequest" Value="{Binding Dimensions.ButtonWidth}" />
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="BorderRadius" Value="15" />
                 <Setter Property="BorderWidth" Value="1" />
@@ -40,14 +37,14 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="1" />
-            <RowDefinition Height="{Binding Dimensions.TitleHeight}" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="1" />
             <RowDefinition Height="40" />
-            <RowDefinition Height="{Binding Dimensions.ButtonHeight}" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="20" />
-            <RowDefinition Height="{Binding Dimensions.ButtonHeight}" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="20" />
-            <RowDefinition Height="{Binding Dimensions.ButtonHeight}" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -58,9 +55,5 @@
         <Button Grid.Row="5" Grid.Column="1" Text="SINGLE PLAYER" Command="{Binding StartOnePlayerGameCommand}" />
         <Button Grid.Row="7" Grid.Column="1" Text="TWO PLAYERS" Command="{Binding StartTwoPlayersGameCommand}" />
         <Button Grid.Row="9" Grid.Column="1" Text="ONLINE" Command="{Binding StartOnlineGameCommand}" />
-        <!--<Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Text="Connect Four" HorizontalOptions="Center" />
-        <Button Grid.Row="3" Grid.Column="1" Text="SINGLE PLAYER" Command="{Binding StartOnePlayerGameCommand}" />
-        <Button Grid.Row="5" Grid.Column="1" Text="TWO PLAYERS" Command="{Binding StartTwoPlayersGameCommand}" />
-        <Button Grid.Row="7" Grid.Column="1" Text="ONLINE" Command="{Binding StartOnlineGameCommand}" />-->
     </Grid>
 </ContentPage>
