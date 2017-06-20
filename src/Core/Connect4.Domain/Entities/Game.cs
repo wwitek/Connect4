@@ -18,7 +18,7 @@ namespace Connect4.Domain.Entities
 
         public GameState State { get; private set; }
         public IPlayer CurrentPlayer { get; private set; }
-        public event EventHandler<MoveEventArgs> OnMoveMade;
+        public event EventHandler<MoveEventArgs> MoveMade;
 
         public Game(IBoard board, List<IPlayer> players)
         {
@@ -40,7 +40,7 @@ namespace Connect4.Domain.Entities
                     {
                         CurrentPlayer = player;
                         IMove move = player.WaitForMove(Board);
-                        OnMoveMade?.Invoke(this, new MoveEventArgs(move));
+                        MoveMade?.Invoke(this, new MoveEventArgs(move));
 
                         State = GameState.Running;
                         if (move.IsWinner || move.IsDraw)

@@ -11,7 +11,7 @@ namespace Connect4.API
 {
     public interface IGameAPI
     {
-        event EventHandler<MoveEventArgs> OnMoveMade;
+        event EventHandler<MoveEventArgs> MoveMade;
         void Start(GameType gameType);
         bool TryMove(int column);
         IPlayer GetCurrentPlayer();

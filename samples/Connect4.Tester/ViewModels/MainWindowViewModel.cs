@@ -47,7 +47,7 @@ namespace Connect4.Tester.ViewModels
         {
             InitFields();
             Api = api;
-            Api.OnMoveMade += Api_OnMoveMade;
+            Api.MoveMade += Api_OnMoveMade;
             Board = DrawBoard();
 
             Status = "";

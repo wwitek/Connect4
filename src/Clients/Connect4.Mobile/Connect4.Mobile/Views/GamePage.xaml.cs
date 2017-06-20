@@ -24,8 +24,14 @@ namespace Connect4.Mobile.Views
         {
             base.OnAppearing();
 
-            ((GamePageViewModel)BindingContext).OnPreTouchCompleted += GamePage_OnPreTouchCompleted;
-            ((GamePageViewModel)BindingContext).OnMoveCompleted += GamePage_OnMoveCompleted;
+            ((GamePageViewModel)BindingContext).PreTouchCompleted += GamePage_OnPreTouchCompleted;
+            ((GamePageViewModel)BindingContext).MoveCompleted += GamePage_OnMoveCompleted;
+            ((GamePageViewModel)BindingContext).Restarted += GamePage_Restarted;
+        }
+
+        private void GamePage_Restarted(object sender, EventArgs e)
+        {
+            GameView.Restart();
         }
 
         private void GamePage_OnPreTouchCompleted(object sender, OnPreTouchCompletedEventArgs e)

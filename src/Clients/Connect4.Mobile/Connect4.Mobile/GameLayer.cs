@@ -24,9 +24,8 @@ namespace Connect4.Mobile
         private Dimensions Dimensions { get; }
         private Colors Colors { get; }
 
-        public event EventHandler OnPreTouched;
-        public event EventHandler OnTouched;
-        public event EventHandler OnReset;
+        public event EventHandler PreTouched;
+        public event EventHandler Touched;
 
         public GameLayer(float viewWidth, float viewHeight, Dimensions dimensions, Colors colors)
             : base(colors.BoardBackgroundLight, colors.BoardBackgroundDark, new CCPoint(0f, 1f))
@@ -61,7 +60,7 @@ namespace Connect4.Mobile
                     if (targetColumn >= 0)
                     {
                         OnTouchedEventArgs tea = new OnTouchedEventArgs(targetColumn);
-                        OnTouched?.Invoke(this, tea);
+                        Touched?.Invoke(this, tea);
                         DrawPreDropRoot.RemoveAllChildren();
                     }
                 }
@@ -80,7 +79,7 @@ namespace Connect4.Mobile
                 if (targetColumn >= 0)
                 {
                     OnTouchedEventArgs tea = new OnTouchedEventArgs(targetColumn);
-                    OnPreTouched?.Invoke(this, tea);
+                    PreTouched?.Invoke(this, tea);
                 }
             }
         }
@@ -198,6 +197,11 @@ namespace Connect4.Mobile
             CCFiniteTimeAction coreAction = new CCMoveTo(timeToMove, new CCPoint(0, destinationYPosition));
             CCAction easing = new CCEaseBounceInOut(coreAction);
             drawBall.AddAction(coreAction);
+        }
+
+        public void Restart()
+        {
+            DrawBallsRoot.RemoveAllChildren(true);
         }
     }
 }

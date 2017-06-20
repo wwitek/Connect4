@@ -21,9 +21,9 @@ namespace Connect4.Mobile
             ViewCreated = OnViewCreated;
         }
 
-        public event EventHandler OnCreated;
-        public event EventHandler OnPreTouched;
-        public event EventHandler OnTouched;
+        public event EventHandler Created;
+        public event EventHandler PreTouched;
+        public event EventHandler Touched;
 
         private CCGameView GameView { get; set; }
         private GameScene GameScene { get; set; }
@@ -88,12 +88,12 @@ namespace Connect4.Mobile
                     var contentSearchPaths = new List<string>() { "Fonts", "Sounds", "Images", "Animations" };
                     GameView.ContentManager.SearchPaths = contentSearchPaths;
                     GameScene = new GameScene(GameView, Dimensions, Colors);
-                    GameScene.OnPreTouched += (s, e) => OnPreTouched?.Invoke(s, e);
-                    GameScene.OnTouched += (s, e) => OnTouched?.Invoke(s, e);
+                    GameScene.PreTouched += (s, e) => PreTouched?.Invoke(s, e);
+                    GameScene.Touched += (s, e) => Touched?.Invoke(s, e);
                     GameView.RunWithScene(GameScene);
                 }
             }
-            OnCreated?.Invoke(sender, ea);
+            Created?.Invoke(sender, ea);
         }
 
         public void PreTouch(PlayerColor player, int column)
@@ -104,6 +104,11 @@ namespace Connect4.Mobile
         public void MoveBall(PlayerColor player, int x, int y)
         {
             GameScene.MoveBall(player, x, y);
+        }
+
+        public void Restart()
+        {
+            GameScene.Restart();
         }
     }
 }

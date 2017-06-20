@@ -16,7 +16,7 @@ namespace Connect4.API
         private IPlayerFactory PlayerFactory { get; }
         private IGame CurrentGame { get; set; }
 
-        public event EventHandler<MoveEventArgs> OnMoveMade;
+        public event EventHandler<MoveEventArgs> MoveMade;
 
         public GameAPI(IGameFactory gameFactory, IPlayerFactory playerFactory)
         {
@@ -43,7 +43,7 @@ namespace Connect4.API
             }
 
             CurrentGame = GameFactory.Create(players);
-            CurrentGame.OnMoveMade += (s, e) => OnMoveMade?.Invoke(s, e);
+            CurrentGame.MoveMade += (s, e) => MoveMade?.Invoke(s, e);
         }
 
         public bool TryMove(int column)

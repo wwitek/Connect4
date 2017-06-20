@@ -44,7 +44,7 @@ namespace Connect4.Tests.UnitTests
             var boardStub = new Mock<Board>(fieldStubs);
 
             IGame game = new Game(boardStub.Object, players);
-            game.OnMoveMade += (s, e) =>
+            game.MoveMade += (s, e) =>
             {
                 eventSignal.Set();
                 OnMoveMadeWasRasiedCounter++;
@@ -69,7 +69,7 @@ namespace Connect4.Tests.UnitTests
             var boardStub = new Mock<Board>(fieldStubs);
 
             IGame game = new Game(boardStub.Object, players);
-            game.OnMoveMade += (s, e) =>
+            game.MoveMade += (s, e) =>
             {
                 eventSignal.Set();
                 onMoveMadeWasRasiedCounter++;

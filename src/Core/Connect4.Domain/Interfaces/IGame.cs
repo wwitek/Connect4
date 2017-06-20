@@ -10,7 +10,7 @@ namespace Connect4.Domain.Interfaces
     {
         GameState State { get; }
         IPlayer CurrentPlayer { get; }
-        event EventHandler<MoveEventArgs> OnMoveMade;
+        event EventHandler<MoveEventArgs> MoveMade;
         bool TryMove(int column);
     }
 }

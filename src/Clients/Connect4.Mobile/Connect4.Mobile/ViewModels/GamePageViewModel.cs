@@ -15,6 +15,8 @@ using Connect4.API;
 using Connect4.Domain.EventArguments;
 using Connect4.Mobile.Enums;
 using Connect4.Mobile.Utilities;
+using Connect4.Domain.Interfaces;
+using Connect4.Domain.Entities.Players;
 
 namespace Connect4.Mobile.ViewModels
 {
@@ -27,18 +29,19 @@ namespace Connect4.Mobile.ViewModels
         private IGameAPI GameAPI { get; set; }
         private INavigationService NavigationService { get; }
         private GameType GameType { get; set; }
+        private bool CanRestartHelpFlag { get; set; }
 
         public GamePageViewModel(INavigationService navigationService, IGameAPI api, Dimensions dimensions, Colors colors)
         {
             PreTouchCommand = new DelegateCommand<object>(OnPreTouch, CanPreTouch);
             TouchCommand = new DelegateCommand<object>(OnTouch, CanTouch);
             CreateCommand = new DelegateCommand(OnCreate);
-            ResetCommand = new DelegateCommand(OnReset);
+            RestartCommand = new DelegateCommand<object>(OnRestart, CanRestart);
             QuitCommand = new DelegateCommand(OnQuit);
 
             NavigationService = navigationService;
             GameAPI = api;
-            GameAPI.OnMoveMade += GameAPI_OnMoveMade;
+            GameAPI.MoveMade += GameAPI_OnMoveMade;
             Dimensions = dimensions;
             Colors = colors;
         }
@@ -46,13 +49,14 @@ namespace Connect4.Mobile.ViewModels
         public Dimensions Dimensions { get; set; }
         public Colors Colors { get; set; }
 
-        public event EventHandler<OnMoveCompletedEventArgs> OnMoveCompleted;
-        public event EventHandler<OnPreTouchCompletedEventArgs> OnPreTouchCompleted;
+        public event EventHandler<OnMoveCompletedEventArgs> MoveCompleted;
+        public event EventHandler<OnPreTouchCompletedEventArgs> PreTouchCompleted;
+        public event EventHandler Restarted;
 
         public ICommand CreateCommand { get; }
         public ICommand PreTouchCommand { get; }
         public ICommand TouchCommand { get; }
-        public ICommand ResetCommand { get; }
+        public ICommand RestartCommand { get; }
         public ICommand QuitCommand { get; }
 
         private void OnCreate()
@@ -69,7 +73,7 @@ namespace Connect4.Mobile.ViewModels
             bool isRunningOrNew = GameAPI != null && (GameAPI.GetGameState() == GameState.New || GameAPI.GetGameState() == GameState.Running);
 
             // Don't allow to touch druing online or bot players
-            bool isLocalPlayer = GameAPI != null && GameAPI.GetCurrentPlayer().AllowUserInteraction;
+            bool isLocalPlayer = GameAPI != null && GameAPI.GetCurrentPlayer() != null && GameAPI.GetCurrentPlayer().AllowUserInteraction;
 
             return isLocalPlayer && isRunningOrNew && isNotAnimating;
         }
@@ -89,6 +93,11 @@ namespace Connect4.Mobile.ViewModels
             int column = e.Move.Column;
             int row = e.Move.Row;
 
+            // Restart button can be enabled only during a humand (local player) turn
+            CanRestartHelpFlag = (GameAPI.GetCurrentPlayer().AllowUserInteraction) ? false : true;
+            if (GameType == GameType.TwoPlayers) CanRestartHelpFlag = true;
+            RaiseCanExecuteChangedOnRestart();
+
             // Check if time since last move is shorter than time of last moves animation
             // If it's shorter, that means the animation is still performing and we need to stop here till it's ended
             // We know how long the animation will last, becasue we saved max drop time
@@ -98,7 +107,7 @@ namespace Connect4.Mobile.ViewModels
 
             // Start the animation (invoked event should be caught in the UI layer)
             OnMoveCompletedEventArgs args = new OnMoveCompletedEventArgs { Player = player, MoveId = 1, Column = column, Row = row };
-            OnMoveCompleted?.Invoke(this, args);
+            MoveCompleted?.Invoke(this, args);
 
             // Save the maximum time of ball drop and restart the stopwatch
             // When the next move is made, check if the time massured is less then max drop time
@@ -116,13 +125,26 @@ namespace Connect4.Mobile.ViewModels
         {
             PlayerColor player = (GameAPI.GetCurrentPlayer().Id == 1) ? PlayerColor.Red : PlayerColor.Yellow;
             OnPreTouchCompletedEventArgs args = new OnPreTouchCompletedEventArgs { Player = player, Column = (int)touchedColumn };
-            OnPreTouchCompleted?.Invoke(this, args);
+            PreTouchCompleted?.Invoke(this, args);
         }
 
-        private void OnReset()
+        private void RaiseCanExecuteChangedOnRestart()
+        {
+            DelegateCommand<object> restartCommand = RestartCommand as DelegateCommand<object>;
+            restartCommand.RaiseCanExecuteChanged();
+        }
+
+        private bool CanRestart(object arg)
+        {
+            // Don't allow to restart druing online or bot players
+            return CanRestartHelpFlag;
+        }
+
+        private void OnRestart(object arg)
         {
             Debug.WriteLine("Game reset!");
             GameAPI.Start(GameType);
+            Restarted?.Invoke(this, null);
         }
 
         private void OnQuit()
