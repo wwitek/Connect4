@@ -26,9 +26,10 @@ namespace Connect4.Mobile
 
         public event EventHandler OnPreTouched;
         public event EventHandler OnTouched;
+        public event EventHandler OnReset;
 
         public GameLayer(float viewWidth, float viewHeight, Dimensions dimensions, Colors colors)
-            : base(colors.StartColor, colors.EndColor, new CCPoint(0f, 1f))
+            : base(colors.BoardBackgroundLight, colors.BoardBackgroundDark, new CCPoint(0f, 1f))
         {
             BoardCoordinates = new CCPoint[7, 6];
             Dimensions = dimensions;
@@ -120,14 +121,14 @@ namespace Connect4.Mobile
                     circle.DrawSolidCircle(
                         new CCPoint(x, y),
                         radius: CircleSize / 2,
-                        color: Colors.CircleLighterColor);
+                        color: Colors.CircleBackground);
                     DrawBoardRoot.AddChild(circle);
 
                     CCDrawNode ellipse = new CCDrawNode();
                     ellipse.DrawEllipse(
                         rect: new CCRect(x - (CircleSize / 2), y - (CircleSize / 2), CircleSize, CircleSize),
                         lineWidth: 1,
-                        color: Colors.CircleBorderLight);
+                        color: Colors.CircleBorder);
                     DrawBoardRoot.AddChild(ellipse);
                 }
             }

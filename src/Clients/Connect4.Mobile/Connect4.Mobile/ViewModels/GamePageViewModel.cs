@@ -45,7 +45,6 @@ namespace Connect4.Mobile.ViewModels
 
         public Dimensions Dimensions { get; set; }
         public Colors Colors { get; set; }
-        public string StartColor => "#01244C";
 
         public event EventHandler<OnMoveCompletedEventArgs> OnMoveCompleted;
         public event EventHandler<OnPreTouchCompletedEventArgs> OnPreTouchCompleted;
