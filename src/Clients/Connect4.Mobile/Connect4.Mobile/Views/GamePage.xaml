@@ -54,11 +54,11 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Label Margin="0" Text="0" Grid.Column="0" Grid.Row="0" VerticalOptions="Start" HorizontalOptions="Start" FontSize="60" TextColor="Red" />
-            <Label Margin="0" Text="0" Grid.Column="1" Grid.Row="0" VerticalOptions="Start" HorizontalOptions="End" FontSize="60" TextColor="Yellow" />
+            <Label Margin="0" Text="{Binding RedScore}" Grid.Column="0" Grid.Row="0" VerticalOptions="Start" HorizontalOptions="Start" FontSize="60" TextColor="Red" />
+            <Label Margin="0" Text="{Binding YellowScore}" Grid.Column="1" Grid.Row="0" VerticalOptions="Start" HorizontalOptions="End" FontSize="60" TextColor="Yellow" />
             <Label Margin="0" Text="PLAYER1" Grid.Column="0" Grid.Row="1" VerticalOptions="Start" HorizontalOptions="StartAndExpand" FontSize="20" TextColor="Red" FontAttributes="Bold" />
             <Label Margin="0" Text="PLAYER2" Grid.Column="1" Grid.Row="1" VerticalOptions="Start" HorizontalOptions="EndAndExpand" FontSize="20" TextColor="Yellow" FontAttributes="Bold" />
-            <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Text="Please wait..." HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" />
+            <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Status}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" />
         </Grid>
 
         <BoxView Grid.Column="1" Grid.Row="2" WidthRequest="{Binding Dimensions.BoardBorder}" BackgroundColor="{Binding Colors.BoardBoarder}" VerticalOptions="FillAndExpand" />

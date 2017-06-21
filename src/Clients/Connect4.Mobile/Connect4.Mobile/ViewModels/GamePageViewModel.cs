@@ -26,6 +26,10 @@ namespace Connect4.Mobile.ViewModels
         private Stopwatch stopwatch = new Stopwatch();
         private int maxDropTime = 0;
 
+        private int _redScore;
+        private int _yellowScore;
+        private string _status;
+
         private IGameAPI GameAPI { get; set; }
         private INavigationService NavigationService { get; }
         private GameType GameType { get; set; }
@@ -48,6 +52,21 @@ namespace Connect4.Mobile.ViewModels
 
         public Dimensions Dimensions { get; set; }
         public Colors Colors { get; set; }
+        public int RedScore
+        {
+            get { return _redScore; }
+            set { SetProperty(ref _redScore, value); }
+        }
+        public int YellowScore
+        {
+            get { return _yellowScore; }
+            set { SetProperty(ref _yellowScore, value); }
+        }
+        public string Status
+        {
+            get { return _status; }
+            set { SetProperty(ref _status, value); }
+        }
 
         public event EventHandler<OnMoveCompletedEventArgs> MoveCompleted;
         public event EventHandler<OnPreTouchCompletedEventArgs> PreTouchCompleted;
@@ -114,6 +133,14 @@ namespace Connect4.Mobile.ViewModels
             // If it is, wait additional time to be sure that drop animations are not overlapping eachother.
             maxDropTime = (row + 1) * dropTimePerRow;
             stopwatch.Restart();
+
+            if (e.Move.IsDraw) Status = "It's a draw!";
+            else if (e.Move.IsWinner)
+            {
+                Status = $"Player {e.Move.PlayerId} won!";
+                if (e.Move.PlayerId == 1) RedScore++;
+                if (e.Move.PlayerId == 2) YellowScore++;
+            }
         }
 
         private bool CanPreTouch(object touchedColumn)
@@ -143,6 +170,8 @@ namespace Connect4.Mobile.ViewModels
         private void OnRestart(object arg)
         {
             Debug.WriteLine("Game reset!");
+
+            Status = "";
             GameAPI.Start(GameType);
             Restarted?.Invoke(this, null);
         }
