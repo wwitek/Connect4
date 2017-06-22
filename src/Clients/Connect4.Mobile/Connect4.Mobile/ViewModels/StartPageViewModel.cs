@@ -28,7 +28,7 @@ namespace Connect4.Mobile.ViewModels
             Dimensions = dimensions;
         }
 
-        public Dimensions Dimensions { get; set; }
+        public Dimensions Dimensions { get; }
         public ICommand StartOnePlayerGameCommand { get; }
         public ICommand StartTwoPlayersGameCommand { get; }
         public ICommand StartOnlineGameCommand { get; }
@@ -53,7 +53,7 @@ namespace Connect4.Mobile.ViewModels
         {
             NavigationParameters param = new NavigationParameters();
             param.Add("Type", GameType.Online);
-            NavigationService.NavigateAsync("Game", param);
+            NavigationService.NavigateAsync("Online", param);
         }
     }
 }

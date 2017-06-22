@@ -50,8 +50,8 @@ namespace Connect4.Mobile.ViewModels
             Colors = colors;
         }
 
-        public Dimensions Dimensions { get; set; }
-        public Colors Colors { get; set; }
+        public Dimensions Dimensions { get; }
+        public Colors Colors { get; }
         public int RedScore
         {
             get { return _redScore; }

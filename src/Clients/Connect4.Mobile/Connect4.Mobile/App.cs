@@ -47,6 +47,7 @@ namespace Connect4.Mobile
 
             Container.RegisterTypeForNavigation<MainNavigationPage>();
             Container.RegisterTypeForNavigation<StartPage, StartPageViewModel>("Start");
+            Container.RegisterTypeForNavigation<OnlinePage, OnlinePageViewModel>("Online");
             Container.RegisterTypeForNavigation<GamePage, GamePageViewModel>("Game");
         }
 
