@@ -17,22 +17,25 @@ using Connect4.Mobile.Enums;
 using Connect4.Mobile.Utilities;
 using Connect4.Domain.Interfaces;
 using Connect4.Domain.Entities.Players;
+using Connect4.Mobile.Communication;
 
 namespace Connect4.Mobile.ViewModels
 {
     public class OnlinePageViewModel : BindableBase, INavigationAware
     {
-        public OnlinePageViewModel(INavigationService navigationService, Dimensions dimensions)
+        public OnlinePageViewModel(INavigationService navigationService, Dimensions dimensions, Proxy proxy)
         {
             CancelCommand = new DelegateCommand(OnCancel);
 
             NavigationService = navigationService;
             Dimensions = dimensions;
+            Proxy = proxy;
         }
 
         private INavigationService NavigationService { get; }
         public ICommand CancelCommand { get; }
         public Dimensions Dimensions { get; }
+        public Proxy Proxy { get; }
 
         private void OnCancel()
         {
@@ -45,6 +48,7 @@ namespace Connect4.Mobile.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
+            Proxy.Move(5);
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)

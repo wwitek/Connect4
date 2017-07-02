@@ -14,6 +14,8 @@ using Connect4.Domain.Factories;
 using Connect4.Domain.Interfaces.Factories;
 using Connect4.Domain.AI;
 using Connect4.Mobile.Utilities;
+using Connect4.Mobile.Communication;
+using Connect4.Domain.Interfaces;
 
 namespace Connect4.Mobile
 {
@@ -38,6 +40,7 @@ namespace Connect4.Mobile
             Colors colors = new Colors();
             Container.RegisterInstance(colors);
 
+            Container.RegisterType<IProxy, Proxy>();
             Container.RegisterType<IFieldFactory, FieldFactory>();
             Container.RegisterType<IBoardFactory, BoardFactory>();
             Container.RegisterType<IGameFactory, GameFactory>();

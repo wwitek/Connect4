@@ -44,6 +44,7 @@
     <Compile Include="GameLayer.cs" />
     <Compile Include="GameScene.cs" />
     <Compile Include="GameCocosSharpView.cs" />
+    <Compile Include="Communication\Proxy.cs" />
     <Compile Include="Utilities\Colors.cs" />
     <Compile Include="Utilities\Dimensions.cs" />
     <Compile Include="ViewModels\OnlinePageViewModel.cs" />

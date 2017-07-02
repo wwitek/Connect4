@@ -14,18 +14,20 @@
     <script type="text/javascript">
         $(function () {
 
-            var hub = $.connection.gameHub;
+            var hub = $.connection.GameHub;
 
-            hub.client.onRegisteredPlayer = function (message) {
+            hub.client.onRequestResponse = function (message) {
                 $('#playerId').html('PlayerId=' + message);
             };
+
             $("#registerPlayer").click(function () {
-                hub.server.registerPlayer();
+                hub.server.gameRequest(1);
             });
 
             hub.client.onMoved = function (column) {
                 $('#moveList').append('<li>Move=' + column + '</li>');
             };
+
             $("#sendMove").click(function () {
                 hub.server.move(0, $('#column').val());
             });
@@ -38,7 +40,6 @@
             <input type="button" id="registerPlayer" value="Register Player" />
             <label id="playerId" />
         </p>
-
         <input type="text" id="column" />
         <input type="button" id="sendMove" value="Move" />
         <ul id="moveList"></ul>

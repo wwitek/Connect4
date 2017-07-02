@@ -57,6 +57,7 @@
     <Compile Include="Factories\FieldFactory.cs" />
     <Compile Include="Factories\GameFactory.cs" />
     <Compile Include="Factories\PlayerFactory.cs" />
+    <Compile Include="Interfaces\IProxy.cs" />
     <Compile Include="Utilities\Requires.cs" />
     <Compile Include="Interfaces\Factories\IBoardFactory.cs" />
     <Compile Include="Interfaces\Factories\IFieldFactory.cs" />

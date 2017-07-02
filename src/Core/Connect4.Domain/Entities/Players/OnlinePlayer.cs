@@ -11,10 +11,12 @@ namespace Connect4.Domain.Entities.Players
     {
         public int Id { get; }
         public bool AllowUserInteraction { get; }
+        private IProxy Proxy { get; }
 
-        public OnlinePlayer(int id)
+        public OnlinePlayer(int id, IProxy proxy)
         {
             Id = id;
+            Proxy = proxy;
             AllowUserInteraction = false;
         }
 
