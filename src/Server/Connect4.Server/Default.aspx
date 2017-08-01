@@ -21,7 +21,7 @@
             };
 
             $("#registerPlayer").click(function () {
-                hub.server.gameRequest(1);
+                hub.server.gameRequest();
             });
 
             hub.client.onMoved = function (column) {
@@ -29,7 +29,7 @@
             };
 
             $("#sendMove").click(function () {
-                hub.server.move(0, $('#column').val());
+                hub.server.move($('#column').val());
             });
 
             $.connection.hub.start();
