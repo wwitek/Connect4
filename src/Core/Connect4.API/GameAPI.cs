@@ -24,7 +24,7 @@ namespace Connect4.API
             PlayerFactory = playerFactory;
         }
 
-        public void Start(GameType gameType)
+        public void Start(GameType gameType, IProxy proxy = null)
         {
             List<IPlayer> players = new List<IPlayer>();
             players.Add(PlayerFactory.Create(PlayerType.Local, 1));
@@ -38,7 +38,7 @@ namespace Connect4.API
                     players.Add(PlayerFactory.Create(PlayerType.Local, 2));
                     break;
                 case GameType.Online:
-                    players.Add(PlayerFactory.Create(PlayerType.Online, 2));
+                    players.Add(PlayerFactory.Create(PlayerType.Online, 2, proxy));
                     break;
             }
 

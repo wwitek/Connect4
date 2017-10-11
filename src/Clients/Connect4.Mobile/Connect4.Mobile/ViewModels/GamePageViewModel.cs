@@ -17,6 +17,7 @@ using Connect4.Mobile.Enums;
 using Connect4.Mobile.Utilities;
 using Connect4.Domain.Interfaces;
 using Connect4.Domain.Entities.Players;
+using Xamarin.Forms;
 
 namespace Connect4.Mobile.ViewModels
 {
@@ -178,21 +179,11 @@ namespace Connect4.Mobile.ViewModels
 
         private void OnQuit()
         {
-            NavigationService.GoBackAsync();
+            NavigateToStart();
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
-            try
-            {
-                var type = (GameType)parameters["Type"];
-                Debug.WriteLine("OnNavigatedFrom - " + type.ToString());
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Exception: " + ex);
-                NavigationService.GoBackAsync();
-            }
         }
 
         public void OnNavigatedTo(NavigationParameters parameters)
@@ -200,30 +191,33 @@ namespace Connect4.Mobile.ViewModels
             try
             {
                 var type = (GameType)parameters["Type"];
-                Debug.WriteLine("OnNavigatedTo - " + type.ToString());
-
                 GameType = type;
-                GameAPI.Start(GameType);
+
+                IProxy proxy = null;
+                if (GameType.Equals(GameType.Online))
+                {
+                    proxy = (IProxy)parameters["Proxy"];
+                }
+
+                GameAPI.Start(GameType, proxy);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("Exception: " + ex);
-                NavigationService.GoBackAsync();
+                NavigateToStart();
             }
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)
         {
-            try
+        }
+
+        public void NavigateToStart()
+        {
+            Device.BeginInvokeOnMainThread(() =>
             {
-                var type = (GameType)parameters["Type"];
-                Debug.WriteLine("OnNavigatingTo - " + type.ToString());
-            }
-            catch(Exception ex)
-            {
-                Debug.WriteLine("Exception: " + ex);
-                NavigationService.GoBackAsync();
-            }
+                NavigationService.NavigateAsync("Start", null);
+            });
         }
     }
 }

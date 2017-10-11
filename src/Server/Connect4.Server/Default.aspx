@@ -28,6 +28,10 @@
                 $('#moveList').append('<li>Move=' + column + '</li>');
             };
 
+            hub.client.onGameStarted = function (goesFirst) {
+                $('#moveList').append('<li>GameStarted=' + goesFirst + '</li>');
+            };
+
             $("#sendMove").click(function () {
                 hub.server.move($('#column').val());
             });

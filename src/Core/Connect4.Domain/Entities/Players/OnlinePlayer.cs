@@ -1,5 +1,7 @@
-﻿using Connect4.Domain.Interfaces;
+﻿using Connect4.Domain.EventArguments;
+using Connect4.Domain.Interfaces;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +11,8 @@ namespace Connect4.Domain.Entities.Players
 {
     public class OnlinePlayer : IPlayer
     {
+        private BlockingCollection<int> InjectedMoves { get; }
+
         public int Id { get; }
         public bool AllowUserInteraction { get; }
         private IProxy Proxy { get; }
@@ -18,17 +22,32 @@ namespace Connect4.Domain.Entities.Players
             Id = id;
             Proxy = proxy;
             AllowUserInteraction = false;
+
+            InjectedMoves = new BlockingCollection<int>(1);
+            Proxy.MoveReceived += Proxy_MoveReceived;
+        }
+
+        private void Proxy_MoveReceived(object sender, MoveEventArgs e)
+        {
+            IMove moveReceived = e.Move;
+            InjectMove(moveReceived.Column);
         }
 
         public bool InjectMove(int column)
         {
-            // Method used only for a local-type player
-            throw new NotImplementedException();
+            return InjectedMoves.TryAdd(column);
         }
 
         public IMove WaitForMove(IBoard board)
         {
-            return new Move(0, 0, Id);
+            int injectedColumn = InjectedMoves.Take();
+            int row = board.GetLowestEmptyRow(injectedColumn);
+            board.InsertChip(row, injectedColumn, Id);
+
+            bool isWinner = board.IsChipConnected(row, injectedColumn);
+            bool isDraw = !isWinner && board.IsBoardFull();
+            IMove move = new Move(row, injectedColumn, Id, isWinner, isDraw);
+            return move;
         }
     }
 }

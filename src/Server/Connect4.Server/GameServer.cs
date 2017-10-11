@@ -72,5 +72,10 @@ namespace Connect4.Server
             Debug.WriteLine($"[GameServer] RemoveGame (gameId={ gameId })");
             Data.RemoveGame(gameId);
         }
+
+        public string GetFirstPlayer(long gameId)
+        {
+            return Data.GetFirstPlayer(gameId);
+        }
     }
 }

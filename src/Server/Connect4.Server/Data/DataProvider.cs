@@ -86,5 +86,13 @@ namespace Connect4.Server.Data
                 return gameId;
             }
         }
+
+        public string GetFirstPlayer(long gameId)
+        {
+            lock (gameListLocker)
+            {
+                return CurrentGames[gameId][0];
+            }
+        }
     }
 }

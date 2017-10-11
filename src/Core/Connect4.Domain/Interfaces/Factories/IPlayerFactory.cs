@@ -10,6 +10,6 @@ namespace Connect4.Domain.Interfaces.Factories
 {
     public interface IPlayerFactory
     {
-        IPlayer Create(PlayerType type, int id);
+        IPlayer Create(PlayerType type, int id, IProxy proxy = null);
     }
 }

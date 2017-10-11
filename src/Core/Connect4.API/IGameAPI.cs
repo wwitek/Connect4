@@ -12,7 +12,7 @@ namespace Connect4.API
     public interface IGameAPI
     {
         event EventHandler<MoveEventArgs> MoveMade;
-        void Start(GameType gameType);
+        void Start(GameType gameType, IProxy proxy = null);
         bool TryMove(int column);
         IPlayer GetCurrentPlayer();
         GameState GetGameState();

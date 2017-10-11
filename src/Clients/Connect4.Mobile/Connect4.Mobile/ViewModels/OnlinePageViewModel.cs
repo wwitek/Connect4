@@ -18,37 +18,52 @@ using Connect4.Mobile.Utilities;
 using Connect4.Domain.Interfaces;
 using Connect4.Domain.Entities.Players;
 using Connect4.Mobile.Communication;
+using System.Threading;
+using Xamarin.Forms;
 
 namespace Connect4.Mobile.ViewModels
 {
     public class OnlinePageViewModel : BindableBase, INavigationAware
     {
-        public OnlinePageViewModel(INavigationService navigationService, Dimensions dimensions, Proxy proxy)
+        public OnlinePageViewModel(INavigationService navigationService, Dimensions dimensions, IProxy proxy)
         {
             CancelCommand = new DelegateCommand(OnCancel);
 
             NavigationService = navigationService;
             Dimensions = dimensions;
             Proxy = proxy;
+            Proxy.GameStarted += Proxy_GameStarted;
+        }
+
+        private void Proxy_GameStarted(object sender, EventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                NavigationParameters param = new NavigationParameters();
+                param.Add("Type", GameType.Online);
+                param.Add("Proxy", Proxy);
+                NavigationService.NavigateAsync("Game", param);
+            });
         }
 
         private INavigationService NavigationService { get; }
         public ICommand CancelCommand { get; }
         public Dimensions Dimensions { get; }
-        public Proxy Proxy { get; }
+        public IProxy Proxy { get; }
 
         private void OnCancel()
         {
-            NavigationService.GoBackAsync();
+            NavigationService.NavigateAsync("Start", null);
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
+            Proxy.CancelRequest();
         }
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-            Proxy.Move(5);
+            Proxy.GameRequest();
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)

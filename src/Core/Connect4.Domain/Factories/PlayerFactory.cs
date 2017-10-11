@@ -14,15 +14,13 @@ namespace Connect4.Domain.Factories
     public class PlayerFactory : IPlayerFactory
     {
         private IterativeDeepeningSearch InterDeepeningSearch { get; }
-        private IProxy Proxy { get; }
 
-        public PlayerFactory(IterativeDeepeningSearch interDeepeningSearch, IProxy proxy = null)
+        public PlayerFactory(IterativeDeepeningSearch interDeepeningSearch)
         {
             InterDeepeningSearch = interDeepeningSearch;
-            Proxy = proxy;
         }
 
-        public IPlayer Create(PlayerType type, int id)
+        public IPlayer Create(PlayerType type, int id, IProxy proxy = null)
         {
             switch(type)
             {
@@ -31,7 +29,7 @@ namespace Connect4.Domain.Factories
                 case PlayerType.Bot:
                     return new BotPlayer(id, InterDeepeningSearch);
                 case PlayerType.Online:
-                    return new OnlinePlayer(id, Proxy);
+                    return new OnlinePlayer(id, proxy);
             }
             return null;
         }

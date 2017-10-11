@@ -40,6 +40,9 @@ namespace Connect4.Mobile
             Colors colors = new Colors();
             Container.RegisterInstance(colors);
 
+            //IProxy proxy = new Proxy();
+            //Container.RegisterInstance<IProxy>(proxy);
+
             Container.RegisterType<IProxy, Proxy>();
             Container.RegisterType<IFieldFactory, FieldFactory>();
             Container.RegisterType<IBoardFactory, BoardFactory>();

@@ -16,5 +16,6 @@ namespace Connect4.Server.Interfaces
         long AddGame(string player1ConnectionId, string player2ConnectionId);
         void RemoveGame(long gameId);
         long GetGameId(string playerConnectionId);
+        string GetFirstPlayer(long gameId);
     }
 }

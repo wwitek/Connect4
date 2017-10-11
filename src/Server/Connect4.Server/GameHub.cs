@@ -53,6 +53,18 @@ namespace Connect4.Server
                 GameServer.GameStarted -= OnGameStarted;
                 Debug.WriteLine($"[GameHub] GameStarted. P1={e.Player1Id}; P2={e.Player2Id} (Context.ConnectionId={ Context.ConnectionId })");
                 Groups.Add(Context.ConnectionId, e.GameId.ToString());
+
+                long gameId = GameServer.GetGameId(Context.ConnectionId);
+                string firstPlayer = GameServer.GetFirstPlayer(gameId);
+
+                if (firstPlayer == Context.ConnectionId)
+                {
+                    Clients.Caller.onGameStarted(true);
+                }
+                else
+                {
+                    Clients.Caller.onGameStarted(false);
+                }
             }
         }
     }

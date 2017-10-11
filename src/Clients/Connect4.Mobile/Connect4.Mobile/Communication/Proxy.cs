@@ -1,4 +1,5 @@
-﻿using Connect4.Domain.Interfaces;
+﻿using Connect4.Domain.EventArguments;
+using Connect4.Domain.Interfaces;
 using Microsoft.AspNet.SignalR.Client;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ namespace Connect4.Mobile.Communication
 {
     public class Proxy : IProxy
     {
-        public event EventHandler MoveReceived;
+        public event EventHandler<MoveEventArgs> MoveReceived;
+        public event EventHandler GameStarted;
         private IHubProxy GameHub { get; }
 
         public Proxy()
@@ -19,7 +21,32 @@ namespace Connect4.Mobile.Communication
             var hubConnection = new HubConnection("http://10.0.1.60:49919/");
             GameHub = hubConnection.CreateHubProxy("GameHub");
             GameHub.On<int>("onMoved", column => OnMoveReceived(column));
+            GameHub.On<bool>("onGameStarted", goesFirst => OnGameStarted(goesFirst));
             hubConnection.Start();
+        }
+
+        public void GameRequest()
+        {
+            try
+            {
+                GameHub.Invoke("GameRequest");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+        }
+
+        public void CancelRequest()
+        {
+            try
+            {
+                GameHub.Invoke("CancelRequest");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
         }
 
         public bool Move(int column)
@@ -40,6 +67,12 @@ namespace Connect4.Mobile.Communication
         {
             Debug.WriteLine($"Move receinved: { column }");
             MoveReceived?.Invoke(this, null);
+        }
+
+        public void OnGameStarted(bool goesFirst)
+        {
+            Debug.WriteLine($"Game Started. Move First? { goesFirst }");
+            GameStarted?.Invoke(this, null);
         }
     }
 }
