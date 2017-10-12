@@ -27,10 +27,10 @@ namespace Connect4.Domain.Entities.Players
             Proxy.MoveReceived += Proxy_MoveReceived;
         }
 
-        private void Proxy_MoveReceived(object sender, MoveEventArgs e)
+        private void Proxy_MoveReceived(object sender, OnlineMoveReceivedArgs e)
         {
-            IMove moveReceived = e.Move;
-            InjectMove(moveReceived.Column);
+            int receivedColumn = e.Column;
+            InjectMove(receivedColumn);
         }
 
         public bool InjectMove(int column)

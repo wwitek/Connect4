@@ -13,7 +13,7 @@ namespace Connect4.Domain.Interfaces
         void CancelRequest();
         bool Move(int column);
 
-        event EventHandler<MoveEventArgs> MoveReceived;
-        event EventHandler GameStarted;
+        event EventHandler<OnlineMoveReceivedArgs> MoveReceived;
+        event EventHandler<OnlineGameStartedArgs> GameStarted;
     }
 }

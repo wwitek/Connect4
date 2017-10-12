@@ -35,7 +35,7 @@ namespace Connect4.Mobile.ViewModels
             Proxy.GameStarted += Proxy_GameStarted;
         }
 
-        private void Proxy_GameStarted(object sender, EventArgs e)
+        private void Proxy_GameStarted(object sender, OnlineGameStartedArgs e)
         {
             Device.BeginInvokeOnMainThread(() =>
             {

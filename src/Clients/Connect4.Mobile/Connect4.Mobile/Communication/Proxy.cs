@@ -1,4 +1,5 @@
-﻿using Connect4.Domain.EventArguments;
+﻿using Connect4.Domain.Entities;
+using Connect4.Domain.EventArguments;
 using Connect4.Domain.Interfaces;
 using Microsoft.AspNet.SignalR.Client;
 using System;
@@ -12,8 +13,8 @@ namespace Connect4.Mobile.Communication
 {
     public class Proxy : IProxy
     {
-        public event EventHandler<MoveEventArgs> MoveReceived;
-        public event EventHandler GameStarted;
+        public event EventHandler<OnlineMoveReceivedArgs> MoveReceived;
+        public event EventHandler<OnlineGameStartedArgs> GameStarted;
         private IHubProxy GameHub { get; }
 
         public Proxy()
@@ -66,13 +67,17 @@ namespace Connect4.Mobile.Communication
         public void OnMoveReceived(int column)
         {
             Debug.WriteLine($"Move receinved: { column }");
-            MoveReceived?.Invoke(this, null);
+
+            OnlineMoveReceivedArgs args = new OnlineMoveReceivedArgs(column);
+            MoveReceived?.Invoke(this, args);
         }
 
         public void OnGameStarted(bool goesFirst)
         {
             Debug.WriteLine($"Game Started. Move First? { goesFirst }");
-            GameStarted?.Invoke(this, null);
+
+            OnlineGameStartedArgs args = new OnlineGameStartedArgs(goesFirst);
+            GameStarted?.Invoke(this, args);
         }
     }
 }
