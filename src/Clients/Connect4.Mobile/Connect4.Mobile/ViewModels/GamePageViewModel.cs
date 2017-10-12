@@ -190,16 +190,31 @@ namespace Connect4.Mobile.ViewModels
         {
             try
             {
+                if (parameters["Type"] == null)
+                {
+                    // TODO: Something bad happened...
+
+                }
+
                 var type = (GameType)parameters["Type"];
                 GameType = type;
 
                 IProxy proxy = null;
+                bool goesFirst = false;
                 if (GameType.Equals(GameType.Online))
                 {
-                    proxy = (IProxy)parameters["Proxy"];
-                }
+                    if (parameters["GoesFirst"] == null || parameters["Proxy"] == null)
+                    {
+                        // TODO: Something bad happened...
 
-                GameAPI.Start(GameType, proxy);
+                    }
+                    else
+                    {
+                        proxy = (IProxy)parameters["Proxy"];
+                        goesFirst = (bool)parameters["GoesFirst"];
+                    }
+                }
+                GameAPI.Start(GameType, proxy, goesFirst);
             }
             catch (Exception ex)
             {

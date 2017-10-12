@@ -37,11 +37,19 @@ namespace Connect4.Mobile.ViewModels
 
         private void Proxy_GameStarted(object sender, OnlineGameStartedArgs e)
         {
+            if (e == null)
+            {
+                //TODO
+
+
+            }
+
             Device.BeginInvokeOnMainThread(() =>
             {
                 NavigationParameters param = new NavigationParameters();
                 param.Add("Type", GameType.Online);
                 param.Add("Proxy", Proxy);
+                param.Add("GoesFirst", e.GoesFirst);
                 NavigationService.NavigateAsync("Game", param);
             });
         }

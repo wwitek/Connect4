@@ -24,10 +24,11 @@ namespace Connect4.API
             PlayerFactory = playerFactory;
         }
 
-        public void Start(GameType gameType, IProxy proxy = null)
+        public void Start(GameType gameType, IProxy proxy = null, bool goesFirst = false)
         {
             List<IPlayer> players = new List<IPlayer>();
-            players.Add(PlayerFactory.Create(PlayerType.Local, 1));
+            
+            if (goesFirst) players.Add(PlayerFactory.Create(PlayerType.Local, 1));
 
             switch (gameType)
             {
@@ -41,6 +42,8 @@ namespace Connect4.API
                     players.Add(PlayerFactory.Create(PlayerType.Online, 2, proxy));
                     break;
             }
+
+            if (!goesFirst) players.Add(PlayerFactory.Create(PlayerType.Local, 1));
 
             CurrentGame = GameFactory.Create(players);
             CurrentGame.MoveMade += (s, e) => MoveMade?.Invoke(s, e);
