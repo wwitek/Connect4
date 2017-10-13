@@ -63,9 +63,16 @@ namespace Connect4.Server.Data
 
         public long AddGame(string player1ConnectionId, string player2ConnectionId)
         {
+            Random random = new Random();
+            double randomDouble = random.NextDouble();
+
             lock (gameListLocker)
             {
-                CurrentGames.Add(++gameId, new List<string>() { player1ConnectionId, player2ConnectionId });
+                List<string> playerList = (randomDouble > 0.5)
+                    ? new List<string>() { player1ConnectionId, player2ConnectionId }
+                    : new List<string>() { player2ConnectionId, player1ConnectionId };
+
+                CurrentGames.Add(++gameId, playerList);
                 return gameId;
             }
         }
